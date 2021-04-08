@@ -1,0 +1,35 @@
+{% extends "base.twig" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <form action="/user-register" method="POST" accept-charset="utf-8">
+        <div class="container">
+            <h2>Registre</h2>
+            <p>Omple el formulari per registrar-te</p>
+            <hr>
+
+            <label for="email"><b>Correu</b></label>
+            <input type="text" placeholder="Introduir correu" name="email" value="{% if errors.emailOk %}{{ errors.emailOk }}{% endif %}" id="email" required>
+            {% if errors.email %}
+                <p style="color: red;">{{ errors.email }}</p>
+                <br>
+            {% endif %}
+            <label for="psw"><b>Contrasenya</b></label>
+            <input type="password" placeholder="Introduir contrasenya" name="password" id="psw" required>
+            {% if errors.password %}
+                <p style="color: red;">{{ errors.password }}</p>
+                <br>
+            {% endif %}
+            <label for="psw-repeat"><b>Repetir Password</b></label>
+            <input type="password" placeholder="Repeat contrasenya" name="cpassword" id="psw-repeat" required>
+            <hr>
+            <button type="submit" class="registerbtn">REGISTRAR-SE</button>
+        </div>
+
+        <div class="container signin">
+            <p>Ja tens un compte? <a href="user-login">Inicia Sessió</a>.</p>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.twig" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <form action="/user-login" method="POST" accept-charset="utf-8">
+        <div class="container">
+            <h2>Inici de Sessió</h2>
+            <p>Omple el formulari per Iniciar sessió</p>
+            <hr>
+
+            <label for="email"><b>Correu</b></label>
+            <input type="text" placeholder="Introduir correu" name="email" value="{% if errors.emailOk %}{{ errors.emailOk }}{% endif %}" id="email" required>
+            <label for="psw"><b>Contrasenya</b></label>
+            <input type="password" placeholder="Introduir contrasenya" name="password" id="psw" required>
+            {% if errors.user %}
+                <p style="color: red;">{{ errors.user }}</p>
+                <br>
+            {% endif %}
+            <hr>
+            <button type="submit" class="registerbtn">Iniciar Sessió</button>
+        </div>
+
+        <div class="container signin">
+            <p>No tens compte? <a href="user-register">Registrar-me</a>.</p>
+        </div>
+    </form>
+
+{% endblock %}
