@@ -1,10 +1,15 @@
 DROP DATABASE IF EXISTS LSteam;
 CREATE DATABASE LSteam;
 
+DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User` (
     `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(255) NOT NULL DEFAULT '',
     `email` VARCHAR(255) NOT NULL DEFAULT '',
     `password` VARCHAR(255) NOT NULL DEFAULT '',
+    `birthday` DATETIME NOT NULL,
+    `phone` VARCHAR(255) NOT NULL DEFAULT '',
+    `activated` BOOLEAN,
     `created_at` DATETIME NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

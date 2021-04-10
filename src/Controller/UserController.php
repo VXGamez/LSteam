@@ -34,37 +34,43 @@ final class UserController
 
             $ok = true;
 
-
             if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $errors['email'] = 'El correu no és vàlid';
+                $errors['email'] = 'Not a valid email';
                 $ok = false;
             }else{
                 $errors['emailOk'] = $data['email'];
             }
 
             if($data['password'] != $data['cpassword']){
-                $errors['password'] = 'Les contrasenyes han de coincidir';
+                $errors['password'] = 'Passwords must match';
                 $ok = false;
             }else{
                 $lowercase = preg_match('@[a-z]@', $data['password']);
                 $number    = preg_match('@[0-9]@', $data['password']);
                 if( !$lowercase || !$number  || strlen($data['password']) < 6) {
-                    $errors['password'] = 'La contrasenya ha de contenir numeros i ha de ser d\'almenys 6 caràcters';
+                    $errors['password'] = 'Password Wrong';
                     $ok = false;
                 }
             }
 
             if($this->container->get('repository')->checkIfExists($data['email'])){
-                $errors['email'] = 'El correu ja existeix a la base de dades del sistema';
+                $errors['email'] = 'Not a valid email';
                 $ok = false;
             }
 
+        $birthday = "";
+        try {
+            $birthday = new DateTime($data['birthday']);
+        } catch (Exception $e) {
+        }
 
-
-            if($ok == true) {
+        if($ok == true) {
                 $user = new User(
+                    $data['username'],
                     $data['email'],
                     $data['password'],
+                    $birthday,
+                    $data['phone'] ?? '',
                     new DateTime()
                 );
 

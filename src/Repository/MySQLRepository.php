@@ -9,7 +9,7 @@ use SallePW\SlimApp\Model\User;
 use SallePW\SlimApp\Model\Repository;
 use SallePW\SlimApp\Repository\PDOSingleton;
 
-final class MySQLRepository implements Repository
+final class MySQLRepository
 {
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 
@@ -23,17 +23,23 @@ final class MySQLRepository implements Repository
     public function save(User $user): bool
     {
         $query = <<<'QUERY'
-        INSERT INTO User(email, password, created_at)
-        VALUES(:email, :password, :created_at)
+        INSERT INTO User(username, email, password, birthday, phone, activated, created_at)
+        VALUES(:username,:email, :password, :birthday,:phone,:activated, :created_at)
 QUERY;
         $statement = $this->database->connection()->prepare($query);
-
+        $username = $user->username();
         $email = $user->email();
         $password = $user->password();
+        $birthday = $user->birthday()->format(self::DATE_FORMAT);
+        $phone = $user->phone();
         $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
-
+        $activated = FALSE;
+        $statement->bindParam('username', $username, PDO::PARAM_STR);
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
+        $statement->bindParam('birthday', $birthday, PDO::PARAM_STR);
+        $statement->bindParam('phone', $phone, PDO::PARAM_STR);
+        $statement->bindParam('activated', $activated, PDO::PARAM_BOOL);
         $statement->bindParam('created_at', $createdAt, PDO::PARAM_STR);
 
         $ok = $statement->execute();
@@ -70,27 +76,4 @@ QUERY;
         return $ok;
     }
 
-    public function saveSearch(Search $s): bool
-    {
-        $query = <<<'QUERY'
-        INSERT INTO Search(user_id, search, created_at)
-        VALUES(:userId, :cerca, :created_at)
-QUERY;
-        $statement = $this->database->connection()->prepare($query);
-
-
-        $userId = $this->database->connection()->query("SELECT id FROM User WHERE email = '".$_SESSION['email']."'")->fetch();
-
-        $search = $s->search();
-        $createdAt = $s->createdAt()->format(self::DATE_FORMAT);
-
-        $statement->bindParam('userId', $userId, PDO::PARAM_INT);
-        $statement->bindParam('cerca', $search, PDO::PARAM_STR);
-        $statement->bindParam('created_at', $createdAt, PDO::PARAM_STR);
-
-        $ok = $statement->execute();
-
-        return $ok;
-
-    }
 }
