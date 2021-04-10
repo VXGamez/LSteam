@@ -41,12 +41,22 @@ $errorMiddleware->setErrorHandler(\Slim\Exception\HttpNotFoundException::class, 
     if (isset($_SESSION['email'])) {
         return $response->withHeader('Location', '/home')->withStatus(302);
     }else{
-        return $response->withHeader('Location', '/user-login')->withStatus(302);
+        return $response->withHeader('Location', '/login')->withStatus(302);
     }
 });
+
+// some php stuff
 
 $app->addBodyParsingMiddleware();
 
 require_once __DIR__ . '/../config/routing.php';
 
 $app->run();
+
+?>
+    <script type="text/javascript">
+        /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+        particlesJS.load('particles-js', 'assets/particles.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>

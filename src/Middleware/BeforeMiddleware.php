@@ -15,9 +15,8 @@ final class BeforeMiddleware
         $response = $next->handle($request);
 
         if (!isset($_SESSION['email'])) {
-            return $response->withHeader('Location', '/user-login')->withStatus(302);
+            return $response->withHeader('Location', '/login')->withStatus(302);
         }
-
 
         return $response;
 

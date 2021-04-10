@@ -109,7 +109,7 @@ final class FormController
     public function doLogout(Request $request, Response $response): Response{
 
         unset($_SESSION['email']);
-        return $response->withHeader('Location', '/user-login')->withStatus(302);
+        return $response->withHeader('Location', '/login')->withStatus(302);
     }
 
     public function showHome(Request $request, Response $response): Response
@@ -134,14 +134,7 @@ final class FormController
 
     public function showBlank(Request $request, Response $response): Response
     {
-
-        return $this->container->get('view')->render(
-            $response,
-            'blank.twig',
-            [
-
-            ]
-        );
+        return $response->withHeader('Location', '/login')->withStatus(302);
     }
 
 

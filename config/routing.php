@@ -24,23 +24,23 @@ $app->get(
 )->setName('logout_user')->add(BeforeMiddleware::class);
 
 $app->get(
-    '/user-login',
+    '/login',
     FormController::class . ":showLogin"
 )->setName('login_user')->add(SessionMiddleware::class);
 
 $app->get(
-    '/user-register',
+    '/register',
     FormController::class . ":showRegisterForm"
 )->setName('create_user')->add(SessionMiddleware::class);
 
 
 $app->post(
-    '/user-login',
+    '/login',
     UserController::class . ":loginUser"
 )->setName('login_user');
 
 $app->post(
-    '/user-register',
+    '/register',
     UserController::class . ":registerUser"
 )->setName('create_user');
 

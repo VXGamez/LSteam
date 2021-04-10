@@ -3,32 +3,37 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-    <form action="/user-register" method="POST" accept-charset="utf-8">
+    <form action="/register" method="POST" accept-charset="utf-8">
         <div class="container">
-            <h2>Registre</h2>
-            <p>Omple el formulari per registrar-te</p>
+            <h2>Register</h2>
+            <p>Fill out the form to register!</p>
             <hr>
 
-            <label for="email"><b>Correu</b></label>
-            <input type="text" placeholder="Introduir correu" name="email" value="{% if errors.emailOk %}{{ errors.emailOk }}{% endif %}" id="email" required>
-            {% if errors.email %}
-                <p style="color: red;">{{ errors.email }}</p>
-                <br>
-            {% endif %}
-            <label for="psw"><b>Contrasenya</b></label>
-            <input type="password" placeholder="Introduir contrasenya" name="password" id="psw" required>
-            {% if errors.password %}
-                <p style="color: red;">{{ errors.password }}</p>
-                <br>
-            {% endif %}
-            <label for="psw-repeat"><b>Repetir Password</b></label>
-            <input type="password" placeholder="Repeat contrasenya" name="cpassword" id="psw-repeat" required>
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Username" name="username" id="username" required>
+            <br>
+            <label for="email"><b>Email</b></label>
+            <input type="email" placeholder="Email" name="email" id="email" required>
+            <br>
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Password" name="password" id="psw" required>
+            <br>
+            <label for="psw-repeat"><b>Repeat Password</b></label>
+            <input type="password" placeholder="Repeat Password" name="cpassword" id="psw-repeat" required>
+            <br>
+            <label for="birthday">Birthday</label>
+            <input type="date" id="birthday" name="birthday">
+            <br>
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" placeholder="XXX XXX XXX" pattern="[0-9]{3} [0-9]{3} [0-9]{3}">
+            <small>Format: 123 456 789</small>
+            <br>
             <hr>
             <button type="submit" class="registerbtn">REGISTRAR-SE</button>
         </div>
 
         <div class="container signin">
-            <p>Ja tens un compte? <a href="user-login">Inicia Sessió</a>.</p>
+            <p>Ja tens un compte? <a href="login">Inicia Sessió</a>.</p>
         </div>
     </form>
 
