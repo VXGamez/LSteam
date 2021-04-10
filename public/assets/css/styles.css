@@ -32,14 +32,7 @@
     -webkit-animation: mover 2s infinite  alternate;
     animation: mover 1s infinite  alternate;
 }
-@-webkit-keyframes mover {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-20px); }
-}
-@keyframes mover {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-20px); }
-}
+
 .register-left p{
     font-weight: lighter;
     padding: 12%;
@@ -61,32 +54,16 @@
     width: 50%;
     cursor: pointer;
 }
-.register .nav-tabs{
-    margin-top: 3%;
-    border: none;
-    background: #0062cc;
-    border-radius: 1.5rem;
-    width: 28%;
-    float: right;
+
+@-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
 }
-.register .nav-tabs .nav-link{
-    padding: 2%;
-    height: 34px;
-    font-weight: 600;
-    color: #fff;
-    border-top-right-radius: 1.5rem;
-    border-bottom-right-radius: 1.5rem;
+@keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
 }
-.register .nav-tabs .nav-link:hover{
-    border: none;
-}
-.register .nav-tabs .nav-link.active{
-    width: 100px;
-    color: #0062cc;
-    border: 2px solid #0062cc;
-    border-top-left-radius: 1.5rem;
-    border-bottom-left-radius: 1.5rem;
-}
+
 .register-heading{
     text-align: center;
     margin-top: 8%;
@@ -94,6 +71,17 @@
     color: #495057;
 }
 
+input[type="date"]::-webkit-inner-spin-button {
+    opacity: 0
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
-    background: url(/public/assets/images/cake.png) no-repeat;
+    background: url(https://icons-for-free.com/iconfiles/png/512/cake-1321215613168069161.png) center/80% no-repeat;
+    color: rgba(0, 0, 0, 0);
+    opacity: 0.5
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    background: url(https://icons-for-free.com/iconfiles/png/512/cake-1321215613168069161.png) center/80% no-repeat;
+    opacity: 0.8
 }

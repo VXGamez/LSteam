@@ -23,7 +23,7 @@
             <div class="col-md-9 register-right">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <h3 class="register-heading">Register</h3>
-                        <form action="/login" method="POST" accept-charset="utf-8">
+                        <form action="/register" method="POST" accept-charset="utf-8">
                         <div class="row register-form">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -45,7 +45,7 @@
                                     <input type="password" class="form-control"  placeholder="Confirm Password *" value="" required/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Your Phone" value="" />
+                                    <input type="tel" class="form-control" id="phone" placeholder="Your Phone" name="phone">
                                 </div>
                                 <input type="submit" class="btnRegister" value="Register"/>
                             </div>
