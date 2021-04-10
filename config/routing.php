@@ -31,13 +31,13 @@ $app->get(
 $app->get(
     '/register',
     FormController::class . ":showRegisterForm"
-)->setName('create_user')->add(SessionMiddleware::class);
+)->setName('home')->add(SessionMiddleware::class);
 
 
 $app->post(
     '/login',
     UserController::class . ":loginUser"
-)->setName('login_user');
+)->setName('home');
 
 $app->post(
     '/register',

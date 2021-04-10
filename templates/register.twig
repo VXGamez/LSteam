@@ -1,40 +1,60 @@
 {% extends "base.twig" %}
 
 {% block title %}Register{% endblock %}
+{% block head %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/styles.css"/>
+{% endblock %}
 
 {% block content %}
-    <form action="/register" method="POST" accept-charset="utf-8">
-        <div class="container">
-            <h2>Register</h2>
-            <p>Fill out the form to register!</p>
-            <hr>
 
-            <label for="username"><b>Username</b></label>
-            <input type="text" placeholder="Username" name="username" id="username" required>
-            <br>
-            <label for="email"><b>Email</b></label>
-            <input type="email" placeholder="Email" name="email" id="email" required>
-            <br>
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Password" name="password" id="psw" required>
-            <br>
-            <label for="psw-repeat"><b>Repeat Password</b></label>
-            <input type="password" placeholder="Repeat Password" name="cpassword" id="psw-repeat" required>
-            <br>
-            <label for="birthday">Birthday</label>
-            <input type="date" id="birthday" name="birthday">
-            <br>
-            <label for="phone">Phone number</label>
-            <input type="tel" id="phone" name="phone" placeholder="XXX XXX XXX" pattern="[0-9]{3} [0-9]{3} [0-9]{3}">
-            <small>Format: 123 456 789</small>
-            <br>
-            <hr>
-            <button type="submit" class="registerbtn">REGISTRAR-SE</button>
+    <div class="container register">
+        <div class="row">
+            <div class="col-md-3 register-left">
+                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+                <h3>Welcome</h3>
+                <p>You are about to register in LSteam!</p>
+                <a href="login">
+                <input type="submit" name="" value="Login"/><br/>
+                </a>
+            </div>
+            <div class="col-md-9 register-right">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <h3 class="register-heading">Register</h3>
+                        <form action="/login" method="POST" accept-charset="utf-8">
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="username" placeholder="Username *" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Password *" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="date" id="birthday" name="birthday" required>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="email" placeholder="Email *" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control"  placeholder="Confirm Password *" value="" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Your Phone" value="" />
+                                </div>
+                                <input type="submit" class="btnRegister" value="Register"/>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+            </div>
         </div>
 
-        <div class="container signin">
-            <p>Ja tens un compte? <a href="login">Inicia Sessió</a>.</p>
-        </div>
-    </form>
+    </div>
 
 {% endblock %}
