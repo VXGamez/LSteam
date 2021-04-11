@@ -10,6 +10,7 @@ CREATE TABLE `User` (
     `birthday` DATETIME NOT NULL,
     `phone` VARCHAR(255) NOT NULL DEFAULT '',
     `activated` BOOLEAN,
+    `token` VARCHAR(255) NOT NULL DEFAULT '',
     `created_at` DATETIME NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

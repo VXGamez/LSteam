@@ -20,11 +20,21 @@ final class MySQLRepository
         $this->database = $database;
     }
 
+    function generateRandomString($length = 10) : string {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     public function save(User $user): bool
     {
         $query = <<<'QUERY'
-        INSERT INTO User(username, email, password, birthday, phone, activated, created_at)
-        VALUES(:username,:email, :password, :birthday,:phone,:activated, :created_at)
+        INSERT INTO User(username, email, password, birthday, phone, activated, token, created_at)
+        VALUES(:username,:email, :password, :birthday,:phone,:activated,:token, :created_at)
 QUERY;
         $statement = $this->database->connection()->prepare($query);
         $username = $user->username();
@@ -34,12 +44,16 @@ QUERY;
         $phone = $user->phone();
         $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
         $activated = FALSE;
+
+        $token = "";
+
         $statement->bindParam('username', $username, PDO::PARAM_STR);
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
         $statement->bindParam('birthday', $birthday, PDO::PARAM_STR);
         $statement->bindParam('phone', $phone, PDO::PARAM_STR);
         $statement->bindParam('activated', $activated, PDO::PARAM_BOOL);
+        $statement->bindParam('token', $token, PDO::PARAM_STR);
         $statement->bindParam('created_at', $createdAt, PDO::PARAM_STR);
 
         $ok = $statement->execute();
