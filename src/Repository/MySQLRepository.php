@@ -20,21 +20,13 @@ final class MySQLRepository
         $this->database = $database;
     }
 
-    function generateRandomString($length = 10) : string {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
+
 
     public function save(User $user): bool
     {
         $query = <<<'QUERY'
         INSERT INTO User(username, email, password, birthday, phone, activated, token, created_at)
-        VALUES(:username,:email, :password, :birthday,:phone,:activated,:token, :created_at)
+        VALUES(:username,:email, :password, :birthday,:phone,:activated, :token, :created_at)
 QUERY;
         $statement = $this->database->connection()->prepare($query);
         $username = $user->username();
@@ -45,7 +37,7 @@ QUERY;
         $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
         $activated = FALSE;
 
-        $token = "";
+        $token = $user->token();
 
         $statement->bindParam('username', $username, PDO::PARAM_STR);
         $statement->bindParam('email', $email, PDO::PARAM_STR);
@@ -76,7 +68,7 @@ QUERY;
         return $ok;
     }
 
-    public function checkIfExists($email): bool{
+    public function checkIfEmailExists($email): bool{
         $ok = true;
 
         $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE email=?');
@@ -89,5 +81,35 @@ QUERY;
 
         return $ok;
     }
+
+    public function checkIfUsernameExists($usr): bool{
+        $ok = true;
+
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE username=?');
+        $stmt->bindParam(1, $usr, PDO::PARAM_STR);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 0){
+            $ok = false;
+        }
+
+        return $ok;
+    }
+
+    public function checkToken($token): bool{
+        $ok = true;
+
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE token=?');
+        $stmt->bindParam(1, $token, PDO::PARAM_STR);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 0){
+            $ok = false;
+        }
+
+        return $ok;
+    }
+
+
 
 }

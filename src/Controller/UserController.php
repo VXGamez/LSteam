@@ -5,6 +5,8 @@ namespace SallePW\SlimApp\Controller;
 
 use DateTime;
 use Exception;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberUtil;
 use Psr\Container\ContainerInterface;
 use SallePW\SlimApp\Model\User;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -23,6 +25,19 @@ final class UserController
         $this->container = $container;
     }
 
+    function generateRandomString($length = 10) : string {
+        do{
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+        }while($this->container->get('repository')->checkToken($randomString));
+
+        return $randomString;
+    }
+
 
     public function registerUser(Request $request, Response $response): Response
     {
@@ -32,47 +47,87 @@ final class UserController
 
             $errors = [];
 
+            $dominsAcceptats = [
+                'salle.url.edu',
+                'students.salle.url.edu',
+                'salleurl.edu'
+            ];
+
             $ok = true;
 
             if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 $errors['email'] = 'Not a valid email';
                 $ok = false;
             }else{
-                $errors['emailOk'] = $data['email'];
+                $parts = explode('@', $data['email']);
+                $domain = array_pop($parts);
+                if ( !in_array($domain, $dominsAcceptats)){
+                    $errors['email'] = 'Not a valid email';
+                    $ok = false;
+                }else{
+                    $errors['emailOk'] = $data['email'];
+                }
             }
 
             if($data['password'] != $data['cpassword']){
                 $errors['password'] = 'Passwords must match';
                 $ok = false;
             }else{
+                $uppercase = preg_match('@[A-Z]@', $data['password']);
                 $lowercase = preg_match('@[a-z]@', $data['password']);
                 $number    = preg_match('@[0-9]@', $data['password']);
-                if( !$lowercase || !$number  || strlen($data['password']) < 6) {
+                if( !$uppercase || !$lowercase || !$number  || strlen($data['password']) < 6) {
                     $errors['password'] = 'Password Wrong';
                     $ok = false;
                 }
             }
 
-            if($this->container->get('repository')->checkIfExists($data['email'])){
+            if($this->container->get('repository')->checkIfEmailExists($data['email'])){
                 $errors['email'] = 'Not a valid email';
                 $ok = false;
             }
 
-        $birthday = "";
-        try {
-            $birthday = new DateTime($data['birthday']);
-        } catch (Exception $e) {
-        }
+            if(!preg_match('/^[a-zA-Z0-9_]+$/',$data['username']) || $this->container->get('repository')->checkIfUsernameExists($data['username'])){
+                $errors['username'] = 'Not a valid username';
+                $ok = false;
+            }
 
-        if($ok == true) {
+            $birthday = "";
+            try {
+                $birthday = new DateTime($data['birthday']);
+            } catch (Exception $e) {
+                $errors['date'] = 'Not a valid date';
+                $ok = false;
+            }
+
+
+            $years = date_diff(new DateTime(), $birthday);
+            if($years->y<18){
+                $errors['date'] = 'You must be at least 18 years old!';
+                $ok = false;
+            }
+
+
+            $phoneUtil = PhoneNumberUtil::getInstance();
+            $possible = $phoneUtil->isValidNumberForRegion($data['phone'], 'ES');
+            if(!$possible){
+                $errors['phone'] = 'This is not a valid Spanish number';
+                $ok = false;
+            }
+
+            if($ok == true) {
+                $token = $this->generateRandomString();
                 $user = new User(
                     $data['username'],
                     $data['email'],
-                    $data['password'],
+                    password_hash($data['password'], PASSWORD_DEFAULT),
                     $birthday,
                     $data['phone'] ?? '',
+                    $token,
                     new DateTime()
                 );
+
+                //TODO: Enviar correu de verificació amb el token
 
                 $_SESSION['email'] = $data['email'];
 
@@ -105,6 +160,13 @@ final class UserController
         $ok=false;
         $errors=[];
         if($this->container->get('repository')->checkIfExists($data['email'])){
+            /*
+             * if(password_verify($password, $hashed_password)) {
+                    // If the password inputs matched the hashed password in the database
+                    // Do something, you know... log them in.
+                }
+             *
+             * */
             if($this->container->get('repository')->validateUser($data['email'], $data['password'])){
                 $ok = true;
             }else{
