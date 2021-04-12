@@ -67,6 +67,24 @@ button:hover {
     width: 560px;
 }
 
+.loginRedirect{
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    width: 30%;
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #383d41;
+    margin-bottom: 3%;
+    cursor: pointer;
+
+    margin-left: 35%;
+}
+
+hr {
+    border: 1px solid white;
+}
+
 
 /*==================================================================
 [ Form ]*/
