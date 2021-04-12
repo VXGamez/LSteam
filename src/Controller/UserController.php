@@ -179,27 +179,21 @@ final class UserController
     {
 
         $data = $request->getParsedBody();
-        $ok=false;
+        $ok=true;
         $errors=[];
-        if($this->container->get('repository')->checkIfExists($data['email'])){
-            /*
-             * if(password_verify($password, $hashed_password)) {
-                    // If the password inputs matched the hashed password in the database
-                    // Do something, you know... log them in.
-                }
-             *
-             * */
-            if($this->container->get('repository')->validateUser($data['email'], $data['password'])){
-                $ok = true;
-            }else{
-                $errors['user'] = 'Email o contrasenya no son valids';
+        $user = $this->container->get('repository')->getUser($data['username']);
+        if($user->password() != "TODO MAL"){
+            if(!password_verify($data['pass'], $user->password())) {
+                $errors['user'] = 'Not a valid username or password';
+                $ok = false;
             }
         }else{
-            $errors['user'] = 'Email o contrasenya no son valids';
+            $errors['user'] = 'Not a valid username or password';
+            $ok = false;
         }
 
-        $_SESSION['email'] = $data['email'];
         if($ok){
+            $_SESSION['email'] = $data['username'];
             return $response->withHeader('Location', '/home')->withStatus(302);
         }else{
             return $this->container->get('view')->render(

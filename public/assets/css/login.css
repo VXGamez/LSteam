@@ -106,6 +106,32 @@ hr {
     margin-bottom: 5%;
 }
 
+.login100-form-errors {
+    width: 100%;
+    display: block;
+    font-size: 15px;
+    color: #fefefe;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.login100-form-no-errors {
+    width: 100%;
+    display: block;
+    visibility: hidden;
+    font-size: 15px;
+    color: #fefefe;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.login100-form-no-errors h5{
+    visibility: hidden;
+}
+
+
 .wrap-input100 {
     display: -webkit-box;
     display: -webkit-flex;

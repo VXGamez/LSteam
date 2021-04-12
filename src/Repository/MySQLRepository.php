@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SallePW\SlimApp\Repository;
 
+use DateTime;
 use PDO;
 use SallePW\SlimApp\Model\Search;
 use SallePW\SlimApp\Model\User;
@@ -66,6 +67,42 @@ QUERY;
         }
 
         return $ok;
+    }
+
+    public function getUser($usrEmail): User{
+
+
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE email=? OR username=?');
+        $stmt->bindParam(1, $usrEmail, PDO::PARAM_STR);
+        $stmt->bindParam(2, $usrEmail, PDO::PARAM_STR);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 1){
+            $row = $stmt->fetch();
+
+            $u = new User(
+                $row['username'],
+                $row['email'],
+                $row['password'],
+                new DateTime($row['birthday']),
+                $row['phone'],
+                $row['token'],
+                new DateTime($row['created_at']),
+            );
+
+        }else{
+            $u = new User(
+                "TODOMAL",
+                "TODOMAL",
+                "TODOMAL",
+                new DateTime(),
+                "TODOMAL",
+                "TODOMAL",
+                new DateTime(),
+            );
+        }
+
+        return $u;
     }
 
     public function checkIfEmailExists($email): bool{
