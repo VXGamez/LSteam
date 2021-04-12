@@ -54,9 +54,9 @@ require_once __DIR__ . '/../config/routing.php';
 $app->run();
 
 ?>
-    <script type="text/javascript">
+   <!-- <script type="text/javascript">
         /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
         particlesJS.load('particles-js', 'assets/particles.json', function() {
             console.log('callback - particles.js config loaded');
         });
-    </script>
+    </script>*/

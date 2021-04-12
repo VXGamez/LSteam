@@ -129,7 +129,7 @@ final class UserController
                     $ok = false;
                 }
                 $phone = $data['phone'];
-                if(!str_starts_with($data['phone'], '+34')){
+                if($ok && !str_starts_with($data['phone'], '+34')){
                     $phone = "+34 ".$phone;
                 }
                 $data['phone'] = $phone;
