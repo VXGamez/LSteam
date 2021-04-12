@@ -77,8 +77,16 @@ final class UserController
                 $lowercase = preg_match('@[a-z]@', $data['password']);
                 $number    = preg_match('@[0-9]@', $data['password']);
                 if( !$uppercase || !$lowercase || !$number  || strlen($data['password']) < 6) {
-                    $errors['password'] = 'Password Wrong';
                     $ok = false;
+                    if(!$uppercase){
+                        $errors['password'] = 'Password must contain at least one uppercase character';
+                    }else if(!$lowercase){
+                        $errors['password'] = 'Password must contain at least one lowercase character';
+                    }else if(!$number){
+                        $errors['password'] = 'Password must contain at least one numeric character';
+                    }else if(strlen($data['password']) < 6){
+                        $errors['password'] = 'Password must be at least 6 characters long';
+                    }
                 }
             }
 
@@ -107,16 +115,29 @@ final class UserController
                 $ok = false;
             }
 
-
-            $phoneUtil = PhoneNumberUtil::getInstance();
-            $possible = $phoneUtil->isValidNumberForRegion($data['phone'], 'ES');
-            if(!$possible){
-                $errors['phone'] = 'This is not a valid Spanish number';
-                $ok = false;
+            if(strlen($data['phone'])>0){
+                $phoneUtil = PhoneNumberUtil::getInstance();
+                try {
+                    $phoneNumberObject = $phoneUtil->parse($data['phone'], 'ES');
+                    $possible = $phoneUtil->isValidNumberForRegion($phoneNumberObject, 'ES');
+                    if(!$possible){
+                        $errors['phone'] = 'This is not a valid Spanish number';
+                        $ok = false;
+                    }
+                } catch (NumberParseException $e) {
+                    $errors['phone'] = 'This is not a valid Spanish number';
+                    $ok = false;
+                }
+                $phone = $data['phone'];
+                if(!str_starts_with($data['phone'], '+34')){
+                    $phone = "+34 ".$phone;
+                }
+                $data['phone'] = $phone;
             }
 
             if($ok == true) {
                 $token = $this->generateRandomString();
+
                 $user = new User(
                     $data['username'],
                     $data['email'],
@@ -144,6 +165,7 @@ final class UserController
                     $response,
                     'register.twig',
                     [
+                        'data' => $data,
                         'errors' => $errors
                     ]
                 );

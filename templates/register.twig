@@ -26,25 +26,40 @@
                         <div class="row register-form">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="username" placeholder="Username *" value="" required/>
+                                    <input type="text" class="form-control" name="username" placeholder="Username *" value="{% if data.username %}{{ data.username }}{% endif %}" required/>
+                                    {% if errors.username %}
+                                        <p style="color: red;">{{ errors.username }}</p>
+                                    {% endif %}
                                 </div>
                                 <div class="form-group">
                                     <input name="password" type="password" class="form-control" placeholder="Password *" value="" required/>
+                                    {% if errors.password %}
+                                        <p style="color: red;">{{ errors.password }}</p>
+                                    {% endif %}
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" type="date" id="birthday" name="birthday" required>
+                                    <input class="form-control" type="date" id="birthday" name="birthday" value="{% if data.birthday %}{{ data.birthday }}{% endif %}" required>
+                                    {% if errors.date %}
+                                        <p style="color: red;">{{ errors.date }}</p>
+                                    {% endif %}
                                 </div>
 
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="email" class="form-control" name="email" placeholder="Email *" value="{% if errors.emailOk %}{{ errors.emailOk }}{% endif %}" required/>
+                                    {% if errors.email %}
+                                        <p style="color: red;">{{ errors.email }}</p>
+                                    {% endif %}
                                 </div>
                                 <div class="form-group">
                                     <input name="cpassword" type="password" class="form-control"  placeholder="Confirm Password *" value="" required/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="tel" class="form-control" id="phone" placeholder="Your Phone" name="phone">
+                                    <input type="tel" class="form-control" id="phone" placeholder="Your Phone" value="{% if data.phone %}{{ data.phone }}{% endif %}" name="phone">
+                                    {% if errors.phone %}
+                                        <p style="color: red;">{{ errors.phone }}</p>
+                                    {% endif %}
                                 </div>
                                 <input type="submit" class="btnRegister" value="Register"/>
                             </div>
