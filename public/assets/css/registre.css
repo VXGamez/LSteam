@@ -1,5 +1,28 @@
-.register{
+.container-register{
+    /*background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    margin-top: 3%;
+    padding: 3%;*/
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+
+    background: #2575fc;
     background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    background: -o-linear-gradient(left, #3931af, #00c6ff);
+    background: -moz-linear-gradient(left, #3931af, #00c6ff);
+    background: linear-gradient(left, #3931af, #00c6ff);
+
+}
+
+.register{
     margin-top: 3%;
     padding: 3%;
 }

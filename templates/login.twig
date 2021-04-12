@@ -2,28 +2,42 @@
 
 {% block title %}Login{% endblock %}
 
+{% block head %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/login.css"/>
+    <script src="js/main.js"></script>
+{% endblock %}
 {% block content %}
-    <form action="/login" method="POST" accept-charset="utf-8">
-        <div class="container">
-            <h2>Inici de Sessió</h2>
-            <p>Omple el formulari per Iniciar sessió</p>
-            <hr>
 
-            <label for="email"><b>Correu</b></label>
-            <input type="text" placeholder="Introduir correu" name="email" value="{% if errors.emailOk %}{{ errors.emailOk }}{% endif %}" id="email" required>
-            <label for="psw"><b>Contrasenya</b></label>
-            <input type="password" placeholder="Introduir contrasenya" name="password" id="psw" required>
-            {% if errors.user %}
-                <p style="color: red;">{{ errors.user }}</p>
-                <br>
-            {% endif %}
-            <hr>
-            <button type="submit" class="registerbtn">Iniciar Sessió</button>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <form action="/login" method="POST" accept-charset="utf-8"  class="login100-form validate-form">
+					<span class="login100-form-title">
+						<h1 class="display-3">Login</h1>
+					</span>
+
+                    <div class="wrap-input100 rs1">
+                        <input class="input100" type="text" name="username" required>
+                        <span class="label-input100">Username or Email</span>
+                    </div>
+
+
+                    <div class="wrap-input100 rs2">
+                        <input class="input100" type="password" name="pass" required>
+                        <span class="label-input100">Password</span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn">
+                            Sign in
+                        </button>
+                    </div>
+
+                </form>
+            </div>
         </div>
-
-        <div class="container signin">
-            <p>No tens compte? <a href="register">Registrar-me</a>.</p>
-        </div>
-    </form>
-
+    </div>
 {% endblock %}
