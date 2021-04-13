@@ -33,6 +33,11 @@ $app->get(
     FormController::class . ":showRegisterForm"
 )->setName('home')->add(SessionMiddleware::class);
 
+$app->get(
+    '/activate',
+    UserController::class . ":validateUser"
+)->setName('home');
+
 
 $app->post(
     '/login',

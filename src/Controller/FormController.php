@@ -134,8 +134,18 @@ final class FormController
 
     public function showBlank(Request $request, Response $response): Response
     {
-        return $response->withHeader('Location', '/login')->withStatus(302);
+        //return $response->withHeader('Location', '/login')->withStatus(302);
+        return $this->container->get('view')->render(
+            $response,
+            'blank.twig',
+            [
+            ]
+        );
     }
+
+
+
+
 
 
 

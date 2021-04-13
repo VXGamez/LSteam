@@ -65,18 +65,6 @@
     padding: 10%;
     margin-top: 10%;
 }
-/*.btnRegister{
-    float: right;
-    margin-top: 10%;
-    border: none;
-    border-radius: 1.5rem;
-    padding: 2%;
-    background: #0062cc;
-    color: #fff;
-    font-weight: 600;
-    width: 50%;
-    cursor: pointer;
-}*/
 
 
 .btnRegister {
@@ -120,7 +108,12 @@
     background: linear-gradient(right, #3931af, #00c6ff);
 }
 .btnRegister:hover:before {
-    opacity: 1;
+
+    background: #2575fc;
+    background: -webkit-linear-gradient(right, #3931af, #00c6ff);
+    background: -o-linear-gradient(right,#3931af, #00c6ff);
+    background: -moz-linear-gradient(right, #3931af, #00c6ff);
+    background: linear-gradient(right, #3931af, #00c6ff);
 }
 
 .container-register-button{

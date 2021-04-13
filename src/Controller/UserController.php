@@ -5,6 +5,11 @@ namespace SallePW\SlimApp\Controller;
 
 use DateTime;
 use Exception;
+use Google\Client;
+use Google_Client;
+use Google_Service_Gmail;
+use Google_Service_Gmail_Draft;
+use Google_Service_Gmail_Message;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 use Psr\Container\ContainerInterface;
@@ -206,6 +211,20 @@ final class UserController
         }
 
     }
+
+    public function validateUser(Request $request, Response $response): Response
+    {
+        $params = $request->getQueryParams();
+        return $this->container->get('view')->render(
+            $response,
+            'blank.twig',
+            [
+                'token' => $params['token']
+            ]
+        );
+    }
+
+
 
 
     }
