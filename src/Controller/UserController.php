@@ -17,8 +17,12 @@ use SallePW\SlimApp\Model\User;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use SallePW\SlimApp\Model\Repository;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use SallePW\SlimApp\Repository\MySQLRepository;
 use SallePW\SlimApp\Repository\PDOSingleton;
+use function DI\value;
+
 
 final class UserController
 {
@@ -154,6 +158,37 @@ final class UserController
                 );
 
                 //TODO: Enviar correu de verificació amb el token
+
+                $mail = new PHPMailer();
+                $mail->isSMTP();
+
+                $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+
+                $mail->Host = 'smtp.gmail.com';
+
+                $mail->Port = 587;
+
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
+                $mail->SMTPAuth = true;
+
+                $mail->Username = 'pw1.rafa.victor.marti@gmail.com';
+
+                $mail->Password = '12345678ASDFGH';
+
+                $mail->setFrom('marti@ejarque.es', 'First Last');
+
+                $mail->addAddress($data['email'], $data['username']);
+
+                $mail->Subject = 'PW2-LStream';
+
+               // $mail->msgHTML(file_get_contents('/app/src/Controller/contents.html'), __DIR__);
+                $mail->isHTML(true);                                 //Set email format to HTML
+                $mail->Body    = '<a href="http://localhost:8030/activate?token='. $token . '"> Pulse aqui para verificar</a>';
+
+                if (!$mail->send()) {
+                    echo 'Mailer Error: ' . $mail->ErrorInfo;
+                }
 
                 $_SESSION['email'] = $data['email'];
 
