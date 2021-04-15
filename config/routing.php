@@ -38,6 +38,11 @@ $app->get(
     UserController::class . ":validateUser"
 )->setName('home');
 
+$app->get(
+    '/prueba',
+    FormController::class . ":showLanding"
+)->setName('home');
+
 
 $app->post(
     '/login',

@@ -30,6 +30,18 @@ final class FormController
         );
     }
 
+    public function showLanding(Request $request, Response $response): Response
+    {
+
+        return $this->container->get('view')->render(
+            $response,
+            'landing.twig',
+            [
+                'notLogin' => "pilotes"
+            ]
+        );
+    }
+
 
     public function showSearchResults(Request $request, Response $response): Response
     {

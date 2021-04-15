@@ -1,0 +1,180 @@
+{% extends "base.twig" %}
+
+{% block title %}Home{% endblock %}
+{% block head %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Webiz Digital Agency | Bootstrap Template </title>
+    <meta name="description" content="">
+    <link rel="canonical" href="https://www.nameagency.com">
+    <meta property="og:url" content="https://www.nameagency.com">
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/landing.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="ico/favicon.ico">
+{% endblock %}
+
+{% block content %}
+   <!-- Navbar Menu  ---->
+    <section id="nav-bar">
+      <nav class="navbar navbar-expand-lg navbar-light">
+         <a class="navbar-brand" href="#">
+           <img src="{{ full_url_for('home') }}assets/images/logo.png" alt="">
+         </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+           <i class="fa fa-bars"></i>
+         </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#top">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#services"> LSteam wallet </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">Store</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#testimonials">Wishlist</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">LSteam Friends</a>
+            </li>
+            <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img style="height: 25px" src="{{ full_url_for('home') }}assets/images/svg/profile-user.svg" alt="">
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item {% if notLogin %}disabled{% endif %}" href="profile">Your Profile</a>
+                    <a class="dropdown-item" href="login">Log In</a>
+                    <a class="dropdown-item" href="register">Register</a>
+                </div>
+            </div>
+          </ul>
+        </div>
+      </nav>
+    </section>
+    
+    <section class="banner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="promo-title">LSteam</p>
+            <p class="join-title">Join Us! You will discover you new games and experiences! </p>
+             <a href="#" class="link-play">
+              <img src="{{ full_url_for('home') }}assets/images/svg/carrito.svg" alt="" class="play-btn">Visit Store
+            </a>
+          </div>
+            <div class="col-md-6">
+              <img src="{{ full_url_for('home') }}assets/images/svg/play.svg" alt="" class="img-fluid">
+            </div>
+        </div>
+      </div>
+        <!--- Background wave Hero ---->
+        <img src="{{ full_url_for('home') }}assets/images/ground@-min.png" class="bottom-img" alt="">
+    </section>
+
+    <!--- Services ---->
+    <section id="services">
+      <div class="container text-center">
+        <h3 class="title text-center"> LSteam wallet </h3>
+        <div class="row text-center">
+          <div class="col-md-4 services">
+            <img src="{{ full_url_for('home') }}assets/images/svg/money.svg" class="service-img"   alt="">
+            <h4>Input</h4>
+            <p>As a user, you can see how much money you have in his/her wallet. Moreover, 
+            </p>
+          </div>
+          <div class="col-md-4 services">
+            <img src="{{ full_url_for('home') }}assets/images/svg/arrow.svg" class="service-img-arrow"   alt="">
+          </div>
+          <div class="col-md-4 services">
+            <img src="{{ full_url_for('home') }}assets/images/svg/ads.svg" class="service-img"   alt="">
+            <h4>Your Wallet</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+          </div>
+        
+        </div>
+        <button type="button" class="btn btn-primary"  name="button">Go to Wallet</button>
+      </div>
+    </section>
+    <!--- About Section ------>
+    <section id="about">
+      <div class="container">
+        <h3 class="title text-center">ABOUT US</h3>
+        <div class="row">
+          <div class="col-md-6 about">
+            <p class="about-title">Odio sed id eos et laboriosam consequatur eos earum soluta.</p>
+            <ul>
+              <li>Sint aliquam consequatur ex ex labore.</li>
+              <li>Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+              <li>Aspernatur consectetur omnis numquam quaerat.</li>
+              <li>Et vel ut quidem alias veritatis repudiandae ut fugit.</li>
+              <li>Fugit ut maxime incidunt accusantium totam repellendus eum error. </li>
+              <li>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+            </ul>
+          </div>
+            <div class="col-md-6">
+              <img src="{{ full_url_for('home') }}assets/images/svg/undraw_mobile_marketing_iqbr.svg" class="img-fluid" alt="">
+            </div>
+        </div>
+      </div>
+    </section>
+    <section id="testimonials">
+      <div class="container">
+        <h3 class="title text-center">NOVEDADES</h3>
+        <div class="row offset-1">
+          <div class="col-md-5 testimonials">
+            <p class="feedback">"Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            </p>
+            <img src="https://www.cope.es/blogs/gamelover/wp-content/uploads/sites/13/2020/05/GL_29052020-725x353.jpg"  alt="kk">
+            <img src="https://cbsnews1.cbsistatic.com/hub/i/2014/03/25/d961d7a8-5529-4c4f-919f-a1fd0ed9d1d6/ctm-0325-vid-games-640x360.jpg"  alt="">
+          </div>
+          <div class="col-md-5 testimonials">
+            <p class="feedback">"Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            </p>
+            <img src="https://cbsnews1.cbsistatic.com/hub/i/2014/03/25/d961d7a8-5529-4c4f-919f-a1fd0ed9d1d6/ctm-0325-vid-games-640x360.jpg"  alt="">
+            <img src="https://cbsnews1.cbsistatic.com/hub/i/2014/03/25/d961d7a8-5529-4c4f-919f-a1fd0ed9d1d6/ctm-0325-vid-games-640x360.jpg"  alt="">
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 footer-box">
+              <img src="images/logo.png" alt="">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </p>
+            </div>
+            <div class="col-md-4 footer-box">
+                <p id="contact"><b>OUR OFFICE</b></p>
+                <p><i class="fa fa-map-marker"></i>Quatre Camins 37, 08022 Barcelona</p>
+                <p><i class="fa fa-phone"></i>+34 666 666 666</p>
+                <p><i class="fa fa-envelope-o"></i>pw1.rafa.victor.marti@gmail.com</p>
+            </div>
+            <div class="col-md-7 ">
+              <p class="copyright">Copyright © 2021</p>
+            </div>
+          </div>
+          <br>
+        </div>
+    </section>
+    <!--- Smooth Scroll js ---------->
+    <script type="text/javascript" src="js/smooth-scroll.js"></script>
+    <script>
+	    var scroll = new SmoothScroll('a[href*="#"]');
+    </script>
+{% endblock %}
