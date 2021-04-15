@@ -44,14 +44,32 @@ private static $installed = array (
       ),
       'reference' => '9d94dc0154230ac39e5bf89398b324a86f63f765',
     ),
-    'guzzlehttp/guzzle' => 
+    'giggsey/libphonenumber-for-php' => 
     array (
-      'pretty_version' => '7.2.0',
-      'version' => '7.2.0.0',
+      'pretty_version' => '8.12.21',
+      'version' => '8.12.21.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0aa74dfb41ae110835923ef10a9d803a22d50e79',
+      'reference' => '272b8123ba7f1b7975620c6389e7206281b4a3ce',
+    ),
+    'giggsey/locale' => 
+    array (
+      'pretty_version' => '1.9',
+      'version' => '1.9.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b07f1eace8072ccc61445ad8fbd493ff9d783043',
+    ),
+    'guzzlehttp/guzzle' => 
+    array (
+      'pretty_version' => '7.3.0',
+      'version' => '7.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7008573787b430c1c1f650e3722d9bba59967628',
     ),
     'guzzlehttp/promises' => 
     array (
@@ -64,12 +82,12 @@ private static $installed = array (
     ),
     'guzzlehttp/psr7' => 
     array (
-      'pretty_version' => '1.7.0',
-      'version' => '1.7.0.0',
+      'pretty_version' => '1.8.1',
+      'version' => '1.8.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '53330f47520498c0ae1f61f7e2c90f55690c06a3',
+      'reference' => '35ea11d335fd638b5882ff1725228b3d35496ab1',
     ),
     'nikic/fast-route' => 
     array (
@@ -82,12 +100,12 @@ private static $installed = array (
     ),
     'opis/closure' => 
     array (
-      'pretty_version' => '3.6.1',
-      'version' => '3.6.1.0',
+      'pretty_version' => '3.6.2',
+      'version' => '3.6.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5',
+      'reference' => '06e2ebd25f2869e54a306dda991f7db58066f7f6',
     ),
     'php-di/invoker' => 
     array (
@@ -100,12 +118,12 @@ private static $installed = array (
     ),
     'php-di/php-di' => 
     array (
-      'pretty_version' => '6.3.0',
-      'version' => '6.3.0.0',
+      'pretty_version' => '6.3.1',
+      'version' => '6.3.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '955cacea6b0beaba07e8c11b8367f5b3d5abe89f',
+      'reference' => '78278800b18e7c5582fd4d4e629715f5eebbfcc0',
     ),
     'php-di/phpdoc-reader' => 
     array (
@@ -125,14 +143,23 @@ private static $installed = array (
       ),
       'reference' => 'c118174d07e5b6969f678298d6c44364acb2afd7',
     ),
-    'psr/container' => 
+    'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => '1.0.0',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'v6.4.0',
+      'version' => '6.4.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
+      'reference' => '050d430203105c27c30efd1dce7aa421ad882d01',
+    ),
+    'psr/container' => 
+    array (
+      'pretty_version' => '1.1.1',
+      'version' => '1.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8622567409010282b7aeebe4bb841fe98b58dcaf',
     ),
     'psr/container-implementation' => 
     array (

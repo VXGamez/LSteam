@@ -31,6 +31,9 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/giggsey/locale" />
+      <path value="$PROJECT_DIR$/vendor/giggsey/libphonenumber-for-php" />
+      <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
