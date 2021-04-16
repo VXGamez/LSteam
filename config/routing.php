@@ -33,6 +33,32 @@ $app->get(
     UserController::class . ":validateUser"
 )->setName('home');
 
+//TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
+$app->get(
+    '/profile',
+    RoutesController::class . ":showBlank"
+)->setName('home');
+
+$app->get(
+    '/user/wallet',
+    RoutesController::class . ":showBlank"
+)->setName('home');
+
+$app->get(
+    '/store',
+    RoutesController::class . ":showBlank"
+)->setName('home');
+
+$app->get(
+    '/user/wishlist',
+    RoutesController::class . ":showBlank"
+)->setName('home');
+
+$app->get(
+    '/user/friends',
+    RoutesController::class . ":showBlank"
+)->setName('home');
+
 
 
 $app->post(

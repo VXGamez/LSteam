@@ -9,59 +9,16 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-#nav-bar {
-	position: sticky;
-	top: 0;
-	z-index: 10;
-}
-
-.dropdown-toggle {
-	background:white !important;
-	color:#00c6ff !important;
-    border: none !important;
-}
-
-.navbar{
-	background: linear-gradient(to right, #1723b1,#58f0ff);
-	padding: 0 !important;
-}
-
-.navbar-brand img {
-	height: 4rem;
-	padding-left: 3rem;
-}
-
-.navbar-nav {
-	margin-right: 3rem;
-}
-
-.navbar-nav li {
-	padding: 0 1rem;
-}
-
-.navbar-nav .nav-item .nav-link {
-	color: #fff !important;
-	font-weight: 600;
-	float: right;
-	text-align: left;
-}
-
-.navbar-nav .nav-item .nav-link:hover {
-	color: #1723b1!important;
-}
 
 .fa-bars {
 	color: #fff !important;
 	font-size: 25px !important;
 }
 
-.navbar-toggler {
-	outline: none !important;
-}
 
 
 .banner {
-	background: linear-gradient(to right, #1723b1, #58f0ff);
+	background: linear-gradient(to right, #3931af, #00c6ff);
 	color: #fff;
 	padding-top: 5%;
 }
@@ -113,8 +70,6 @@ body {
 }
 
 
-/* ---------- Services --------- */
-
 #services {
 	padding: 50px 0;
 }
@@ -142,7 +97,7 @@ body {
 
 .title::after {
 	content: '';
-	background: linear-gradient(to right, #1723b1, #58f0ff);
+	background: linear-gradient(to right, #3931af, #00c6ff);
 	height: 8px;
 	width: 50px;
 	margin-left: auto;
@@ -157,7 +112,7 @@ body {
 	padding: 8px 25px;
 	border: none;
 	border-radius: 20px;
-	background: linear-gradient(to right, #1723b1, #58f0ff);
+	background: linear-gradient(to right, #3931af, #00c6ff);
 	transition: transform 1.2s;
 }
 
@@ -221,7 +176,7 @@ body {
 /* ----- Footer ------*/
 
 #footer {
-	background: linear-gradient(to right, #1723b1, #58f0ff);
+	background: linear-gradient(to right, #3931af, #00c6ff);
 	color: #fff;
 }
 
@@ -261,7 +216,7 @@ body {
 	width: 8rem;
 	border: none;
 	border-radius: 50px;
-	background: linear-gradient(to right, #1723b1, #58f0ff);
+	background: linear-gradient(to right, #3931af, #00c6ff);
 	color: #fff;
 	transition: transform 1.2s;
 }
@@ -269,25 +224,6 @@ body {
 .footer-box .btn-primary:hover {
 	transform: scale(1.2);
 	color: #fff;
-}
-
-
-/*-------- Social Media icons ---------- */
-
-#social p {
-	font-weight: 600;
-	font-size: 16px;
-	margin-top: 20px;
-}
-
-#social .social-icons .svg-icons img {
-	width: 23px;
-	transition: transform .7s;
-	margin-right: 1rem;
-}
-
-#social .social-icons .svg-icons img:hover {
-	transform: scale(1.2);
 }
 
 .copyright {

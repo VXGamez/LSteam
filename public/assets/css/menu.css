@@ -1,0 +1,45 @@
+
+#nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navbar{
+    background: linear-gradient(to right, #3931af, #00c6ff);
+    padding: 0 !important;
+}
+
+.navbar-brand img {
+    height: 4rem;
+    padding-left: 3rem;
+}
+
+.navbar-nav {
+    margin-right: 3rem;
+}
+
+.navbar-nav li {
+    padding: 0 1rem;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #fff !important;
+    font-weight: 600;
+    float: right;
+    text-align: left;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #1723b1!important;
+}
+
+.navbar-toggler {
+    outline: none !important;
+}
+
+.dropdown-toggle {
+    background:white !important;
+    color:#00c6ff !important;
+    border: none !important;
+}
