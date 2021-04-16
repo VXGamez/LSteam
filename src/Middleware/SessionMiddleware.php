@@ -15,7 +15,7 @@ final class SessionMiddleware
         $response = $next->handle($request);
 
         if (isset($_SESSION['email'])) {
-            return $response->withHeader('Location', '/home')->withStatus(302);
+            return $response->withHeader('Location', '/')->withStatus(302);
         }
 
         return $response;

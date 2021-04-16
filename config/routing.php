@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
 use SallePW\SlimApp\Controller\RoutesController;
 use SallePW\SlimApp\Controller\UserController;
 use SallePW\SlimApp\Middleware\BeforeMiddleware;

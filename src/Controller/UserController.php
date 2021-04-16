@@ -189,7 +189,7 @@ final class UserController
                     echo 'Mailer Error: ' . $mail->ErrorInfo;
                 }
 
-                $_SESSION['email'] = $data['email'];
+                $_SESSION['email'] = $data['username'];
 
                 $ok = $this->container->get('repository')->save($user);
             }

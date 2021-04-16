@@ -12,7 +12,13 @@ $container = new Container();
 $container->set(
     'view',
     function () {
-        return Twig::create(__DIR__ . '/../templates', ['cache' => false]);
+        if(!isset($_SESSION['started'])){
+            session_start();
+            $_SESSION['started'] = "ha empesado";
+        }
+        $view = Twig::create(__DIR__ . '/../templates', ['cache' => false]);
+        $view->getEnvironment()->addGlobal('session', $_SESSION);
+        return $view;
     }
 );
 

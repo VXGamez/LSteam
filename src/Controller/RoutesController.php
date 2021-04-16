@@ -20,46 +20,28 @@ final class RoutesController{
     {
 
         unset($_SESSION['email']);
-        return $response->withHeader('Location', '/login')->withStatus(302);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     public function showRegisterForm(Request $request, Response $response): Response
     {
 
-        return $this->container->get('view')->render(
-            $response,
-            'register.twig',
-            []
-        );
+        return $this->container->get('view')->render($response,'register.twig',[]);
     }
 
     public function showLanding(Request $request, Response $response): Response
     {
-        if (isset($_SESSION['email'])) {
-            return $this->container->get('view')->render($response,'landing.twig',['isLoggedIn' => "estaLogueado"]);
-        }else{
-            return $this->container->get('view')->render($response,'landing.twig',[]);
-        }
+        return $this->container->get('view')->render($response,'landing.twig',[]);
     }
 
     public function showLogin(Request $request, Response $response): Response
     {
 
-        return $this->container->get('view')->render(
-            $response,
-            'login.twig',
-            []
-        );
+        return $this->container->get('view')->render($response,'login.twig',[]);
     }
 
     public function showBlank(Request $request, Response $response): Response
     {
-        //return $response->withHeader('Location', '/login')->withStatus(302);
-        return $this->container->get('view')->render(
-            $response,
-            'blank.twig',
-            [
-            ]
-        );
+        return $this->container->get('view')->render($response,'blank.twig',[]);
     }
 }
