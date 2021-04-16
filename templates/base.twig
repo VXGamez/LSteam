@@ -37,17 +37,19 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="user/wallet"> LSteam wallet </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="store">Store</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user/wishlist">Wishlist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user/friends">LSteam Friends</a>
-                    </li>
+                    {% if session.email is defined %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="user/wallet">Wallet </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="user/wishlist">Wishlist</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="user/friends">My Friends</a>
+                        </li>
+                    {% endif %}
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img style="height: 25px" src="{{ full_url_for('home') }}assets/images/svg/profile-user.svg" alt="">
