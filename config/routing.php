@@ -57,6 +57,11 @@ $app->get(
     RoutesController::class . ":showBlank"
 )->setName('home');
 
+$app->get(
+    '/user/myGames',
+    RoutesController::class . ":showBlank"
+)->setName('home');
+
 
 
 $app->post(
