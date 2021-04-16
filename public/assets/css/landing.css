@@ -17,18 +17,14 @@ body {
 
 .dropdown-toggle {
 	background:white !important;
-    background-color:white !important;
 	color:#00c6ff !important;
     border: none !important;
-}	º
-
-.navbar {
-	background: linear-gradient(to right, #1723b1, #58f0ff);
-	padding: 0 !important;
 }
 
-
-/* Logo resize */
+.navbar{
+	background: linear-gradient(to right, #1723b1,#58f0ff);
+	padding: 0 !important;
+}
 
 .navbar-brand img {
 	height: 4rem;
@@ -37,10 +33,6 @@ body {
 
 .navbar-nav {
 	margin-right: 3rem;
-}
-
-.navbar-nav li {
-	padding: 0 1rem;
 }
 
 .navbar-nav li {
@@ -67,8 +59,6 @@ body {
 	outline: none !important;
 }
 
-
-/* --------- Banner ---------- */
 
 .banner {
 	background: linear-gradient(to right, #1723b1, #58f0ff);
