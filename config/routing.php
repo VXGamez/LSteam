@@ -12,11 +12,6 @@ $app->get(
 )->setName('home');
 
 $app->get(
-    '/logout',
-    RoutesController::class . ":doLogout"
-)->setName('logout_user')->add(BeforeMiddleware::class);
-
-$app->get(
     '/login',
     RoutesController::class . ":showLogin"
 )->setName('login_user')->add(SessionMiddleware::class);
@@ -63,6 +58,11 @@ $app->get(
 )->setName('home');
 
 
+
+$app->post(
+    '/logout',
+    RoutesController::class . ":doLogout"
+)->setName('logout_user');
 
 $app->post(
     '/login',

@@ -62,7 +62,9 @@
                             {% if session.email is defined %}
                                 <a class="dropdown-item " >Hello {{ session.email }}! </a>
                                 <a class="dropdown-item " href="profile">Your Profile</a>
-                                <a style="color: red;" class="dropdown-item" href="logout">Logout</a>
+                                <form action="/logout" method="POST">
+                                    <input style="color: red; cursor: pointer;" class="dropdown-item" type="submit" value="Logout" />
+                                </form>
                             {% else %}
                                 <a class="dropdown-item" href="login">Log In</a>
                                 <a class="dropdown-item" href="register">Register</a>
