@@ -248,25 +248,17 @@ final class UserController
         $params = $request->getQueryParams();
 
         $ok = $this->container->get('repository')->checkActivation($params['token']);
-
+        $mensaje="Esto es una mierda";
         if($ok){
             $this->container->get('repository')->updateActivation($params['token']);
-            return $this->container->get('view')->render(
-                $response,
-                'activation.twig',
-                [
-                    'token' => $params['token']
-                ]
-            );
-        } else {
-            return $this->container->get('view')->render(
-                $response,
-                'activation.twig',
-                [
-                    'token' => $params['token']
-                    //'errores' => $errors['error']
-                ]
-            );
+
+            $mensaje = "DE LOCOOS ERMANO";
         }
+        return $this->container->get('view')->render(
+            $response,
+            'activation.twig',
+            [
+                'mensaje' => $mensaje
+                ]);
     }
 }

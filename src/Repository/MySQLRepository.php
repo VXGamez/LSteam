@@ -155,11 +155,13 @@ QUERY;
         $stmt->bindParam(1, $token, PDO::PARAM_STR);
         $stmt->execute();
 
-        $stmt->bind_result($validation);
-
-        if($validation == true){
-            $ok = false;
+        if($stmt->rowCount() == 1){
+            $row = $stmt->fetch();
+            if($row['activated'] == true){
+                $ok = false;
+            }
         }
+
         return $ok;
     }
 
