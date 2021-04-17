@@ -211,7 +211,6 @@ final class UserController
 
     }
 
-
     public function loginUser(Request $request, Response $response): Response
     {
 
@@ -247,16 +246,27 @@ final class UserController
     public function validateUser(Request $request, Response $response): Response
     {
         $params = $request->getQueryParams();
-        return $this->container->get('view')->render(
-            $response,
-            'blank.twig',
-            [
-                'token' => $params['token']
-            ]
-        );
+
+        $ok = $this->container->get('repository')->checkActivation($params['token']);
+
+        if($ok){
+            $this->container->get('repository')->updateActivation($params['token']);
+            return $this->container->get('view')->render(
+                $response,
+                'activation.twig',
+                [
+                    'token' => $params['token']
+                ]
+            );
+        } else {
+            return $this->container->get('view')->render(
+                $response,
+                'activation.twig',
+                [
+                    'token' => $params['token']
+                    //'errores' => $errors['error']
+                ]
+            );
+        }
     }
-
-
-
-
-    }
+}

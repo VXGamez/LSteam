@@ -147,6 +147,25 @@ QUERY;
         return $ok;
     }
 
+    public function checkActivation($token): bool{
+        $ok = true;
+        $validation = 0;
 
+        $stmt = $this->database->connection()->prepare('SELECT activated FROM User WHERE token=?');
+        $stmt->bindParam(1, $token, PDO::PARAM_STR);
+        $stmt->execute();
 
+        $stmt->bind_result($validation);
+
+        if($validation == true){
+            $ok = false;
+        }
+        return $ok;
+    }
+
+    public function updateActivation($token) {
+        $stmt = $this->database->connection()->prepare('UPDATE User SET activated = true, wallet = 50 WHERE token=?');
+        $stmt->bindParam(1, $token, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }
