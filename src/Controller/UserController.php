@@ -161,8 +161,6 @@ final class UserController
                 $mail = new PHPMailer();
                 $mail->isSMTP();
 
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-
                 $mail->Host = 'smtp.gmail.com';
 
                 $mail->Port = 587;

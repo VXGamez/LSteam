@@ -3,6 +3,43 @@
 {% block head %}
 
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/landing.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+
+    <script>
+
+      $(document).ready(function() {
+        // Check if element is scrolled into view
+        function isScrolledIntoView(elem) {
+          var docViewTop = $(window).scrollTop();
+          var docViewBottom = docViewTop + $(window).height();
+
+          var elemTop = $(elem).offset().top;
+          var elemBottom = elemTop + $(elem).height();
+
+          return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+        // If element is scrolled into view, fade it in
+        $(window).scroll(function() {
+          $('.scroll-animations .animated').each(function() {
+            if (isScrolledIntoView(this) === true) {
+              if(this.id === 'wallet'){
+                $(this).addClass('bounceIn');
+              }
+              if(this.id === 'store'){
+                $(this).addClass('fadeInRightBig');
+              }
+              if(this.id === 'wish'){
+                $(this).addClass('fadeInLeftBig');
+              }
+              if(this.id === 'games'){
+                $(this).addClass('bounceIn');
+              }
+
+            }
+          });
+        });
+      });
+    </script>
 
 {% endblock %}
 
@@ -11,39 +48,40 @@
     <section class="banner">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
-            <p class="promo-title">LSteam</p>
-            <p class="join-title">Join Us! You will discover you new games and experiences! </p>
-             <a href="#" class="link-play">
+          <div class="col-md-6 ">
+            <p class="promo-title animated lightSpeedIn">LSteam</p>
+            <p class="join-title">Join Us! You will discover new games and experiences! </p>
+            <a  href="#" class="link-play">
               <img src="{{ full_url_for('home') }}assets/images/svg/carrito.svg" alt="" class="store-btn">Visit Store
             </a>
           </div>
             <div class="col-md-6">
-              <img src="{{ full_url_for('home') }}assets/images/svg/play.svg" alt="" class="img-fluid">
+              <img class="animated bounceInDown" src="{{ full_url_for('home') }}assets/images/svg/play.svg" alt="" class="img-fluid">
             </div>
         </div>
       </div>
-        <img src="{{ full_url_for('home') }}assets/images/ground@-min.png" class="bottom-img" alt="">
+
+      <img  src="{{ full_url_for('home') }}assets/images/ground@-min.png" class="bottom-img" alt="">
+
     </section>
 
-    <section id="services">
-      <div class="container text-center">
+    <section id="services" class="wallet scroll-animations">
+      <div id="wallet" class="container text-center animated">
         <h3 class="title text-center"> LSteam wallet </h3>
-        <div class="row text-center">
+        <div class="row text-center ">
           <div class="col-md-4 services">
             <img src="{{ full_url_for('home') }}assets/images/svg/money.svg" class="service-img"   alt="">
             <h4>Input</h4>
-            <p>As a user, you can see how much money you have in his/her wallet. Moreover, 
+            <p>As a user, you can see how much money you have in your wallet. Moreover, you can add as much (virtual) money as you wish. You won the lottery!
             </p>
           </div>
           <div class="col-md-4 services">
             <img src="{{ full_url_for('home') }}assets/images/svg/arrow.svg" class="service-img-arrow"   alt="">
           </div>
           <div class="col-md-4 services">
-            <img src="{{ full_url_for('home') }}assets/images/svg/ads.svg" class="service-img"   alt="">
+            <img src="{{ full_url_for('home') }}assets/images/svg/wallet.svg" class="service-img"   alt="">
             <h4>Your Wallet</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p>Here, you can check your credit. If you register now, you get 50€ for free!
             </p>
           </div>
         
@@ -52,44 +90,149 @@
       </div>
     </section>
 
-    <section id="about">
-      <div class="container">
-        <h3 class="title text-center">ABOUT US</h3>
+    <section id="about" class="scroll-animations">
+      <div id="store" class="container animated">
+        <h3 class="title text-center">Store</h3>
         <div class="row">
           <div class="col-md-6 about">
-            <p class="about-title">Odio sed id eos et laboriosam consequatur eos earum soluta.</p>
+            <p class="about-title">In this section, you will be able to...</p>
             <ul>
-              <li>Sint aliquam consequatur ex ex labore.</li>
-              <li>Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-              <li>Aspernatur consectetur omnis numquam quaerat.</li>
-              <li>Et vel ut quidem alias veritatis repudiandae ut fugit.</li>
-              <li>Fugit ut maxime incidunt accusantium totam repellendus eum error. </li>
-              <li>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+              <li>Buy your favorite game at the best price</li>
+              <li>Visit your Own Games, and launch them</li>
+              <li>Add games to your wishlist</li>
+              <li>See the latest upgrades and new titles on the market</li>
+              <li>Add games to your wishlist</li>
+
             </ul>
+            <p> <em>Don't forget to check for discound codes in our social media!</em></p>
           </div>
             <div class="col-md-6">
-              <img src="{{ full_url_for('home') }}assets/images/svg/undraw_mobile_marketing_iqbr.svg" class="img-fluid" alt="">
+              <img src="{{ full_url_for('home') }}assets/images/svg/store.svg" class="img-fluid" alt="">
             </div>
         </div>
       </div>
     </section>
+
+    <section id="about" class="scroll-animations">
+      <div id="wish" class="container animated">
+        <h3 class="title text-center">Wishlist</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <img src="{{ full_url_for('home') }}assets/images/svg/wish.svg" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-6 about">
+            <p class="about-title">Don't feel like buying right now? Just save it in your wishlist!</p>
+            <p> <em> We hope that you could buy them soon </em> </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <section class="scroll-animations">
+    <div id="games" class="container animated">
+      <div class="text-center">
+        <h3 class="title text-center">Games</h3>
+        <div class="row"> <br> <br> </div>
+        <h3 class="section-subheading text-muted">In LSteam, you can find all kind of Videogames</h3>
+
+        <div class="row">
+        <div class="col-lg-4 col-sm-6 mb-4">
+          <div class="portfolio-item">
+            <a class="portfolio-link" data-toggle="modal" href="">
+              <img class="console-image" src="{{ full_url_for('home') }}assets/images/svg/pc.svg" alt="" />
+            </a>
+            <div class="portfolio-caption">
+              <div class="portfolio-caption-heading">PC</div>
+              <div class="portfolio-caption-subheading text-muted">456 games</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+          <div class="portfolio-item">
+            <a class="portfolio-link" data-toggle="modal" href="">
+              <img class="console-image" src="{{ full_url_for('home') }}assets/images/svg/consolePlay.svg" alt="" />
+            </a>
+            <div class="portfolio-caption">
+              <div class="portfolio-caption-heading">PlayStation</div>
+              <div class="portfolio-caption-subheading text-muted">348 games</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+          <div class="portfolio-item">
+            <a class="portfolio-link" data-toggle="modal" href="">
+              <img class="console-image" src="{{ full_url_for('home') }}assets/images/svg/xbox.svg" alt="" />
+            </a>
+            <div class="portfolio-caption">
+              <div class="portfolio-caption-heading">Xbox</div>
+              <div class="portfolio-caption-subheading text-muted">489 games</div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <button type="button" class="btn btn-primary"  name="button">Go to MyGames</button>
+    </div>
+   </div>
+
+  </section>
+
+  <section class="" id="portfolio">
+    <div class="container">
+      <div class=" text-center">
+        <br> <br>
+        <h3 class="title text-center">Our Community</h3>
+        <div class="row"> <br> <br> </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6 order-lg-3 text-white showcase-img"></div>
+          <div class="col-lg-6 order-lg-2 my-auto showcase-text">
+            <h2>Your Friends</h2>
+            <p class="lead mb-0">Invite your friends and share exclusive content!</p>
+          </div>
+          <div class="col-lg-6 order-lg-1">
+            <img class="com-img" src="{{ full_url_for('home') }}assets/images/svg/person2.svg" width="600" height="300"   alt="" >
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-lg-6 order-lg-2 text-white showcase-img"></div>
+          <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+            <h2>The community</h2>
+            <p class="lead mb-0">We have more than 300k users, what are you waiting for?</p>
+          </div>
+          <div class="col-lg-6 order-lg-1">
+            <img src="{{ full_url_for('home') }}assets/images/com.jpg" width="600" height="300" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 order-lg-3 text-white showcase-img"></div>
+          <div class="col-lg-6 order-lg-2 my-auto showcase-text">
+            <h2>One click, One Friend</h2>
+            <p class="lead mb-0">You just need your Friend's name and vualá, a discount code to your email!</p>
+          </div>
+          <div class="col-lg-6 order-lg-1">
+            <img class="com-img" src="{{ full_url_for('home') }}assets/images/svg/friend.svg" width="600" height="300" alt="">
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
     <section id="testimonials">
       <div class="container">
-        <h3 class="title text-center">Novedades</h3>
+        <h3 class="title text-center">New Content!</h3>
         <div class="row offset-1">
           <div class="col-md-5 testimonials">
-            <p class="feedback">"Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            </p>
+            <p>Every week we will post a discount code, because we are lovely people :)</p>
+            <p > Discound Code: <b> VRM738 </b> </p>
             <img src="https://www.cope.es/blogs/gamelover/wp-content/uploads/sites/13/2020/05/GL_29052020-725x353.jpg"  alt="kk">
             <img src="https://cbsnews1.cbsistatic.com/hub/i/2014/03/25/d961d7a8-5529-4c4f-919f-a1fd0ed9d1d6/ctm-0325-vid-games-640x360.jpg"  alt="">
           </div>
           <div class="col-md-5 testimonials">
-            <p class="feedback">"Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            </p>
+            <p> We post daily content in our social media, jej</p>
+            <p> Don't forget to leave your like, comment and subscription!</p>
             <img src="https://cbsnews1.cbsistatic.com/hub/i/2014/03/25/d961d7a8-5529-4c4f-919f-a1fd0ed9d1d6/ctm-0325-vid-games-640x360.jpg"  alt="">
             <img src="https://cbsnews1.cbsistatic.com/hub/i/2014/03/25/d961d7a8-5529-4c4f-919f-a1fd0ed9d1d6/ctm-0325-vid-games-640x360.jpg"  alt="">
           </div>
@@ -100,10 +243,12 @@
         <div class="container">
           <div class="row">
             <div class="col-md-8 footer-box">
-              <img src="images/logo.png" alt="">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
+              <img src="{{ full_url_for('home') }}assets/images/logo.png" alt="">
+              <div class="col-lg-8 text-center">
+                <h2 class="mt-0">Let's Get In Touch!</h2>
+                <hr class="divider my-2" />
+                <p class="mb-5">Do you have any doubt? Just contact us via phone or email!</p>
+              </div>
             </div>
             <div class="col-md-4 footer-box">
                 <p id="contact"><b>OUR OFFICE</b></p>
@@ -118,4 +263,5 @@
           <br>
         </div>
     </section>
+  <script src="{{ full_url_for('home') }}assets/js/particles.min.js"></script>
 {% endblock %}

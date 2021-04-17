@@ -41,5 +41,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="aos" level="application" />
+    <orderEntry type="library" name="animate.css" level="application" />
   </component>
 </module>

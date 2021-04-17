@@ -5,8 +5,12 @@
 
 body {
 	font-family: sans-serif;
-	background-color: #888;
+	background-color: #ffffff;
 	-webkit-font-smoothing: antialiased;
+}
+
+.com-img{
+	float: right;
 }
 
 .banner {
@@ -48,6 +52,19 @@ body {
 	transform: scale(1.2);
 }
 
+.console-image{
+	margin: 20px 0;
+	margin-right: 2em;
+	text-decoration: none !important;
+	transition: transform 0.5s;
+}
+
+.console-image:hover {
+	color: #444;
+	text-decoration: none!important;
+	transform: scale(1.2);
+}
+
 .banner a {
 	color: #fff;
 	text-decoration: none!important;
@@ -72,7 +89,7 @@ body {
 }
 
 .service-img-arrow {
-	width: 130px;
+	width: 150px;
 	margin-top: 5rem;
     margin-left: 1rem;
 }
@@ -99,7 +116,9 @@ body {
 	transform: translateY(23px);
 }
 
-#services .btn-primary {
+
+
+.btn-primary {
 	box-shadow: none;
 	padding: 8px 25px;
 	border: none;
@@ -108,12 +127,14 @@ body {
 	transition: transform 1.2s;
 }
 
-#services .btn-primary:hover {
+.btn-primary:hover {
 	transform: scale(1.2);
 }
 
+
+
 #about {
-	background-color: #f8f9fa;
+	background-color: #ffffff;
 	padding-bottom: 3rem;
 	padding-top: 3rem;
 }
