@@ -8,17 +8,18 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Response as SlimResponse;
 
-final class SessionMiddleware
+final class NoLoginMiddleware
 {
     public function __invoke(Request $request, RequestHandler $next): ?Response
     {
         $response = $next->handle($request);
 
-        if (isset($_SESSION['email'])) {
-            return $response->withHeader('Location', '/')->withStatus(302);
+        if (!isset($_SESSION['email'])) {
+            return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
         return $response;
+
 
     }
 }

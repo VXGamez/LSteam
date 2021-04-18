@@ -8,8 +8,7 @@
       "ext-pdo": "*",
         "symfony/dotenv": "^5.2",
         "guzzlehttp/guzzle": "^7.0",
-        "giggsey/libphonenumber-for-php": "^8.12",
-        "google/apiclient": "^2.7"
+        "giggsey/libphonenumber-for-php": "^8.12"
     },
     "autoload": {
         "psr-4": {
