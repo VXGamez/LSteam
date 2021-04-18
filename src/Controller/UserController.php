@@ -171,7 +171,7 @@ final class UserController
 
                 $mail->Username = 'pw1.rafa.victor.marti@gmail.com';
 
-                $mail->Password = '12345678ASDFGH';
+                $mail->Password = $_ENV['EMAIL_PASS'];
 
                 $mail->setFrom('pw1.rafa.victor.marti@gmail.com', 'LSteam');
 
