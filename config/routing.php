@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 use SallePW\SlimApp\Controller\RoutesController;
 use SallePW\SlimApp\Controller\UserController;
-use SallePW\SlimApp\Middleware\BeforeMiddleware;
-use SallePW\SlimApp\Middleware\SessionMiddleware;
+use SallePW\SlimApp\Middleware\NoLoginMiddleware;
+use SallePW\SlimApp\Middleware\LoggedInMiddleware;
 
 $app->get(
     '/',
@@ -14,12 +14,12 @@ $app->get(
 $app->get(
     '/login',
     RoutesController::class . ":showLogin"
-)->setName('login_user')->add(SessionMiddleware::class);
+)->setName('login_user')->add(LoggedInMiddleware::class);
 
 $app->get(
     '/register',
     RoutesController::class . ":showRegisterForm"
-)->setName('home')->add(SessionMiddleware::class);
+)->setName('home')->add(LoggedInMiddleware::class);
 
 $app->get(
     '/activate',
@@ -27,6 +27,8 @@ $app->get(
 )->setName('home');
 
 //TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
+
+//----------------------------------------------------------------------------
 $app->get(
     '/profile',
     RoutesController::class . ":showBlank"
@@ -56,7 +58,7 @@ $app->get(
     '/user/myGames',
     RoutesController::class . ":showBlank"
 )->setName('home');
-
+//----------------------------------------------------------------------------
 
 
 $app->post(
