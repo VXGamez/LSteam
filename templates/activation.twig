@@ -4,17 +4,106 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/activation.css"/>
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/activationn.css"/>
 {% endblock %}
 
 {% block content %}
 
+<script type="text/javascript">
+    var count = 30;
+    var redirect = "/";
 
+    function countDown() {
+        var timer = document.getElementById("timer");
+        if (count > 0) {
+            count--;
+            timer.innerHTML = "This page will redirect in " + count + " seconds.";
+            setTimeout("countDown()", 1000);
+        } else {
+            window.location.href = redirect;
+        }
+    }
+</script>
+
+<body>
+    <table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td class="first" border="0" align="center" width="100%">
+                <table class="table1" width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="row1" align="center" valign="top"> </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 {% if mensaje %}
-    <!--La otra aqui-->
+    <!--Todo bien -->
+    <tr>
+        <td class="bien" align="center">
+            <table class="t1" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <h1 >Email confirmed!</h1>
+                        <img src="{{ full_url_for('home') }}assets/images/emailbien.png" alt=""/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 {% else %}
-    <!--Una vista aqui-->
+    <tr>
+        <td class="mal"  align="center" >
+            <table class="t2" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="center" valign="top">
+                        <h1>This activation link is not valid</h1>
+                        <img src="{{ full_url_for('home') }}assets/images/emailmal.png" alt=""/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 {% endif %}
+        <tr>
+            <td class="row2" align="center" width="100%">
+                <table class="table2" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td class="row3" align="center" width="100%">
+                            {% if mensaje %}
+                                <p>Congratulations on activating your account!</br>You have received 50€ as a reward.</p>
+                            {%  else %}
+                                <p>ERROR</p>
+                            {%  endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row4"align="left" width="100%">
+                            <table class="table4" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td class="row5" align="center">
+                                        <table border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td class="row6" align="center">
+                                                    <div class="main">
+                                                        <p id="timer">
+                                                            <script type="text/javascript">
+                                                                countDown();
+                                                            </script>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
 
 
 

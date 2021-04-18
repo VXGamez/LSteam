@@ -20,15 +20,15 @@ final class PDOSingleton
         string $port,
         string $database
     ) {
-        $db = new PDO(
+       $db = new PDO(
             sprintf(self::CONNECTION_STRING, $host, $port, $database),
             $username,
             $password
         );
 
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+       $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $this->connection = $db;
+       $this->connection = $db;
     }
 
     public static function getInstance(

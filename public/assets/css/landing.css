@@ -163,10 +163,17 @@ body {
 }
 
 .testimonials img {
-	width: 100%;
     margin-top: 20px;
     border-radius: 5%;
-    height: 100px;
+}
+
+.disc img{
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 700px;
 }
 
 .user-details {
