@@ -27,6 +27,8 @@ $app->get(
 )->setName('home');
 
 //TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
+
+//----------------------------------------------------------------------------
 $app->get(
     '/profile',
     RoutesController::class . ":showBlank"
@@ -56,7 +58,7 @@ $app->get(
     '/user/myGames',
     RoutesController::class . ":showBlank"
 )->setName('home');
-
+//----------------------------------------------------------------------------
 
 
 $app->post(

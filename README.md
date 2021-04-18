@@ -1,23 +1,16 @@
-# Local Environment
-> Using Docker for our local environment
+# PW II - F1
+> Hem fet servir Docker pel nostre Local environment
 
-## Requirements
+## Instalació
 
-1. Having [Docker installed](https://www.docker.com/products/docker-desktop) (you will need to create a Hub account)
-2. Having [Git installed](https://git-scm.com/downloads)
+1. Clonar aquest repositori emprant la comanda `git clone`
 
-## Installation
+## Instruccions
 
-1. Clone this repository into your projects folder using the `git clone` command.
+1. Després de clonar el projecte, desplaça't en un terminal a la carpeta amb la comanda `cd /ubicacio/de/carpeta`.
+2. Per iniciar el local environment emprar la comanda `docker-compose up -d` en el terminal.
 
-## Instructions
-
-1. After cloning the project, open your terminal and access the root folder using the `cd /path/to/the/folder` command.
-2. To start the local environment, execute the command `docker-compose up -d` in your terminal.
-
-**Note:** The first time you run this command it will take some time because it will download all the required images from the Hub.
-
-At this point, if you execute the command `docker-compose ps` you should see a total of 4 containers running:
+En aquest punt emprant la comanda `docker-compose ps` s'haurien de veure un total de 4 contenidors executant-se:
 
 ```
        Name                     Command               State                 Ports              
@@ -28,87 +21,46 @@ pw_local_env-nginx   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8030->80/t
 pw_local_env-php     docker-php-entrypoint php-fpm    Up      9000/tcp, 0.0.0.0:9030->9001/tcp
 ```
 
-At this point, you should be able to access the application by visiting the following address in your browser [http://localhost:8030/](http://localhost:8030/).
+**Nota:** Tot i que la comanda realitzada anteriorment hauria d'haver configurat l'entorn adequadament, recomanem realitzar la comanda `composer update` al CLI de php, accessible desde docker.
+
+Arribats a aquest punt, i amb els contenidors iniciats, es podrà visitar el web a la següent pàgina: [http://localhost:8030/](http://localhost:8030/).
 
 ### Database
 
-There are multiple ways to access the database inside the docker container. In this case we are going to cover two options:
+Per accedir a la pàgina admin de la base de dades visitar: [http://localhost:8080/](http://localhost:8080/) al navegador.
 
-1. Manually accessing the container
-2. Using the adminer image
+Els credencials per accedir-hi son:
 
-#### Manually
+**Usuari:** root
 
-In order to manually access the database, we need the name of the database container. Use `docker-compose ps`. The name should be something like `pw_local_env-db`.
+**Contrasenya:** admin
 
-Now, we are going to ssh into the container using the command `docker exec -it container_id bash`. At this point, you should be able to notice that the terminal prompt has changed because now you are inside of the container.
+Un cop s'hi accedeixi, caldrà crear sinó es té ja una base de dades anomenada LSteam.
 
-To access the database, execute the command `mysql -u root -p`. (The password is the one specified in the .env file in the **MYSQL_ROOT_PASSWORD** field.)
+Es podrà fer servir la comanda:
 
-#### Adminer image
-
-To access to the admin page, visit the URL [http://localhost:8080/](http://localhost:8080/) in your browser.
-
-The host should be **db** (the name of the service used in the docker-compose file).
-
-The user should be **root** and the password is the one specified in the .env file in the **MYSQL_ROOT_PASSWORD** field.
-
-### Shared directories
-
-The line
-```
-volumes:
-    - .:/app
+```sql
+DROP DATABASE IF EXISTS LSteam;
+CREATE DATABASE LSteam;
 ```
 
-in
+Un cop creada la base de dades, executar-hi la següent comanda sql:
 
+```sql
+DROP TABLE IF EXISTS `User`;
+CREATE TABLE `User` (
+`id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+`username` VARCHAR(255) NOT NULL DEFAULT '',
+`email` VARCHAR(255) NOT NULL DEFAULT '',
+`password` VARCHAR(255) NOT NULL DEFAULT '',
+`birthday` DATETIME NOT NULL,
+`phone` VARCHAR(255) NOT NULL DEFAULT '',
+`activated` BOOLEAN,
+`token` VARCHAR(255) NOT NULL DEFAULT '',
+`wallet` INTEGER NOT NULL DEFAULT 0,
+`created_at` DATETIME NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
-app:
-container_name: pw_local_env-php
-build:
-    context: .
-    dockerfile: Dockerfile
-restart: unless-stopped
-ports:
-    - "9030:9001"
-volumes:
-    - .:/app
-depends_on:
-    - db
-```
 
-is telling docker to share the `/app` directory inside docker with the `.` (current) directory on the host machine (your computer). If you change the contents of the php file `public/index.php` you will see the changes when accessing your web at [http://localhost:8080/](http://localhost:8080/).
-
-## QA
-
-1. How to list all the running containers
-
-Use the `docker ps` command. Use the -a flag to list also the stopped ones.
-
-2. How to list all the docker images that I have installed.
-
-Run the command `docker images`
-
-3. How to remove all the images that are no longer used
-
-Run the command `docker image prune`
-
-4. How to check the logs of a specific container
-
-Run the command `docker ps` and copy the id of the container that you want to debug.
-
-Now, run the command `docker logs --follow container_id`.
-
-5. How to _ssh_ into a specific container
-
-Run the command `docker ps` and copy the id of the container that you want to debug.
-
-Now, run the command `docker exec -it container_id bash`.
-
-**Note:** If you are using the alpine version of image, you need to use _ash_ instead of _bash_.
-
-6. Where can I find more docker images to use?
-
-You can check the [Docker Hub](https://hub.docker.com/).
-
+Amb aquesta taula **User** creada ja es pot emprar la pàgina amb normalitat.

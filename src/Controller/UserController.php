@@ -169,11 +169,11 @@ final class UserController
 
                 $mail->SMTPAuth = true;
 
-                $mail->Username = 'pw1.rafa.victor.marti@gmail.com';
+                $mail->Username = $_ENV['EMAIL_CORREU'];
 
                 $mail->Password = $_ENV['EMAIL_PASS'];
 
-                $mail->setFrom('pw1.rafa.victor.marti@gmail.com', 'LSteam');
+                $mail->setFrom( $_ENV['EMAIL_CORREU'], 'LSteam');
 
                 $mail->addAddress($data['email'], $data['username']);
 

@@ -203,7 +203,7 @@ class CosEmail{
                        ';
     }
 
-    public function body(): int
+    public function body(): String
     {
         return $this->body;
     }
