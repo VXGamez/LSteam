@@ -10,7 +10,7 @@
 {% block content %}
 
 <script type="text/javascript">
-    var count = 30;
+    var count = 10;
     var redirect = "/";
 
     function countDown() {
@@ -70,7 +70,7 @@
                     <tr>
                         <td class="row3" align="center" width="100%">
                             {% if mensaje %}
-                                <p>Congratulations on activating your account!</br>You have received 50€ as a reward.</p>
+                                <p><b>Congratulations on activating your account!</b></br><b>You have received 50€ as a reward.</b></p>
                             {%  else %}
                                 <p>ERROR</p>
                             {%  endif %}
@@ -92,6 +92,11 @@
                                                         </p>
                                                     </div>
                                                 </td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <p> Click <a href="/">here</a> to be redirected</p>
                                             </tr>
                                         </table>
                                     </td>
@@ -101,6 +106,7 @@
                     </tr>
                 </table>
             </td>
+
         </tr>
     </table>
 </body>
