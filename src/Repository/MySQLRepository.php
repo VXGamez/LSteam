@@ -88,6 +88,7 @@ QUERY;
                 $row['phone'],
                 $row['token'],
                 new DateTime($row['created_at']),
+                floatval($row['wallet'])
             );
 
         }else{
@@ -99,7 +100,9 @@ QUERY;
                 "TODOMAL",
                 "TODOMAL",
                 new DateTime(),
+                0.0
             );
+
         }
 
         return $u;

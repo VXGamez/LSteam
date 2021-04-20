@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RoutesController;
 use SallePW\SlimApp\Controller\UserController;
 use SallePW\SlimApp\Middleware\NoLoginMiddleware;
@@ -26,21 +27,24 @@ $app->get(
     UserController::class . ":validateUser"
 )->setName('home');
 
+$app->get(
+    '/profile',
+    ProfileController::class . ":showProfile"
+)->setName('home');
+
+
 //TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
 
 //----------------------------------------------------------------------------
+
+
 $app->get(
-    '/profile',
+    '/store',
     RoutesController::class . ":showBlank"
 )->setName('home');
 
 $app->get(
     '/user/wallet',
-    RoutesController::class . ":showBlank"
-)->setName('home');
-
-$app->get(
-    '/store',
     RoutesController::class . ":showBlank"
 )->setName('home');
 

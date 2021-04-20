@@ -1,0 +1,152 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block head %} 
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/profile.css"/>
+    <!--<script src="{{ full_url_for('home') }}assets/js/profile.js"></script>-->
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container emp-profile">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded-circle" alt="avatar"/>
+                            <div class="file btn btn-lg btn-primary">
+                                Change Photo
+                                <input type="file" name="file"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h2>
+                                        {{ user.username }}
+                                    </h2>
+                                    <h6>
+                                        Registered on {{ user.createdAt|date("m/d/Y") }}
+                                    </h6>
+                                    <p class="proile-rating">Your Wallet: {{ wallet|number_format(2, '.', ',') }} €</p>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Your Information</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Change Password</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-work">
+                            <p>Purchase History</p>
+                            <a href="">Nom Joc - Data Compra - Preu</a><br/>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-9">
+                                            <label for="email"><p>Email</p></label>
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9">
+                                            <label for="email"><p>Email</p></label>
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Current Password</label>
+                                        <div class="input-group" id="show_hide_password">
+                                            <input class="form-control" type="password">
+                                            <div class="input-group-addon">
+                                                <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>New Password</label>
+                                        <div class="input-group" id="show_hide_password_new">
+                                            <input class="form-control" type="password">
+                                            <div class="input-group-addon">
+                                                <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <div class="input-group" id="show_hide_password_current">
+                                            <input class="form-control" type="password">
+                                            <div class="input-group-addon">
+                                                <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>           
+        </div>
+<script>
+  (function() {
+    $(document).ready(function() {
+        $("#show_hide_password a").on('click', function(event) {
+            event.preventDefault();
+            if($('#show_hide_password input').attr("type") == "text"){
+                $('#show_hide_password input').attr('type', 'password');
+                $('#show_hide_password i').addClass( "fa-eye-slash" );
+                $('#show_hide_password i').removeClass( "fa-eye" );
+            }else if($('#show_hide_password input').attr("type") == "password"){
+                $('#show_hide_password input').attr('type', 'text');
+                $('#show_hide_password i').removeClass( "fa-eye-slash" );
+                $('#show_hide_password i').addClass( "fa-eye" );
+            }
+        });
+        $("#show_hide_password_new a").on('click', function(event) {
+            event.preventDefault();
+            if($('#show_hide_password_new input').attr("type") == "text"){
+                $('#show_hide_password_new input').attr('type', 'password');
+                $('#show_hide_password_new i').addClass( "fa-eye-slash" );
+                $('#show_hide_password_new i').removeClass( "fa-eye" );
+            }else if($('#show_hide_password_new input').attr("type") == "password"){
+                $('#show_hide_password_new input').attr('type', 'text');
+                $('#show_hide_password_new i').removeClass( "fa-eye-slash" );
+                $('#show_hide_password_new i').addClass( "fa-eye" );
+            }
+        });
+
+        $("#show_hide_password_current a").on('click', function(event) {
+            event.preventDefault();
+            if($('#show_hide_password_current input').attr("type") == "text"){
+                $('#show_hide_password_current input').attr('type', 'password');
+                $('#show_hide_password_current i').addClass( "fa-eye-slash" );
+                $('#show_hide_password_current i').removeClass( "fa-eye" );
+            }else if($('#show_hide_password_current input').attr("type") == "password"){
+                $('#show_hide_password_current input').attr('type', 'text');
+                $('#show_hide_password_current i').removeClass( "fa-eye-slash" );
+                $('#show_hide_password_current i').addClass( "fa-eye" );
+            }
+        });
+  })('home');
+</script>
+{% endblock %}
+

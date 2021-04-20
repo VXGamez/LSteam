@@ -155,7 +155,8 @@ final class UserController
                     $birthday,
                     $data['phone'] ?? '',
                     $token,
-                    new DateTime()
+                    new DateTime(),
+                    0.0
                 );
 
                 $mail = new PHPMailer();

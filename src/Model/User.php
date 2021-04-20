@@ -15,6 +15,7 @@ final class User
     private string $phone;
     private string $token;
     private DateTime $createdAt;
+    private float $carterah;
 
     public function __construct(
         string $username,
@@ -24,6 +25,7 @@ final class User
         string $phone,
         string $token,
         DateTime $createdAt,
+        float $carterah
     ) {
         $this->username = $username;
         $this->email = $email;
@@ -32,7 +34,8 @@ final class User
         $this->phone = $phone;
         $this->token = $token;
         $this->createdAt = $createdAt;
-
+        $this->carterah = $carterah;
+       
     }
 
     public function id(): int
@@ -46,6 +49,12 @@ final class User
         return $this;
     }
 
+    public function setWallet(string $wallet): self
+    {
+        $this->carterah = $wallet;
+        return $this;
+    }
+
     public function username(): string
     {
         return $this->username;
@@ -54,6 +63,11 @@ final class User
     public function token(): string
     {
         return $this->token;
+    }
+
+    public function getWallet(): float
+    {
+        return $this->carterah;
     }
 
     public function email(): string
