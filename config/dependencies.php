@@ -32,6 +32,10 @@ $container->set('db', function () {
     );
 });
 
+$container->set('app', function () {
+    return $app;
+});
+
 $container->set('repository', function (ContainerInterface $container) {
     return new MySQLRepository($container->get('db'));
 });

@@ -80,7 +80,7 @@ final class ProfileController{
             $this->container->get('repository')->updatePass($_SESSION['email'], password_hash($newPass, PASSWORD_DEFAULT));
             return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
         }else{
-            $url = $this->container->get('router')->pathFor('prueba', [
+            $url = $this->container->get('router')->urlFor('profile', [
                 'errors' => $errors
             ]);
             return $response->withHeader('Location', $url)->withStatus(302);

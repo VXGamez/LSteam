@@ -104,6 +104,14 @@ body{
     color: #0062cc;
 }
 
+.tab-content>.tab-pane {
+    display: none; !important;
+}
+
+.tab-content>.active {
+    display: block !important;
+}
+
 .password-group {
     position: relative;
     width: 300px;
@@ -135,12 +143,14 @@ body{
     justify-content: center;
     align-items: center;
     border-radius: 1.5rem;
-    padding: 2%;
-    width: 50%;
+
+    margin-top: 7%;
+    margin-left: 8%;
+
+    width: 80%;
     height: 50px;
     overflow: hidden;
     background: #111111;
-    margin-top: 10%;
 
     -webkit-transition: all 0.4s;
     -o-transition: all 0.4s;
@@ -160,8 +170,6 @@ body{
     display: -webkit-flex;
     display: -moz-box;
     display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
 }
 

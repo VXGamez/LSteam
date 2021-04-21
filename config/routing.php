@@ -35,7 +35,7 @@ $app->get(
 $app->get(
     '/profile/changePassword',
     ProfileController::class . ":showChangePass"
-)->setName('home')->add(NoLoginMiddleware::class);
+)->setName('profileChangePass')->add(NoLoginMiddleware::class);
 
 
 //TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
