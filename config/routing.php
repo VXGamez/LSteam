@@ -30,7 +30,7 @@ $app->get(
 $app->get(
     '/profile',
     ProfileController::class . ":showProfile"
-)->setName('home')->add(NoLoginMiddleware::class);
+)->setName('profile')->add(NoLoginMiddleware::class);
 
 $app->get(
     '/profile/changePassword',
@@ -71,7 +71,12 @@ $app->get(
 $app->post(
     '/profile/changePassword',
     ProfileController::class . ":changePassword"
-)->setName('home');
+)->setName('prueba');
+
+$app->post(
+    '/profile',
+    ProfileController::class . ":changeProfile"
+)->setName('profile');
 
 $app->post(
     '/logout',

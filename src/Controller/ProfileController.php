@@ -34,11 +34,16 @@ final class ProfileController{
         return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
     }
 
+    public function changeProfile(Request $request, Response $response): Response
+    {
+        return $response->withHeader('Location', '/profile')->withStatus(302);
+    }
+
     public function changePassword(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
         $currPass = $data['currPass'];
-
+        $errors = [];
         $newPass = $data['newPass'];
         $repPass = $data['repPass'];
 
@@ -73,12 +78,12 @@ final class ProfileController{
 
         if($ok){
             $this->container->get('repository')->updatePass($_SESSION['email'], password_hash($newPass, PASSWORD_DEFAULT));
+            return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
         }else{
-            $response = $response->withJson(array('foo' => 'bar'))->withRedirect('/test');
+            $url = $this->container->get('router')->pathFor('prueba', [
+                'errors' => $errors
+            ]);
+            return $response->withHeader('Location', $url)->withStatus(302);
         }
-
-
-
-        return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
     }
 }

@@ -1,77 +1,84 @@
 {% extends "base.twig" %}
 
-{% block title %}{{ user.username }}{% endblock %}
+{% block title %}Your Profile{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/profile.css"/>
-    <!--<script src="{{ full_url_for('home') }}assets/js/profile.js"></script>-->
 {% endblock %}
 
 {% block content %}
 
 
-
     <div class="container emp-profile">
-        <form method="post">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-img">
-                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded-circle" alt="avatar"/>
-                        <div class="file btn btn-lg btn-primary">
-                            Change Photo
-                            <input type="file" name="file"/>
-                        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded-circle" alt="avatar"/>
+                    <div class="file btn btn-lg btn-primary">
+                        Change Photo
+                        <input type="file" name="file"/>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="profile-head">
-                        <h2>
-                            {{ user.username }}
-                        </h2>
-                        <h6>
-                            Registered on {{ user.createdAt|date("m/d/Y") }}
-                        </h6>
-                        <p class="proile-rating">Your Wallet: {{ wallet|number_format(2, '.', ',') }} €</p>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Your Information</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="changePassword-tab" data-toggle="tab" href="#changePassword" role="tab" aria-controls="changePassword" aria-selected="false">Change Password</a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="profile-work">
+                    <p>Purchase History</p>
+                    <a href="">Nom Joc - Data Compra - Preu</a><br/>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-work">
-                        <p>Purchase History</p>
-                        <a href="">Nom Joc - Data Compra - Preu</a><br/>
-                    </div>
+            <div class="col-md-8">
+                <div class="profile-head">
+                    <h2>
+                        {{ user.username }}
+                    </h2>
+                    <h6>
+                        Registered on {{ user.createdAt|date("m/d/Y") }}
+                    </h6>
+                    <p class="proile-rating">Your Wallet: {{ wallet|number_format(2, '.', ',') }} €</p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Your Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="changePassword-tab" data-toggle="tab" href="#changePassword" role="tab" aria-controls="changePassword" aria-selected="false">Change Password</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-md-8">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-9">
-                                        <label for="email"><p>Email</p></label>
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
-                                    </div>
-
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-9">
-                                        <label for="email"><p>Email</p></label>
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
-                                    </div>
-
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active flex-wrap d-flex justify-content-between" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <form style="width: 100%;" class="flex-wrap d-flex justify-content-between" action="/profile" method="POST" accept-charset="utf-8">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <div class="password-group">
+                                    <input type="text" class="form-control" value="{{ user.username }}" disabled>
                                 </div>
                             </div>
-                        </div>
-                        <div class="tab-pane fade flex-wrap d-flex justify-content-between" id="changePassword" role="tabpanel" aria-labelledby="changePassword-tab">
-                            <form action="/profile/changePassword" method="POST" accept-charset="utf-8">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <div class="password-group">
+                                    <input type="email" class="form-control" value="{{ user.email }}" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Birthday</label>
+                                <div class="password-group">
+                                    <input type="text" class="form-control" value="{{ user.birthday|date("m/d/Y") }}" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <div class="password-group">
+                                    <input type="text" class="form-control" name="phone" id="phone" value="{{ user.phone }}">
+                                </div>
+                            </div>
+                            <div class="form-group" style="width: 100%;">
+                                <div class="container-register-button">
+                                    <input type="submit" class="btnRegister" value="Save Profile Changes"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade flex-wrap d-flex justify-content-between" id="changePassword" role="tabpanel" aria-labelledby="changePassword-tab">
+                        <form style="width: 100%;" class="flex-wrap d-flex justify-content-between" action="/profile/changePassword" method="POST" accept-charset="utf-8">
                             <div class="form-group">
                                 <label for="email">Current Password</label>
                                 <div class="password-group">
@@ -98,13 +105,14 @@
                                     <input type="submit" class="btnRegister" value="Change Password"/>
                                 </div>
                             </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
+
+
     <script>
         var hash = location.hash.replace(/^#/, '');  // ^ means starting, meaning only match the first hash
         if (hash) {
