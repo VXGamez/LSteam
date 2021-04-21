@@ -30,13 +30,17 @@ $app->get(
 $app->get(
     '/profile',
     ProfileController::class . ":showProfile"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
+
+$app->get(
+    '/profile/changePassword',
+    ProfileController::class . ":showChangePass"
+)->setName('home')->add(NoLoginMiddleware::class);
 
 
 //TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
 
 //----------------------------------------------------------------------------
-
 
 $app->get(
     '/store',
@@ -64,6 +68,10 @@ $app->get(
 )->setName('home');
 //----------------------------------------------------------------------------
 
+$app->post(
+    '/profile/changePassword',
+    ProfileController::class . ":changePassword"
+)->setName('home');
 
 $app->post(
     '/logout',

@@ -28,4 +28,57 @@ final class ProfileController{
             return $this->container->get('view')->render($response,'blank.twig',[]);
         }
     }
+
+    public function showChangePass(Request $request, Response $response): Response
+    {
+        return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
+    }
+
+    public function changePassword(Request $request, Response $response): Response
+    {
+        $data = $request->getParsedBody();
+        $currPass = $data['currPass'];
+
+        $newPass = $data['newPass'];
+        $repPass = $data['repPass'];
+
+        if($newPass != $repPass){
+            $errors['password'] = 'Passwords must match';
+            $ok = false;
+        }else{
+            $uppercase = preg_match('@[A-Z]@', $newPass);
+            $lowercase = preg_match('@[a-z]@', $newPass);
+            $number    = preg_match('@[0-9]@', $newPass);
+            if( !$uppercase || !$lowercase || !$number  || $newPass < 6) {
+                $ok = false;
+                if(!$uppercase){
+                    $errors['password'] = 'Password must contain at least one uppercase character';
+                }else if(!$lowercase){
+                    $errors['password'] = 'Password must contain at least one lowercase character';
+                }else if(!$number){
+                    $errors['password'] = 'Password must contain at least one numeric character';
+                }else if(strlen($data['password']) < 6){
+                    $errors['password'] = 'Password must be at least 6 characters long';
+                }
+            }
+        }
+
+        $user = $this->container->get('repository')->getUser($_SESSION['email']);
+        if($user->password() != "TODO MAL") {
+            if (!password_verify($currPass, $user->password())) {
+                $errors['user'] = 'Current password is not correct';
+                $ok = false;
+            }
+        }
+
+        if($ok){
+            $this->container->get('repository')->updatePass($_SESSION['email'], password_hash($newPass, PASSWORD_DEFAULT));
+        }else{
+            $response = $response->withJson(array('foo' => 'bar'))->withRedirect('/test');
+        }
+
+
+
+        return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
+    }
 }

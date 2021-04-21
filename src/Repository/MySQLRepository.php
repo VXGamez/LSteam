@@ -173,4 +173,11 @@ QUERY;
         $stmt->bindParam(1, $token, PDO::PARAM_STR);
         $stmt->execute();
     }
+
+    public function updatePass($user, $newPass) {
+        $stmt = $this->database->connection()->prepare('UPDATE User SET password = ? WHERE username=?');
+        $stmt->bindParam(1, $newPass, PDO::PARAM_STR);
+        $stmt->bindParam(2, $user, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }
