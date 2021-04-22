@@ -230,7 +230,7 @@ final class UserController
         }
 
         if($ok){
-            $_SESSION['email'] = $data['username'];
+            $_SESSION['email'] = $user->username();
             return $response->withHeader('Location', '/')->withStatus(302);
         }else{
             return $this->container->get('view')->render(
