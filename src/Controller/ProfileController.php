@@ -3,9 +3,12 @@
 namespace SallePW\SlimApp\Controller;
 
 
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberUtil;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use SallePW\SlimApp\Model\User;
 
 final class ProfileController{
     private ContainerInterface $container;
@@ -18,11 +21,17 @@ final class ProfileController{
 
     public function showProfile(Request $request, Response $response): Response
     {
+        $errors = [];
+        if(isset($_SESSION['passErrors'])){
+            $errors = $_SESSION['passErrors'];
+            unset($_SESSION['passErrors']);
+        }
         $user = $this->container->get('repository')->getUser($_SESSION['email']);
         if($user->password() != "TODO MAL"){
             return $this->container->get('view')->render($response,'profile.twig',[
                 'user' => $user, 
-                'wallet' => $user->getWallet()
+                'wallet' => $user->getWallet(),
+                'errors' => $errors
             ]);
         }else{
             return $this->container->get('view')->render($response,'blank.twig',[]);
@@ -36,7 +45,41 @@ final class ProfileController{
 
     public function changeProfile(Request $request, Response $response): Response
     {
-        return $response->withHeader('Location', '/profile')->withStatus(302);
+        $data = $request->getParsedBody();
+        $ok = true;
+        $errors = [];
+        if(strlen($data['phone'])>0){
+            $phoneUtil = PhoneNumberUtil::getInstance();
+            try {
+                $phoneNumberObject = $phoneUtil->parse($data['phone'], 'ES');
+                $possible = $phoneUtil->isValidNumberForRegion($phoneNumberObject, 'ES');
+                if(!$possible){
+                    $errors['phone'] = 'This is not a valid Spanish number';
+                    $ok = false;
+                }
+            } catch (NumberParseException $e) {
+                $errors['phone'] = 'This is not a valid Spanish number';
+                $ok = false;
+            }
+            $phone = $data['phone'];
+            if($ok && !str_starts_with($data['phone'], '+34')){
+                $phone = "+34 ".$phone;
+            }
+            $data['phone'] = $phone;
+        }
+
+       if($ok){
+           $this->container->get('repository')->updatePhone($_SESSION['email'], $data['phone']);
+       }
+
+       $user = $this->container->get('repository')->getUser($_SESSION['email']);
+
+       return $this->container->get('view')->render($response,'profile.twig',[
+           'user' => $user,
+           'errors' => $errors,
+           'wallet' => $user->getWallet()
+       ]);
+
     }
 
     public function changePassword(Request $request, Response $response): Response
@@ -80,10 +123,8 @@ final class ProfileController{
             $this->container->get('repository')->updatePass($_SESSION['email'], password_hash($newPass, PASSWORD_DEFAULT));
             return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
         }else{
-            $url = $this->container->get('router')->urlFor('profile', [
-                'errors' => $errors
-            ]);
-            return $response->withHeader('Location', $url)->withStatus(302);
+            $_SESSION['passErrors'] = $errors;
+            return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
         }
     }
 }

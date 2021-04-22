@@ -180,4 +180,11 @@ QUERY;
         $stmt->bindParam(2, $user, PDO::PARAM_STR);
         $stmt->execute();
     }
+
+    public function updatePhone($user, $phone) {
+        $stmt = $this->database->connection()->prepare('UPDATE User SET phone = ? WHERE username=?');
+        $stmt->bindParam(1, $phone, PDO::PARAM_STR);
+        $stmt->bindParam(2, $user, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }

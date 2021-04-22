@@ -49,16 +49,11 @@ final class User
         return $this;
     }
 
-    public function setWallet(string $wallet): self
-    {
-        $this->carterah = $wallet;
-        return $this;
-    }
-
     public function username(): string
     {
         return $this->username;
     }
+
 
     public function token(): string
     {
