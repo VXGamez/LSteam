@@ -258,7 +258,7 @@ final class UserController
             $mensaje="";
             if($ok){
                 $this->container->get('repository')->updateActivation($params['token']);
-                $mensaje = "DE LOCOOS ERMANO";
+                $mensaje = "HA IDO BIEN";
             }
             return $this->container->get('view')->render(
                 $response,
