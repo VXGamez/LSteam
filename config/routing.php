@@ -35,18 +35,18 @@ $app->get(
 
 $app->get(
     '/profile/changePassword',
-    ProfileController::class . ":showChangePass"
+    RoutesController::class . ":showChangePass"
 )->setName('profileChangePass')->add(NoLoginMiddleware::class);
+
+$app->get(
+    '/store',
+    RoutesController::class . ":showStore"
+)->setName('home');
 
 
 //TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
 
 //----------------------------------------------------------------------------
-
-$app->get(
-    '/store',
-    StoreController::class . ":showStore"
-)->setName('home');
 
 $app->get(
     '/user/wallet',

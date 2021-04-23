@@ -38,11 +38,6 @@ final class ProfileController{
         }
     }
 
-    public function showChangePass(Request $request, Response $response): Response
-    {
-        return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
-    }
-
     public function changeProfile(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
