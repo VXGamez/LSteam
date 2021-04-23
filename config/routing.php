@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RoutesController;
+use SallePW\SlimApp\Controller\StoreController;
 use SallePW\SlimApp\Controller\UserController;
 use SallePW\SlimApp\Middleware\NoLoginMiddleware;
 use SallePW\SlimApp\Middleware\LoggedInMiddleware;
@@ -44,7 +45,7 @@ $app->get(
 
 $app->get(
     '/store',
-    RoutesController::class . ":showBlank"
+    StoreController::class . ":showStore"
 )->setName('home');
 
 $app->get(
