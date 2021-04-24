@@ -3,6 +3,7 @@
 namespace SallePW\SlimApp\Controller;
 
 
+use DateTime;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 use Psr\Container\ContainerInterface;
@@ -41,8 +42,56 @@ final class ProfileController{
     public function changeProfile(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
+
         $ok = true;
         $errors = [];
+
+        //isset($_POST["upload"]) &&
+
+        if(isset($_FILES["profilepic"])){
+            $tmpName = $_FILES['profilepic']['tmp_name'];;
+            $fileinfo = @getimagesize($tmpName);
+            $width = $fileinfo[0];
+            $heigth = $fileinfo[1];
+            
+            //profilepic type file -- file-input
+            //btnRegister para submit -- btn-submit
+            $allowed_extensions = array (
+                "png",
+                "jpg"
+            );
+
+            $file_extension = pathinfo($_FILES["profilepic"]["name"], PATHINFO_EXTENSION);
+
+            if(!in_array($file_extension, $allowed_extensions)){
+                $errors['image'] = 'Only PNG or JPG images are accepted';
+                $ok = false;
+            } else if($_FILES["profilepic"]["size"] > 1000000){
+                $errors['image'] = 'Image cannot weigh more than 1MB';
+                $ok = false;
+            } else if($width != "500" || $heigth != "500"){
+                $errors['image'] = 'Size image is not 500x500';
+                $ok = false;
+            } else {
+                //:)
+                $date = new DateTime();
+                $result = $date->format('Y-m-d H:i:s');
+                $nombreImagen = basename($_FILES["profilepic"]["name"]) . $result; 
+                $uuid_tmp = password_hash($nombreImagen, PASSWORD_DEFAULT);
+                $uuid = $uuid_tmp .'.'. $file_extension;
+                $target = __DIR__ . '/../../public/uploads/' . $uuid ;
+                if(move_uploaded_file($tmpName, $target)){
+                    $this->container->get('repository')->updateUuid($_SESSION['email'], $uuid);
+                    $errors['ok'] = 'Image has been uploaded!';
+               } else {
+                    $errors['image'] = 'Error uploading image';
+                    $ok = false;
+                }
+            }
+        } else {
+            $errors['image'] = 'jggigiii';
+        }
+
         if(strlen($data['phone'])>0){
             $phoneUtil = PhoneNumberUtil::getInstance();
             try {

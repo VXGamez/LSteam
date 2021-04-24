@@ -187,4 +187,11 @@ QUERY;
         $stmt->bindParam(2, $user, PDO::PARAM_STR);
         $stmt->execute();
     }
+
+    public function updateUuid($email, $uuid){
+        $stmt = $this->database->connection()->prepare('UPDATE User SET image = ? WHERE username=?');
+        $stmt->bindParam(1, $uuid, PDO::PARAM_STR);
+        $stmt->bindParam(2, $email, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }

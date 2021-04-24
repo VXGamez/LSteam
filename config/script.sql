@@ -13,6 +13,7 @@ CREATE TABLE `User` (
     `token` VARCHAR(255) NOT NULL DEFAULT '',
     `wallet` INTEGER NOT NULL DEFAULT 0,
     `created_at` DATETIME NOT NULL,
+    `uuid` VARCHAR(255) NOT NULL DEFAULT '',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

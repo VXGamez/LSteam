@@ -12,12 +12,18 @@
     <div class="container emp-profile">
         <div class="row">
             <div class="col-md-4">
+            <form style="width: 100%;" class="flex-wrap d-flex justify-content-between" action="/profile" method="POST" enctype="multipart/form-data" accept-charset="utf-8">
                 <div class="profile-img">
                     <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded-circle" alt="avatar"/>
                     <div class="file btn btn-lg btn-primary">
-                        Change Photo
-                        <input type="file" name="file"/>
+                        <input type="file" id="profilepic" name="profilepic"/>
                     </div>
+                    {% if errors.image %}
+                        <p class="foto-mal">{{ errors.image }}</p>     
+                    {%  endif %}
+                    {% if errors.ok %}
+                        <p class="foto-bien">{{ errors.ok }}</p>
+                    {%  endif %}
                 </div>
                 <div class="profile-work">
                     <p>Purchase History</p>
@@ -45,7 +51,7 @@
                 <div class="tab-content profile-tab">
                     <div class="tab-pane fade show active" id="home">
                         <div class="flex-wrap d-flex justify-content-between">
-                            <form style="width: 100%;" class="flex-wrap d-flex justify-content-between" action="/profile" method="POST" accept-charset="utf-8">
+                            
                                 <div class="form-group">
                                     <label>Username</label>
                                     <div class="password-group">
@@ -75,7 +81,7 @@
                                 </div>
                                 <div class="form-group" style="width: 100%;">
                                     <div class="container-register-button">
-                                        <input type="submit" class="btnRegister" value="Save Profile Changes"/>
+                                        <input type="submit" class="btnRegister" id ="upload" name="upload" value="Save Profile Changes"/>
                                     </div>
                                 </div>
                             </form>
@@ -123,7 +129,7 @@
 
 
     <script>
-        var hash = location.hash.replace(/^#/, '');  // ^ means starting, meaning only match the first hash
+        var hash = location.hash.replace(/^#/, ''); 
         if (hash) {
             $('.nav-tabs a[href="#' + hash + '"]').tab('show');
         }
