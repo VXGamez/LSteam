@@ -32,7 +32,8 @@ final class ProfileController{
             return $this->container->get('view')->render($response,'profile.twig',[
                 'user' => $user, 
                 'wallet' => $user->getWallet(),
-                'errors' => $errors
+                'errors' => $errors,
+                'uuid' => $user->getUuid()
             ]);
         }else{
             return $this->container->get('view')->render($response,'blank.twig',[]);
@@ -76,10 +77,10 @@ final class ProfileController{
                 //:)
                 $date = new DateTime();
                 $result = $date->format('Y-m-d H:i:s');
-                $nombreImagen = basename($_FILES["profilepic"]["name"]) . $result; 
-                $uuid_tmp = password_hash($nombreImagen, PASSWORD_DEFAULT);
+                $nombreImagen = $_FILES["profilepic"]["name"] . $result; 
+                $uuid_tmp = hash ("sha256" , $nombreImagen ,false );
                 $uuid = $uuid_tmp .'.'. $file_extension;
-                $target = __DIR__ . '/../../public/uploads/' . $uuid ;
+                $target = __DIR__ . '/../../public/uploads/' . basename($uuid) ;
                 if(move_uploaded_file($tmpName, $target)){
                     $this->container->get('repository')->updateUuid($_SESSION['email'], $uuid);
                     $errors['ok'] = 'Image has been uploaded!';
@@ -121,7 +122,8 @@ final class ProfileController{
        return $this->container->get('view')->render($response,'profile.twig',[
            'user' => $user,
            'errors' => $errors,
-           'wallet' => $user->getWallet()
+           'wallet' => $user->getWallet(),
+           'uuid' => $user->getUuid()
        ]);
 
     }

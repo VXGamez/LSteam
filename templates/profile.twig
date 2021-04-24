@@ -14,7 +14,12 @@
             <div class="col-md-4">
             <form style="width: 100%;" class="flex-wrap d-flex justify-content-between" action="/profile" method="POST" enctype="multipart/form-data" accept-charset="utf-8">
                 <div class="profile-img">
-                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded-circle" alt="avatar"/>
+                    {% if uuid %}
+                        {% set imgUrl = full_url_for('home')~"uploads/"~uuid %}
+                        <img src="{{imgUrl}}" class="rounded-circle" alt="avatar"/>
+                    {% else %}
+                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"class="rounded-circle" alt="avatar"/>
+                    {% endif %}
                     <div class="file btn btn-lg btn-primary">
                         <input type="file" id="profilepic" name="profilepic"/>
                     </div>

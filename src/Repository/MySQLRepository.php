@@ -88,7 +88,8 @@ QUERY;
                 $row['phone'],
                 $row['token'],
                 new DateTime($row['created_at']),
-                floatval($row['wallet'])
+                floatval($row['wallet']),
+                $row['uuid']
             );
 
         }else{
@@ -100,7 +101,8 @@ QUERY;
                 "TODOMAL",
                 "TODOMAL",
                 new DateTime(),
-                0.0
+                0.0,
+                "TODOMAL"
             );
 
         }
@@ -189,7 +191,7 @@ QUERY;
     }
 
     public function updateUuid($email, $uuid){
-        $stmt = $this->database->connection()->prepare('UPDATE User SET image = ? WHERE username=?');
+        $stmt = $this->database->connection()->prepare('UPDATE User SET uuid = ? WHERE username=?');
         $stmt->bindParam(1, $uuid, PDO::PARAM_STR);
         $stmt->bindParam(2, $email, PDO::PARAM_STR);
         $stmt->execute();
