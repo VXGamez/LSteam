@@ -83,7 +83,6 @@ final class ProfileController{
                 $target = __DIR__ . '/../../public/uploads/' . basename($uuid) ;
                 if(move_uploaded_file($tmpName, $target)){
                     $this->container->get('repository')->updateUuid($_SESSION['email'], $uuid);
-                    $errors['ok'] = 'Image has been uploaded!';
                } else {
                     $errors['image'] = 'Error uploading image';
                     $ok = false;
