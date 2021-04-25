@@ -156,7 +156,8 @@ final class UserController
                     $data['phone'] ?? '',
                     $token,
                     new DateTime(),
-                    0.0
+                    0.0,
+                    ""
                 );
 
                 $mail = new PHPMailer();
@@ -259,6 +260,7 @@ final class UserController
             if($ok){
                 $this->container->get('repository')->updateActivation($params['token']);
                 $mensaje = "HA IDO BIEN";
+                $_SESSION['wallet'] = 50;
             }
             return $this->container->get('view')->render(
                 $response,

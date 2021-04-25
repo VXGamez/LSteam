@@ -196,4 +196,11 @@ QUERY;
         $stmt->bindParam(2, $email, PDO::PARAM_STR);
         $stmt->execute();
     }
+
+    public function updateWallet($wallet, $email){
+        $stmt = $this->database->connection()->prepare('UPDATE User SET wallet = ? WHERE username=?');
+        $stmt->bindParam(1, $wallet, PDO::PARAM_STR);
+        $stmt->bindParam(2, $email, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }

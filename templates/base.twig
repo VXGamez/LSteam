@@ -41,16 +41,16 @@
                     </li>
                     {% if session.email is defined %}
                         <li class="nav-item">
-                            <a class="nav-link" href="user/wallet">Wallet </a>
+                            <a class="nav-link" href="/user/wallet">Wallet </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="user/wishlist">Wishlist</a>
+                            <a class="nav-link" href="/user/wishlist">Wishlist</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="user/friends">My Friends</a>
+                            <a class="nav-link" href="/user/friends">My Friends</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="user/myGames">My Games</a>
+                            <a class="nav-link" href="/user/myGames">My Games</a>
                         </li>
                     {% endif %}
                     <div class="dropdown show">
@@ -61,13 +61,13 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                             {% if session.email is defined %}
                                 <a class="dropdown-item " >Hello {{ session.email }}! </a>
-                                <a class="dropdown-item " href="profile">Your Profile</a>
+                                <a class="dropdown-item " href="/profile">Your Profile</a>
                                 <form action="/logout" method="POST">
                                     <input style="color: red; cursor: pointer;" class="dropdown-item" type="submit" value="Logout" />
                                 </form>
                             {% else %}
-                                <a class="dropdown-item" href="login">Log In</a>
-                                <a class="dropdown-item" href="register">Register</a>
+                                <a class="dropdown-item" href="/login">Log In</a>
+                                <a class="dropdown-item" href="/register">Register</a>
                             {% endif %}
                         </div>
                     </div>
