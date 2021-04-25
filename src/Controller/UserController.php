@@ -190,7 +190,7 @@ final class UserController
                 }
 
                 $_SESSION['email'] = $data['username'];
-
+                $_SESSION['wallet'] = $user->getWallet();
                 $ok = $this->container->get('repository')->save($user);
             }
 
@@ -232,6 +232,7 @@ final class UserController
 
         if($ok){
             $_SESSION['email'] = $user->username();
+            $_SESSION['wallet'] = $user->getWallet();
             return $response->withHeader('Location', '/')->withStatus(302);
         }else{
             return $this->container->get('view')->render(
