@@ -12,8 +12,8 @@
             document.getElementById("spinner").style.display = 'block';
             setTimeout(() => {  document.getElementById("spinner").style.display = 'none';
                 document.getElementById("result").style.display = 'block';
-                let result =parseInt(document.getElementById('result').value);
-                let curr =parseInt(document.getElementById('code').value);
+                let result =parseFloat(document.getElementById('result').value);
+                let curr =parseFloat(document.getElementById('code').value);
                 if(!isNaN(result) && isNaN(curr)){
                     def = result;
                     console.log("1");
@@ -66,11 +66,11 @@
                                     <button type="button" class="btn btn-outline-secondary py-3" onclick="document.getElementById('code').value=document.getElementById('code').value + '9';">9</button>
                                 </div>
                                 <div class="btn-group" style="background: white">
-                                    <button type="button" class="btn btn-outline-secondary py-3" onclick="document.getElementById('code').value=document.getElementById('code').value.slice(0, -1);">&lt;</button>
+                                    <button type="button" class="btn btn-outline-secondary py-3" onclick="document.getElementById('code').value=document.getElementById('code').value.slice(0, -1);">&#x2190;</button>
                                     <button type="button" class="btn btn-outline-secondary py-3" onclick="document.getElementById('code').value=document.getElementById('code').value + '0';">0</button>
                                     <button type="button" class="btn btn-outline-secondary py-3" onclick="document.getElementById('code').value=document.getElementById('code').value + '00';">00</button>
                                 </div>
-                                <button type="button" class="btn btn-primary py-3" onclick="updateWallet()">Add to Wallet</button>
+                                <button type="button" class="button-add btn btn-primary py-3" onclick="updateWallet()">Add to Wallet</button>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
-                            <input name="result" class="text-center form-control-lg mt-4" id="result" value= "{{ data }}" readonly>
+                            <input name="result" class="text-center form-control-lg mt-3" id="result" value= "{{ data }} €" readonly>
                         </div>
                     </div>
                 </div>

@@ -43,3 +43,12 @@
     color:#00c6ff !important;
     border: none !important;
 }
+
+.imatgeMiniatura{
+    border-style: solid;
+  border-color: #00c6ff;
+  border-width: 2px;
+  border-radius: 50%;
+  height: 30px; 
+  width: 30px;
+}

@@ -31,6 +31,15 @@ final class StoreController
         $promise = $client->get('https://www.cheapshark.com/api/1.0/deals'); 
         $v = json_decode((string)$promise->getBody(), true);
         
+
+        $tt = $client->get('https://www.cheapshark.com/api/1.0/stores'); 
+        $s = json_decode((string)$tt->getBody(), true);
+        $stores = [];
+        foreach($s as &$value){
+            $img = 'https://www.cheapshark.com'.$value['images']['banner'];
+            array_push($stores, $img);
+        }
+
         if(isset($_SESSION['email'])){
             $juegos = $this->container->get('repository')->getUserGames($_SESSION['email']);
         }else{
@@ -38,12 +47,35 @@ final class StoreController
             $juegos['fav'] = [];
             $juegos['comprados'] = [];
         }
-        
+        $err = null;
+        if(isset($_SESSION['ERR_STORE'])){
+            $err = $_SESSION['ERR_STORE'];
+            unset($_SESSION['ERR_STORE']);
+        }
+
         return $this->container->get('view')->render($response,'store.twig',[
             'product'=>$v,
             'favoritos' => $juegos['fav'],
-            'comprados' => $juegos['comprados']
+            'comprados' => $juegos['comprados'],
+            'stores' => $stores,
+            'error' => $err
             ]);
     }
+
+    public function buyGame(Request $request, Response $response): Response{
+        $gameid = $request->getAttribute('gid');
+        $data = $request->getParsedBody();
+
+        if(floatval($_SESSION['wallet'])>= floatval($data['salePrice'])){
+            $this->container->get('repository')->buyGame($_SESSION['email'], $gameid, $data);
+            
+            $this->container->get('repository')->updateWallet($_SESSION['wallet']-$data['salePrice'], $_SESSION['email']);
+            return $response->withHeader('Location', '/store')->withStatus(302);
+        }else{
+            $_SESSION['ERR_STORE'] = 'Not enough funds';
+            return $response->withHeader('Location', '/store')->withStatus(302);
+        }
+
+    } 
 
 }

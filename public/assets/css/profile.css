@@ -17,24 +17,21 @@ body{
     text-align: center;
 }
 
+.file-upload{
+    display: none;
+}
+
 .file {
     background-color: gray;
 }
 
 .profile-img img{
-    width: 70%;
-    height: 100%;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
 }
-.profile-img .file {
-    position: relative;
-    overflow: hidden;
-    margin-top: -20%;
-    width: 70%;
-    border: none;
-    border-radius: 0;
-    font-size: 15px;
-    background: #212529b8;
-}
+
+
 .profile-img .file input {
     position: absolute;
     opacity: 0.5;
@@ -78,14 +75,13 @@ body{
     border-bottom:2px solid #0062cc;
 }
 .profile-work{
-    padding: 14%;
-    margin-top: -15%;
+    height: 600px;
+    overflow: scroll;
 }
 .profile-work p{
     font-size: 12px;
     color: #818182;
     font-weight: 600;
-    margin-top: 10%;
 }
 .profile-work a{
     text-decoration: none;
@@ -94,8 +90,14 @@ body{
     font-size: 14px;
 }
 .profile-work ul{
-    list-style: none;
+    list-style: none;  
 }
+
+.row{
+    height: 600px;
+    overflow: hidden;
+}
+
 .profile-tab label{
     font-weight: 600;
 }
@@ -105,7 +107,7 @@ body{
 }
 
 .tab-content>.tab-pane {
-    display: none; !important;
+    display: none !important;
 }
 
 .tab-content>.active {

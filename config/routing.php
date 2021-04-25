@@ -43,6 +43,11 @@ $app->get(
     StoreController::class . ":showStore"
 )->setName('home');
 
+$app->post(
+    '/store/buy/[{gid}]',
+    StoreController::class . ":buyGame"
+)->setName('home');
+
 
 //TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
 
@@ -65,7 +70,7 @@ $app->get(
 
 $app->get(
     '/user/myGames',
-    RoutesController::class . ":showBlank"
+    RoutesController::class . ":showmyGames"
 )->setName('home');
 //----------------------------------------------------------------------------
 

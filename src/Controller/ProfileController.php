@@ -29,11 +29,13 @@ final class ProfileController{
         }
         $user = $this->container->get('repository')->getUser($_SESSION['email']);
         if($user->password() != "TODO MAL"){
+            $history = $this->container->get('repository')->getPurchaseHistory($_SESSION['email']);
             return $this->container->get('view')->render($response,'profile.twig',[
                 'user' => $user, 
                 'wallet' => $user->getWallet(),
                 'errors' => $errors,
-                'uuid' => $user->getUuid()
+                'uuid' => $user->getUuid(),
+                'history' => $history
             ]);
         }else{
             return $this->container->get('view')->render($response,'blank.twig',[]);
@@ -83,6 +85,10 @@ final class ProfileController{
                 $target = __DIR__ . '/../../public/uploads/' . basename($uuid) ;
                 if(move_uploaded_file($tmpName, $target)){
                     $this->container->get('repository')->updateUuid($_SESSION['email'], $uuid);
+                    if(isset($_SESSION['uuid']) && strlen($_SESSION['uuid'])>0){
+                        unlink($_SESSION['uuid']);
+                    }
+                    $_SESSION['uuid'] = $uuid;
                } else {
                     $errors['image'] = 'Error uploading image';
                     $ok = false;

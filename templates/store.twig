@@ -3,6 +3,7 @@
 {% block title %}Store{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/store.css"/>
+    <script src="{{ full_url_for('home') }}assets/js/store.js"></script>    
 {% endblock %}
 
 {% block content %}
@@ -10,7 +11,7 @@
     <div class="container">
         <div class="row">
 
-                <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel" style="border-radius: 5%;">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -36,9 +37,6 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                {% for tt in comprados %}
-                     <h2>Fav: {{ tt }}</h2>
-                {% endfor %}
                 <div class="row">
                     {% for item in product %}
                         <div id="hola" class="col-3">
@@ -55,9 +53,9 @@
                                 </div>
                                 <div class="d-flex align-items-stretch" style="margin-bottom: 5px;" >
                                     {% if item.gameID in comprados %}
-                                        <button type="button" class="btn btn-success" style="margin-left: 5%; margin-right: 5px;" >Owned</button>
+                                        <button type="button" class="btn btn-success" style="margin-left: 5%; margin-right: 5px;" disabled >Owned</button>
                                     {% else %}
-                                        <button type="button" class="btn btn-success" style="margin-left: 5%; margin-right: 5px;" >Buy</button>
+                                        <button type="button" class="btn btn-success" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}')" style="margin-left: 5%; margin-right: 5px;" >Buy</button>
                                     {% endif %}
                                     {% if item.gameID in favoritos %}
                                         <button type="button" class="btn btn-danger s-auto">&#9829;</button>
@@ -65,15 +63,16 @@
                                         <button type="button" class="btn btn-danger s-auto">&#9825;</button>
                                     {% endif %}
                                 </div>
+                              
                                 <div class="card-footer">
                                     {% set k = (item.dealRating//2)-1 %}
-                                    <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
-                                    <img class="store-foto" src="https://www.cheapshark.com/img/stores/logos/1.png">
+                                        <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
+                                    {% set index = item.storeID-1 %}
+                                    <img class="store-foto" src="{{ stores[index] }}">
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
-
                 </div>
         </div>
     </div>

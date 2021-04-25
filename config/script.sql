@@ -21,7 +21,6 @@ DROP TABLE IF EXISTS `Game`;
 CREATE TABLE `Game` (
     `gameID` INT(11) unsigned NOT NULL,
     `storeID` INT(11) unsigned NOT NULL,
-    `sellPrice` INT(11) unsigned NOT NULL,
     `title` VARCHAR(255) NOT NULL DEFAULT '',
     `thumb` VARCHAR(255) NOT NULL DEFAULT '',
     `dealRating` FLOAT unsigned NOT NULL,
@@ -33,6 +32,8 @@ CREATE TABLE `User-Game-Bought` (
     `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
     `gameID` INT(11) unsigned NOT NULL,
     `userID` INT(11) unsigned NOT NULL,
+    `sellPrice` FLOAT DEFAULT 0,
+    `dateBought` DATETIME NOT NULL,
     PRIMARY KEY(`id`),
     FOREIGN KEY(`gameID`) REFERENCES Game(`gameID`),
     FOREIGN KEY(`userID`) REFERENCES User(`id`)

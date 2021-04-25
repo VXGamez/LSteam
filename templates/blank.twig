@@ -10,4 +10,14 @@
     <h4>Aquesta pàgina és buida per ara.</h4>
     <h4>En futures fases s'implementará. Existeix simplement per comprovar que l'adreçament funciona correctament. No se li ha aplicat cap middleware per ara</h4>
     <br>
+    {% if gameid %}
+        <p>{{ gameid }}</p>
+    {% endif %}
+    {% if data %}
+        <p>{{ data.title }}</p>
+        <p>{{ data.thumb }}</p>
+        <p>{{ data.storeID }}</p>
+        <p>{{ data.dealRating }}</p>
+        <p>{{ data.salePrice }}</p>
+    {% endif %}
 {% endblock %}

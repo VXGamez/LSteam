@@ -11,21 +11,18 @@
 
 #hola{
     margin-top: 30px;
+    transition: all 0.3s ease-in-out;
 }
 
 
 #hola:hover{
     background: #fff;
     box-shadow: 0px 15px 26px rgba(0, 0, 0, 0.50);
-    -webkit-transition: all 0.2s linear;
-    -moz-transition: all 0.2s linear;
-    -ms-transition: all 0.2s linear;
-    -o-transition: all 0.2s linear;
-    transition: all 0.2s linear;
 }
 
 .card-img-top{
     height: 100%;
+    transition: all 0.3s linear;
 }
 
 .img-container{
@@ -35,29 +32,29 @@
 
 #hola:hover .card-img-top{  
     transform: scale(1.1) rotate(3deg);
-    transition: all 0.3s linear;
 }
 
-
-.store-foto{
-    height: 50px;
-}
 
 .card-footer {
     position: relative;
     display: inline-block;
     overflow: hidden;
-    margin: 0;
+    
   }
+
+
   
 .card-footer > img {
-    display: block;
+    max-width: 60%;
+    max-height: 40px;
+    border-radius: 5%;
+    background-color: black;
+    margin: 0;
     position: absolute;
     top: 50%;
-    left: 60%;
-    min-height: 88%;
-    max-height: 90%;
-    transform: translate(80%, -50%);
-  }
+    right: 5px;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
 
 

@@ -44,11 +44,28 @@ button:hover {
     cursor: pointer;
 }
 
+.button-add:hover{
+    background: #2575fc;
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    background: -o-linear-gradient(left, #3931af, #00c6ff);
+    background: -moz-linear-gradient(left, #3931af, #00c6ff);
+    background: linear-gradient(left, #3931af, #00c6ff);
+}
+
+.input[atribute='value']{
+    font-size: 40px;
+}
+
 
 .limiter {
     width: 100%;
     margin: 0 auto;
 
+}
+
+.add{
+    background-color: white;
+    color: black;
 }
 
 .container-login100 {
@@ -149,6 +166,10 @@ hr {
 
 .login100-form-no-errors h5{
     visibility: hidden;
+}
+
+.button-add{
+    background-color: black;
 }
 
 

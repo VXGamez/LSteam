@@ -202,17 +202,38 @@ QUERY;
         $stmt->bindParam(1, $wallet, PDO::PARAM_STR);
         $stmt->bindParam(2, $email, PDO::PARAM_STR);
         $stmt->execute();
+        $_SESSION['wallet'] = $wallet;
     }
 
 
-    public function getUserGames($usrEmail) {
-
+    public function getUserId($usrEmail): int{
         $stmt = $this->database->connection()->prepare('SELECT id FROM User WHERE email=? OR username=?');
         $stmt->bindParam(1, $usrEmail, PDO::PARAM_STR);
         $stmt->bindParam(2, $usrEmail, PDO::PARAM_STR);
         $stmt->execute();
         $rowID = $stmt->fetch();
         $id = $rowID['id'];
+        return (int)$id;
+    }
+
+    public function getPurchaseHistory($usrEmail){
+        $id = $this->getUserId($usrEmail);
+
+        $stmt = $this->database->connection()->prepare('SELECT title, sellPrice, dateBought FROM `User-Game-Bought` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ? ORDER BY dateBought DESC');
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $u = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            array_push($u, $row);
+        }
+        return $u;
+    }
+
+    public function getUserGames($usrEmail) {
+
+        $id = $this->getUserId($usrEmail);
 
         $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Bought` WHERE userID = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
@@ -240,4 +261,55 @@ QUERY;
 
         return $u;
     }
+
+    public function buyGame($email, $gameID, $data){
+
+        $stmt = $this->database->connection()->prepare('SELECT id FROM `Game` WHERE id = ? ');
+        $stmt->bindParam(1, $gameID, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $userid = $this->getUserId($email);
+        $date = new DateTime();
+        $comprahte = $date->format(self::DATE_FORMAT);
+        $storeid = $data['storeID'];
+        $sellPrice = (String)$data['salePrice'];
+        $title = $data['title'];
+        $thumb = $data['thumb'];
+        $dealRating = (String)$data['dealRating'];
+
+        if($stmt->rowCount() == 0){
+          
+            $query = <<<'QUERY'
+            INSERT INTO Game(id, storeID,title,thumb,dealRating)
+            VALUES(:gameid,:storeID, :title, :thumb, :dealRating)
+    QUERY;
+            
+            $statement = $this->database->connection()->prepare($query);
+            $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
+            $statement->bindParam('storeID', $storeid, PDO::PARAM_INT);
+            $statement->bindParam('title', $title, PDO::PARAM_STR);
+            $statement->bindParam('thumb', $thumb, PDO::PARAM_STR);
+            $statement->bindParam('dealRating', $dealRating, PDO::PARAM_STR);
+            $statement->execute();
+        }
+
+
+        $query = <<<'QUERY'
+        INSERT INTO `User-Game-Bought`(gameID, userID,sellPrice,  dateBought)
+        VALUES(:gameid,:userid, :sellPrice, :date)
+QUERY;
+        $statement = $this->database->connection()->prepare($query);
+    
+
+        $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
+        $statement->bindParam('userid', $userid, PDO::PARAM_INT);
+        $statement->bindParam('sellPrice', $sellPrice, PDO::PARAM_STR);
+        $statement->bindParam('date', $comprahte, PDO::PARAM_STR);
+    
+        $statement->execute();
+
+
+    }
+
+
 }
