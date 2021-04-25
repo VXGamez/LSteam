@@ -34,10 +34,6 @@ final class RoutesController{
         return $this->container->get('view')->render($response,'landing.twig',[]);
     }
 
-    public function showStore(Request $request, Response $response): Response
-    {
-        return $this->container->get('view')->render($response,'store.twig',[]);
-    }
 
     public function showChangePass(Request $request, Response $response): Response
     {

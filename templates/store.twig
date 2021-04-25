@@ -9,15 +9,6 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-3">
-                <div class="list-group store-list">
-                    <a href="#" class="list-group-item">Tenda 1</a>
-                    <a href="#" class="list-group-item">Tenda 2</a>
-                    <a href="#" class="list-group-item">Tenda 3</a>
-                </div>
-
-            </div>
-            <div class="col-lg-9">
 
                 <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
                     <ol class="carousel-indicators">
@@ -45,29 +36,45 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-
+                {% for tt in comprados %}
+                     <h2>Fav: {{ tt }}</h2>
+                {% endfor %}
                 <div class="row">
-                    {% for item in games %}
-                        <div class="col-lg-4 col-md-6 mb-4">
+                    {% for item in product %}
+                        <div id="hola" class="col-3">
                             <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="{{ item.thumb }}" alt=""></a>
+                                <div class="img-container">
+                                  <a href="#"><img class="card-img-top" src="{{ item.thumb }}" alt=""></a>
+                                </div>
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="#">{{ item.title }}</a>
+                                        {{ item.title|title }}
                                     </h4>
-                                    <h5>{{ item.normalPrice }} €</h5>
+                                    <h5>New: {{ item.salePrice }} €</h5>
+                                    <h5>Old: <strike>{{ item.normalPrice }} €</strike></h5>
+                                </div>
+                                <div class="d-flex align-items-stretch" style="margin-bottom: 5px;" >
+                                    {% if item.gameID in comprados %}
+                                        <button type="button" class="btn btn-success" style="margin-left: 5%; margin-right: 5px;" >Owned</button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-success" style="margin-left: 5%; margin-right: 5px;" >Buy</button>
+                                    {% endif %}
+                                    {% if item.gameID in favoritos %}
+                                        <button type="button" class="btn btn-danger s-auto">&#9829;</button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-danger s-auto">&#9825;</button>
+                                    {% endif %}
                                 </div>
                                 <div class="card-footer">
-                                    {% set k = item.dealRating//2 %}
-                                    {% set y = 5-item.dealRating//2 %}
-                                    <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, y)%}&#9734;{% endfor %}</small>
+                                    {% set k = (item.dealRating//2)-1 %}
+                                    <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
+                                    <img class="store-foto" src="https://www.cheapshark.com/img/stores/logos/1.png">
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
 
                 </div>
-            </div>
         </div>
     </div>
 {% endblock %}

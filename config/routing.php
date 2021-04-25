@@ -40,7 +40,7 @@ $app->get(
 
 $app->get(
     '/store',
-    RoutesController::class . ":showStore"
+    StoreController::class . ":showStore"
 )->setName('home');
 
 

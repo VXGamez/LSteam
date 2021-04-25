@@ -196,4 +196,41 @@ QUERY;
         $stmt->bindParam(2, $email, PDO::PARAM_STR);
         $stmt->execute();
     }
+
+
+    public function getUserGames($usrEmail) {
+
+        $stmt = $this->database->connection()->prepare('SELECT id FROM User WHERE email=? OR username=?');
+        $stmt->bindParam(1, $usrEmail, PDO::PARAM_STR);
+        $stmt->bindParam(2, $usrEmail, PDO::PARAM_STR);
+        $stmt->execute();
+        $rowID = $stmt->fetch();
+        $id = $rowID['id'];
+
+        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Bought` WHERE userID = ?');
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $u = [];
+        $u['comprados'] = [];
+        $tmp=$stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($tmp as &$value){
+            foreach($value as &$kk){
+                array_push($u['comprados'], $kk);
+            }
+        }
+
+        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Wishlist` WHERE userID = ?');
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $u['fav'] = [];
+        $tmp=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($tmp as &$value){
+            foreach($value as &$kk){
+                array_push($u['fav'], $kk);
+            }
+        }
+
+        return $u;
+    }
 }

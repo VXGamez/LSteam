@@ -17,3 +17,38 @@ CREATE TABLE `User` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `Game`;
+CREATE TABLE `Game` (
+    `gameID` INT(11) unsigned NOT NULL,
+    `storeID` INT(11) unsigned NOT NULL,
+    `sellPrice` INT(11) unsigned NOT NULL,
+    `title` VARCHAR(255) NOT NULL DEFAULT '',
+    `thumb` VARCHAR(255) NOT NULL DEFAULT '',
+    `dealRating` FLOAT unsigned NOT NULL,
+    PRIMARY KEY (`gameID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `User-Game-Bought`;
+CREATE TABLE `User-Game-Bought` (
+    `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+    `gameID` INT(11) unsigned NOT NULL,
+    `userID` INT(11) unsigned NOT NULL,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`gameID`) REFERENCES Game(`gameID`),
+    FOREIGN KEY(`userID`) REFERENCES User(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `User-Game-Wishlist`;
+CREATE TABLE `User-Game-Wishlist` (
+    `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+    `gameID` INT(11) unsigned NOT NULL,
+    `userID` INT(11) unsigned NOT NULL,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`gameID`) REFERENCES Game(`gameID`),
+    FOREIGN KEY(`userID`) REFERENCES User(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
