@@ -157,7 +157,7 @@ final class UserController
                     $token,
                     new DateTime(),
                     0.0,
-                    ''
+                    ""
                 );
 
                 $mail = new PHPMailer();

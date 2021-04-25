@@ -50,4 +50,21 @@ final class RoutesController{
     {
         return $this->container->get('view')->render($response,'blank.twig',[]);
     }
+
+    public function showWallet(Request $request,Response $response): Response
+    {
+        return $this->container->get('view')->render($response,'wallet.twig',[
+            'data' => $_SESSION['wallet']
+        ]);
+    }
+
+    public function updateWallet(Request $request,Response $response): Response
+    {
+        $data = $request->getParsedBody();
+        $_SESSION['wallet'] = $data['result'];
+        $this->container->get('repository')->updateWallet($_SESSION['wallet'],$_SESSION['email']);
+        return $this->container->get('view')->render($response,'wallet.twig',[
+            'data' => $_SESSION['wallet']
+        ]);
+    }
 }

@@ -50,7 +50,7 @@ $app->get(
 
 $app->get(
     '/user/wallet',
-    RoutesController::class . ":showBlank"
+    RoutesController::class . ":showWallet"
 )->setName('home');
 
 $app->get(
@@ -68,6 +68,11 @@ $app->get(
     RoutesController::class . ":showBlank"
 )->setName('home');
 //----------------------------------------------------------------------------
+
+$app->post(
+    '/user/wallet',
+    RoutesController::class . ":updateWallet"
+)->setName('home');
 
 $app->post(
     '/profile/changePassword',
