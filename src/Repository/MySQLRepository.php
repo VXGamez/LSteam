@@ -217,12 +217,25 @@ QUERY;
     }
 
     public function getPurchaseHistory($usrEmail){
-        $id = $this->getUserId($usrEmail);
+        /*$id = $this->getUserId($usrEmail);
 
         $stmt = $this->database->connection()->prepare('SELECT title, sellPrice, dateBought FROM `User-Game-Bought` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ? ORDER BY dateBought DESC');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->execute();
         
+        $u = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            array_push($u, $row);
+        }
+        return $u;*/
+
+        $id = $this->getUserId($usrEmail);
+
+        $stmt = $this->database->connection()->prepare('SELECT title, sellPrice, dateBought, g.storeID, g.thumb, g.dealRating FROM `User-Game-Bought` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ? ORDER BY dateBought DESC');
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+
         $u = [];
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

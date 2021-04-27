@@ -19,11 +19,11 @@ CREATE TABLE `User` (
 
 DROP TABLE IF EXISTS `Game`;
 CREATE TABLE `Game` (
-    `gameID` INT(11) unsigned NOT NULL,
+    `id` INT(11) unsigned NOT NULL,
     `storeID` INT(11) unsigned NOT NULL,
     `title` VARCHAR(255) NOT NULL DEFAULT '',
     `thumb` VARCHAR(255) NOT NULL DEFAULT '',
-    `dealRating` FLOAT unsigned NOT NULL,
+    `dealRating` VARCHAR(255) NOT NULL DEFAULT '',
     PRIMARY KEY (`gameID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -35,7 +35,7 @@ CREATE TABLE `User-Game-Bought` (
     `sellPrice` FLOAT DEFAULT 0,
     `dateBought` DATETIME NOT NULL,
     PRIMARY KEY(`id`),
-    FOREIGN KEY(`gameID`) REFERENCES Game(`gameID`),
+    FOREIGN KEY(`gameID`) REFERENCES Game(`id`),
     FOREIGN KEY(`userID`) REFERENCES User(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -45,7 +45,7 @@ CREATE TABLE `User-Game-Wishlist` (
     `gameID` INT(11) unsigned NOT NULL,
     `userID` INT(11) unsigned NOT NULL,
     PRIMARY KEY(`id`),
-    FOREIGN KEY(`gameID`) REFERENCES Game(`gameID`),
+    FOREIGN KEY(`gameID`) REFERENCES Game(`id`),
     FOREIGN KEY(`userID`) REFERENCES User(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

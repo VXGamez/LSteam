@@ -68,7 +68,6 @@ final class RoutesController{
             'timeout'  => 5.0,
         ]);
 
-        
         $games = $this->container->get('repository')->getPurchaseHistory($_SESSION['email']);
 
         $tt = $client->get('https://www.cheapshark.com/api/1.0/stores'); 
