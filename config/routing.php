@@ -43,21 +43,15 @@ $app->get(
     StoreController::class . ":showStore"
 )->setName('home');
 
-$app->post(
-    '/store/buy/[{gid}]',
-    StoreController::class . ":buyGame"
-)->setName('home');
+$app->get(
+    '/user/wallet',
+    RoutesController::class . ":showWallet"
+)->setName('home')->add(NoLoginMiddleware::class);
 
 
 //TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
 
 //----------------------------------------------------------------------------
-
-$app->get(
-    '/user/wallet',
-    RoutesController::class . ":showWallet"
-)->setName('home');
-
 $app->get(
     '/user/wishlist',
     RoutesController::class . ":showBlank"
@@ -73,6 +67,11 @@ $app->get(
     RoutesController::class . ":showmyGames"
 )->setName('home');
 //----------------------------------------------------------------------------
+
+$app->post(
+    '/store/buy/[{gid}]',
+    StoreController::class . ":buyGame"
+)->setName('home');
 
 $app->post(
     '/user/wallet',

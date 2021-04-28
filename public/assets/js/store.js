@@ -26,3 +26,6 @@ function compra(gameID, title, salePrice, storeID, dealRating, thumb){
     document.body.appendChild(form);
     form.submit();
 }
+
+
+

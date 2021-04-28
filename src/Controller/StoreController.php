@@ -52,28 +52,38 @@ final class StoreController
             $err = $_SESSION['ERR_STORE'];
             unset($_SESSION['ERR_STORE']);
         }
+        $ww = null;
+        if(isset($_SESSION['wallet'])){
+            $ww = $_SESSION['wallet'];
+        }
 
         return $this->container->get('view')->render($response,'store.twig',[
             'product'=>$v,
             'favoritos' => $juegos['fav'],
             'comprados' => $juegos['comprados'],
             'stores' => $stores,
-            'error' => $err
+            'error' => $err,
+            'ww' => $ww
             ]);
     }
 
     public function buyGame(Request $request, Response $response): Response{
-        $gameid = $request->getAttribute('gid');
-        $data = $request->getParsedBody();
 
-        if(floatval($_SESSION['wallet'])>= floatval($data['salePrice'])){
-            $this->container->get('repository')->buyGame($_SESSION['email'], $gameid, $data);
-            
-            $this->container->get('repository')->updateWallet($_SESSION['wallet']-$data['salePrice'], $_SESSION['email']);
-            return $response->withHeader('Location', '/store')->withStatus(302);
+        if(isset($_SESSION['email'])){
+            $gameid = $request->getAttribute('gid');
+            $data = $request->getParsedBody();
+
+            if(floatval($_SESSION['wallet'])>= floatval($data['salePrice'])){
+                $this->container->get('repository')->buyGame($_SESSION['email'], $gameid, $data);
+
+                $this->container->get('repository')->updateWallet($_SESSION['wallet']-$data['salePrice'], $_SESSION['email']);
+                return $response->withHeader('Location', '/store')->withStatus(302);
+            }else{
+                $_SESSION['ERR_STORE'] = 'Not enough funds';
+                return $response->withHeader('Location', '/store')->withStatus(302);
+            }
         }else{
-            $_SESSION['ERR_STORE'] = 'Not enough funds';
-            return $response->withHeader('Location', '/store')->withStatus(302);
+            return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
     } 

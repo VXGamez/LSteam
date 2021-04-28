@@ -24,7 +24,7 @@ CREATE TABLE `Game` (
     `title` VARCHAR(255) NOT NULL DEFAULT '',
     `thumb` VARCHAR(255) NOT NULL DEFAULT '',
     `dealRating` VARCHAR(255) NOT NULL DEFAULT '',
-    PRIMARY KEY (`gameID`)
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `User-Game-Bought`;

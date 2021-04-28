@@ -191,7 +191,9 @@ final class UserController
 
                 $_SESSION['email'] = $data['username'];
                 $_SESSION['wallet'] = $user->getWallet();
-                $_SESSION['uuid'] = $user->getUuid();
+                if($user->getUuid()!=null){
+                    $_SESSION['uuid'] = $user->getUuid();
+                }
                 $ok = $this->container->get('repository')->save($user);
             }
 
@@ -234,7 +236,9 @@ final class UserController
         if($ok){
             $_SESSION['email'] = $user->username();
             $_SESSION['wallet'] = $user->getWallet();
-            $_SESSION['uuid'] = $user->getUuid();
+            if($user->getUuid()!=null){
+                $_SESSION['uuid'] = $user->getUuid();
+            }
             return $response->withHeader('Location', '/')->withStatus(302);
         }else{
             return $this->container->get('view')->render(

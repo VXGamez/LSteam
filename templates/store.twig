@@ -8,10 +8,18 @@
 
 {% block content %}
 
+    {% if ww %}
+        <button class="fabWallet" onclick="window.location.href='/user/wallet';">Wallet: {{ ww }}€</button>
+    {% endif %}
     <div class="container">
         <div class="titol">
             <h1 class="display-4 font-weight-bold">Store</h1>
         </div>
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+               Insuficient funds. Please go to <a href="/user/wallet" class="alert-link">Wallet</a> to add more.
+            </div>
+        {% endif %}
         <div class="row">
                 <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel" style="border-radius: 5%;">
                     <ol class="carousel-indicators">
@@ -75,6 +83,7 @@
                             </div>
                         </div>
                     {% endfor %}
+                    <div class="fab" id="masterfab"><span>PILOTES</span></div>
                 </div>
         </div>
     </div>

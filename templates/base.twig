@@ -58,11 +58,11 @@
                         <a class="btn btn-secondary dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             
                             {% if session.uuid is defined %}
-                                    {% set imgUrl = full_url_for('home')~"uploads/"~session.uuid %}
-                                    <img class="imatgeMiniatura" src="{{imgUrl}}" class="rounded-circle z-depth-2" alt="500x500"/>
-                                {% else %}
-                                    <img style="height: 25px" src="{{ full_url_for('home') }}assets/images/svg/profile-user.svg" alt="">
-                                {% endif %}
+                                {% set imgUrl = full_url_for('home')~"uploads/"~session.uuid %}
+                                <img src="{{imgUrl}}" class="rounded-circle z-depth-2 imatgeMiniatura" alt="500x500"/>
+                            {% else %}
+                                <img class="rounded-circle z-depth-2 imatgeMiniatura" src="{{ full_url_for('home') }}assets/images/svg/profile-user.svg" alt="">
+                            {% endif %}
                                 
                         </a>
 

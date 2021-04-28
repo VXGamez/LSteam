@@ -7,9 +7,6 @@
 
 {% block content %}
 
-    {% if error %}
-        <script>errorLoad()</script>
-    {% endif %}
 
     <div class="container">
         <div class="titol">
@@ -17,27 +14,33 @@
         </div>
        <div class="row">
                 <div class="row">
-                    {% for item in product %}
-                        <div id="hola" class="col-3">
-                            <div class="card h-100">
-                                <div class="img-container">
-                                  <a href="#"><img class="card-img-top" src="{{ item.thumb }}" alt=""></a>
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        {{ item.title|title }}
-                                    </h4>
-                                    <h5>Bought for {{ item.sellPrice }} €</h5>
-                                </div>
-                                <div class="card-footer">
-                                    {% set k = (item.dealRating//2)-1 %}
-                                        <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
-                                    {% set index = item.storeID-1 %}
-                                    <img class="store-foto" src="{{ stores[index] }}">
+                    {% if product|length > 0 %}
+                        {% for item in product %}
+                            <div id="hola" class="col-3">
+                                <div class="card h-100">
+                                    <div class="img-container">
+                                      <a href="#"><img class="card-img-top" src="{{ item.thumb }}" alt=""></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                            {{ item.title|title }}
+                                        </h4>
+                                        <h5>Bought for {{ item.sellPrice }} €</h5>
+                                    </div>
+                                    <div class="card-footer">
+                                        {% set k = (item.dealRating//2)-1 %}
+                                            <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
+                                        {% set index = item.storeID-1 %}
+                                        <img class="store-foto" src="{{ stores[index] }}">
+                                    </div>
                                 </div>
                             </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-primary" role="alert" style="width: 40rem !important; margin-top: 5%;">
+                            No games bought yet. Visit <a href="/store" class="alert-link">Store</a> to buy some.
                         </div>
-                    {% endfor %}
+                    {% endif %}
                 </div>
         </div>
     </div>

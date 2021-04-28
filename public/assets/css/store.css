@@ -62,4 +62,43 @@
     transform: translateY(-50%);
 }
 
+.fabWallet {
+    background: #111111;
+    border-radius: 20px;
+    color: white;
+    font-family: Helvetica, serif;
+    font-size: 20px;
+    padding: 20px;
+    width: 200px;
+    border: solid #337FED 1px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 10;
+}
+.fabWallet span{
+    color: white;
+}
+
+.fabWallet:hover {
+    cursor: pointer;
+    background: #2575fc;
+    background: -webkit-linear-gradient(right, #3931af, #00c6ff);
+    background: -o-linear-gradient(right,#3931af, #00c6ff);
+    background: -moz-linear-gradient(right, #3931af, #00c6ff);
+    background: linear-gradient(right, #3931af, #00c6ff);
+}
+.fabWallet:hover:before {
+
+    background: #2575fc;
+    background: -webkit-linear-gradient(right, #3931af, #00c6ff);
+    background: -o-linear-gradient(right,#3931af, #00c6ff);
+    background: -moz-linear-gradient(right, #3931af, #00c6ff);
+    background: linear-gradient(right, #3931af, #00c6ff);
+}
+
 
