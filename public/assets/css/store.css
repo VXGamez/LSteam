@@ -84,6 +84,11 @@
     color: white;
 }
 
+.row{
+    justify-content: space-between !important;
+}
+
+
 .fabWallet:hover {
     cursor: pointer;
     background: #2575fc;
@@ -99,6 +104,10 @@
     background: -o-linear-gradient(right,#3931af, #00c6ff);
     background: -moz-linear-gradient(right, #3931af, #00c6ff);
     background: linear-gradient(right, #3931af, #00c6ff);
+}
+
+.targetaJoc{
+    min-width: 300px;
 }
 
 
