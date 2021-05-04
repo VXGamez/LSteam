@@ -1,5 +1,9 @@
 {% extends "base.twig" %}
-{% block title %}My Games{% endblock %}
+
+ 
+    {% block title %}My Games{% endblock %}
+
+
 {% block head %}
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/store.css"/>
     <script src="{{ full_url_for('home') }}assets/js/store.js"></script>    
@@ -10,7 +14,13 @@
 
     <div class="container">
         <div class="titol">
+        {% if esMyGames %}
             <h1 class="display-4 font-weight-bold">My Games</h1>
+            {% else %}
+             <h1 class="display-4 font-weight-bold">My Wishlist Games</h1>
+        {% endif %}
+
+        
         </div>
        <div class="row">
                 <div class="row">
@@ -37,9 +47,17 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <div class="alert alert-primary" role="alert" style="width: 40rem !important; margin-top: 5%;">
-                            No games bought yet. Visit <a href="/store" class="alert-link">Store</a> to buy some.
-                        </div>
+                        {% if esMyGames %}
+                             <div class="alert alert-primary" role="alert" style="width: 40rem !important; margin-top: 5%;">
+                                No games bought yet. Visit <a href="/store" class="alert-link">Store</a> to buy some.
+                            </div>
+                        {% else %}
+                             <div class="alert alert-primary" role="alert" style="width: 40rem !important; margin-top: 5%;">
+                                No games added yet. Visit <a href="/store" class="alert-link">Store</a> to add some.
+                            </div>
+                        {% endif %}
+
+                       
                     {% endif %}
                 </div>
         </div>

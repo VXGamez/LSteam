@@ -86,6 +86,8 @@ final class StoreController
             return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
-    } 
+    }
+    
+    
 
 }

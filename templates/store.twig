@@ -65,12 +65,12 @@
                                     {% if item.gameID in comprados %}
                                         <button type="button" class="btn btn-success" style="margin-left: 5%; margin-right: 5px;" disabled >Owned</button>
                                     {% else %}
-                                        <button type="button" class="btn btn-success" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}')" style="margin-left: 5%; margin-right: 5px;" >Buy</button>
+                                        <button type="button" class="btn btn-success" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 0)" style="margin-left: 5%; margin-right: 5px;" >Buy</button>
                                     {% endif %}
                                     {% if item.gameID in favoritos %}
                                         <button type="button" class="btn btn-danger s-auto">&#9829;</button>
                                     {% else %}
-                                        <button type="button" class="btn btn-danger s-auto">&#9825;</button>
+                                        <button type="button" class="btn btn-danger s-auto" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 1)">&#9825;</button>
                                     {% endif %}
                                 </div>
                               

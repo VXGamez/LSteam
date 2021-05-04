@@ -61,14 +61,11 @@ final class RoutesController{
         ]);
     }
 
-    public function showmyGames(Request $request,Response $response): Response
-    {
+    public function getStoresInformation(){
         $client = new Client([
             'base_uri' => 'https://www.cheapshark.com/',
             'timeout'  => 5.0,
         ]);
-
-        $games = $this->container->get('repository')->getPurchaseHistory($_SESSION['email']);
 
         $tt = $client->get('https://www.cheapshark.com/api/1.0/stores'); 
         $s = json_decode((string)$tt->getBody(), true);
@@ -77,12 +74,25 @@ final class RoutesController{
             $img = 'https://www.cheapshark.com'.$value['images']['banner'];
             array_push($stores, $img);
         }
+    }
+
+    public function showmyGames(Request $request,Response $response): Response
+    {
+      
+        $stores = $this->getStoresInformation();
+
+        $games = $this->container->get('repository')->getPurchaseHistory($_SESSION['email']);
+        $es = "lo es";
 
         return $this->container->get('view')->render($response,'myGames.twig',[
             'stores' => $stores,
-            'product' => $games
+            'product' => $games,
+            'esMyGames' => $es
         ]);
     }
+
+   
+   
 
     public function updateWallet(Request $request,Response $response): Response
     {

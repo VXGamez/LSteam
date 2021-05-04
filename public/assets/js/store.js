@@ -1,4 +1,4 @@
-function compra(gameID, title, salePrice, storeID, dealRating, thumb){
+function compra(gameID, title, salePrice, storeID, dealRating, thumb, flag){
     let params = {
         title: title,
         salePrice: salePrice,
@@ -10,7 +10,12 @@ function compra(gameID, title, salePrice, storeID, dealRating, thumb){
 
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '/store/buy/'+gameID;
+    if (flag == 0) {
+        form.action = '/store/buy/'+gameID;
+    } else {
+        form.action = '/user/wishlist/'+gameID;
+    }
+   
 
     for (const key in params) {
         if (params.hasOwnProperty(key)) {

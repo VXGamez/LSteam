@@ -48,25 +48,32 @@ $app->get(
     RoutesController::class . ":showWallet"
 )->setName('home')->add(NoLoginMiddleware::class);
 
-
-//TODO CANVIAR LES FUNCIONS DELS CONTROLLERS QUAN ESTIGUIN IMPLEMENTADES
-
-//----------------------------------------------------------------------------
 $app->get(
     '/user/wishlist',
-    RoutesController::class . ":showBlank"
-)->setName('home');
-
-$app->get(
-    '/user/friends',
-    RoutesController::class . ":showBlank"
+    WishlistController::class . ":showMyWishlist"
 )->setName('home');
 
 $app->get(
     '/user/myGames',
     RoutesController::class . ":showmyGames"
 )->setName('home');
-//----------------------------------------------------------------------------
+
+$app->post(
+    '/user/wishlist/[{gid}]',
+    WishlistController::class . ":saveMyWishlist"
+)->setName('home');
+
+$app->get(
+    '/user/wishlist/[{gid}]',
+    WishlistController::class . ":ViewGameDetail"
+)->setName('home');
+
+
+$app->get(
+    '/user/friends',
+    RoutesController::class . ":showBlank"
+)->setName('home');
+
 
 $app->post(
     '/store/buy/[{gid}]',
