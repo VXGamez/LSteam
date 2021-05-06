@@ -95,7 +95,7 @@ final class ProfileController{
                 }
             }
         } else {
-            $errors['image'] = 'jggigiii';
+            $errors['image'] = 'ERROL ';
         }
 
         if(strlen($data['phone'])>0){

@@ -72,9 +72,10 @@ QUERY;
     public function getUser($usrEmail): User{
 
 
-        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE email=? OR username=?');
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE (email=? OR username=? OR token=?) AND activated = 1 ');
         $stmt->bindParam(1, $usrEmail, PDO::PARAM_STR);
         $stmt->bindParam(2, $usrEmail, PDO::PARAM_STR);
+        $stmt->bindParam(3, $usrEmail, PDO::PARAM_STR);
         $stmt->execute();
 
         if($stmt->rowCount() == 1){
@@ -351,61 +352,29 @@ QUERY;
 
     }
 
-    public function getWish($email, $gameID, $data){
+    public function getWish($email, $gameID){
 
-        $stmt = $this->database->connection()->prepare('SELECT id FROM `Game` WHERE id = ? ');
+        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Wishlist` WHERE id = ? ');
         $stmt->bindParam(1, $gameID, PDO::PARAM_INT);
         $stmt->execute();
 
-        $userid = $this->getUserId($email);
-        $date = new DateTime();
-        $comprahte = $date->format(self::DATE_FORMAT);
-        $storeid = $data['storeID'];
-        $title = $data['title'];
-        $thumb = $data['thumb'];
 
         if($stmt->rowCount() == 0){
           
             $query = <<<'QUERY'
-            INSERT INTO Game(id, storeID,title,thumb,dealRating)
-            VALUES(:gameid,:storeID, :title, :thumb, :dealRating)
+            INSERT INTO `User-Game-Wishlist`(gameID, userID)
+            VALUES(:gameid,:userid)
     QUERY;
+            
+            $userID = $this->getUserId($email);
             
             $statement = $this->database->connection()->prepare($query);
             $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
-            $statement->bindParam('storeID', $storeid, PDO::PARAM_INT);
-            $statement->bindParam('title', $title, PDO::PARAM_STR);
-            $statement->bindParam('thumb', $thumb, PDO::PARAM_STR);
-            $statement->bindParam('dealRating', $dealRating, PDO::PARAM_STR);
+            $statement->bindParam('userid', $userID, PDO::PARAM_INT);
             $statement->execute();
         }
 
-        $stmt2 = $this->database->connection()->prepare('SELECT id FROM `User-Game-Wishlist` WHERE gameID = ? AND userID = ?');
-        $stmt2->bindParam(1, $gameID, PDO::PARAM_INT);
-        $stmt2->bindParam(2, $userID, PDO::PARAM_INT);
-        $stmt2->execute();
-
-        if($stmt2->rowCount() != 0){
-            $stmt3 = $this->database->connection()->prepare('DELETE FROM `User-Game-Wishlist` WHERE gameID = ? AND userID = ?');
-            $stmt3->bindParam(1, $gameID, PDO::PARAM_INT);
-            $stmt3->bindParam(2, $userID, PDO::PARAM_INT);
-            $stmt3->execute();
-        }
-
-        $query = <<<'QUERY'
-        INSERT INTO `User-Game-Bought`(gameID, userID,sellPrice,  dateBought)
-        VALUES(:gameid,:userid, :sellPrice, :date)
-QUERY;
-        $statement = $this->database->connection()->prepare($query);
-    
-
-        $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
-        $statement->bindParam('userid', $userid, PDO::PARAM_INT);
-        $statement->bindParam('sellPrice', $sellPrice, PDO::PARAM_STR);
-        $statement->bindParam('date', $comprahte, PDO::PARAM_STR);
-    
-        $statement->execute();
-
+       
 
     }
 

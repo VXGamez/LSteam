@@ -8,7 +8,7 @@ use DateTime;
 final class User
 {
     private int $id;
-    private string $username;
+    public string $username;
     private string $email;
     private string $password;
     private DateTime $birthday;

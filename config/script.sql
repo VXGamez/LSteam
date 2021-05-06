@@ -49,6 +49,27 @@ CREATE TABLE `User-Game-Wishlist` (
     FOREIGN KEY(`userID`) REFERENCES User(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `Friend-User`;
+CREATE TABLE `Friend-User` (
+    `id` INT(11) unsigned NOT NULL AUTO INCREMENT,
+    `user1_id` INT(11) unsigned NOT NULL,
+    `user2_id` INT(11) unsigned NOT NULL,
+    `date_accepted` DATETIME NOT NULL,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`user1_id`) REFERENCES User(`id`),
+    FOREIGN KEY(`user2_id`) REFERENCES User(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `Request`;
+CREATE TABLE `Request` (
+    `request_id` INT(11) unsigned NOT NULL AUTO INCREMENT,
+    `user1_id` INT(11) unsigned NOT NULL,
+    `user2_id` INT(11) unsigned NOT NULL, 
+    PRIMARY KEY(`request_id`),
+    FOREIGN KEY(`user1_id`) REFERENCES User(`id`),
+    FOREIGN KEY(`user2_id`) REFERENCES User(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 

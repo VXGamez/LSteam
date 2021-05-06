@@ -1,10 +1,16 @@
 <?php
 declare(strict_types=1);
 
+use SallePW\SlimApp\Controller\GamesController;
+use SallePW\SlimApp\Controller\LogInController;
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RoutesController;
 use SallePW\SlimApp\Controller\StoreController;
 use SallePW\SlimApp\Controller\UserController;
+use SallePW\SlimApp\Controller\UserRegisterController;
+use SallePW\SlimApp\Controller\UserValidateController;
+use SallePW\SlimApp\Controller\WalletController;
+use SallePW\SlimApp\Controller\WishlistController;
 use SallePW\SlimApp\Middleware\NoLoginMiddleware;
 use SallePW\SlimApp\Middleware\LoggedInMiddleware;
 
@@ -25,7 +31,7 @@ $app->get(
 
 $app->get(
     '/activate',
-    UserController::class . ":validateUser"
+    UserValidateController::class . ":validateUser"
 )->setName('home');
 
 $app->get(
@@ -55,7 +61,7 @@ $app->get(
 
 $app->get(
     '/user/myGames',
-    RoutesController::class . ":showmyGames"
+    GamesController::class . ":showmyGames"
 )->setName('home');
 
 $app->post(
@@ -82,7 +88,7 @@ $app->post(
 
 $app->post(
     '/user/wallet',
-    RoutesController::class . ":updateWallet"
+    WalletController::class . ":updateWallet"
 )->setName('home');
 
 $app->post(
@@ -102,10 +108,10 @@ $app->post(
 
 $app->post(
     '/login',
-    UserController::class . ":loginUser"
+    LogInController::class . ":loginUser"
 )->setName('home');
 
 $app->post(
     '/register',
-    UserController::class . ":registerUser"
+    UserRegisterController::class . ":registerUser"
 )->setName('create_user');
