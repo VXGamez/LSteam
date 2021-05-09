@@ -6,7 +6,11 @@
 
 {% block head %}
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/store.css"/>
-    <script src="{{ full_url_for('home') }}assets/js/store.js"></script>    
+    <script src="{{ full_url_for('home') }}assets/js/store.js"></script>
+    {% if not esMyGames %}
+        <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/wishlist.css">
+        <script src="{{ full_url_for('home') }}assets/js/modernizr.js"></script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -26,26 +30,44 @@
                 <div class="row">
                     {% if product|length > 0 %}
                         {% for item in product %}
-                            <div id="hola" class="col-3 targetaJoc">
-                                <div class="card h-100">
+                            <div id="jocId{{ item.gameID }}" class="cd-items cd-container col-3 targetaJoc">
+                                <div class="cd-item card h-100">
                                     <div class="img-container">
-                                      <a href="#"><img class="card-img-top" src="{{ item.thumb }}" alt=""></a>
+                                        <img class="card-img-top" src="{{ item.thumb }}" alt="">
                                     </div>
                                     <div class="card-body">
-                                        <h4 class="card-title">
-                                            {{ item.title|title }}
-                                        </h4>
-                                        <h5>Bought for {{ item.sellPrice }} €</h5>
+                                        <h4 class="card-title">{{ item.title }}</h4>
+                                        <h5>Bought for XX.XX €</h5>
                                     </div>
                                     <div class="card-footer">
                                         {% set k = (item.dealRating//2)-1 %}
-                                            <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
+                                        <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
                                         {% set index = item.storeID-1 %}
                                         <img class="store-foto" src="{{ stores[index] }}">
                                     </div>
                                 </div>
                             </div>
                         {% endfor %}
+                        <div class="cd-quick-view">
+                            <div class="cd-slider-wrapper">
+                                <div class="cd-slider">
+                                    <div class="selected"><img id="quickViewImage" class="card-img-top" src="https://images.greenmangaming.com/de83e6c99ef148b0898d89d8a0fda891/a5ae44bb964b4b028145f590bcd5eab7.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cd-item-info">
+                                <h2 id="quickViewTitle">Nombre del Juego</h2>
+                                <h4 id="quickViewPrice">Precio</h4>
+                                <h4 id="quickViewGameId">Nombre de la store que lo tiene o algo</h4>
+
+                                <ul class="cd-item-action">
+                                    <li><button class="add-to-cart">Comprar</button></li>
+                                    <li><a href="#0">Añadir a Favoritos</a></li>
+                                </ul>
+                            </div>
+                            <a class="cd-close">Cerrar</a>
+                        </div>
                     {% else %}
                         {% if esMyGames %}
                              <div class="alert alert-primary" role="alert" style="width: 40rem !important; margin-top: 5%;">
@@ -62,4 +84,10 @@
                 </div>
         </div>
     </div>
+    {% if not esMyGames %}
+        <script src="{{ full_url_for('home') }}assets/js/wishlist.js"></script>
+        <script src="{{ full_url_for('home') }}assets/js/velocity.min.js"></script>
+        <script src="{{ full_url_for('home') }}assets/js/jquery-2.1.1.js"></script>
+    {% endif %}
+
 {% endblock %}

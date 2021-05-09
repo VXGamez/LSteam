@@ -44,9 +44,9 @@ final class WishlistController
 
 
     public function ViewGameDetail(Request $request,Response $response): Response{
-        return $this->container->get('view')->render($response,'gameDetail.twig',[
-            
-        ]);
+        $gameid = $request->getAttribute('gid');
+        $url = '/user/wishlist?gameId='. $gameid;
+        return $response->withHeader('Location', $url)->withStatus(302);
     }
 
 }

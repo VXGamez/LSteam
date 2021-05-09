@@ -249,7 +249,7 @@ QUERY;
         
         $id = $this->getUserId($usrEmail);
 
-        $stmt = $this->database->connection()->prepare('SELECT g.title, g.storeID, g.thumb, g.dealRating FROM `User-Game-Wishlist` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ?');
+        $stmt = $this->database->connection()->prepare('SELECT gb.gameID, g.title, g.storeID, g.thumb, g.dealRating FROM `User-Game-Wishlist` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->execute();
 
