@@ -36,9 +36,17 @@ function compra(gameID, title, salePrice, storeID, dealRating, thumb, flag){
     form.submit();
 }
 
-function probando(missatge){
-    console.log(missatge);
-}
+//TODO: ELIMINAR ELEMENT DE LA WISHLIST
+//Per fer el delete del favorito probablement estaria bé enlloc de fer servir el flag==2, fer una funció nova que faci això. Sobrecarregui el mètode del post.
+//però ja que estem desde js, potser podriem fer la petició delete desde aqui, sense un formulari, sinó amb un fetch o algo asin. o con ajax mismo
+//$app->add(new Slim\Middleware\MethodOverrideMiddleware);
 
+/*
+<form action="/users/wishlist/elIdDelJuego" method="post">
+   ... lo que sea ...
+    <input type="hidden" name="_METHOD" value="DELETE"/>
+    <input type="submit" value="Eliminar Favorito"/>
+</form>
+* */
 
 
