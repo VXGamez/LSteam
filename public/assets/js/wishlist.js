@@ -16,14 +16,7 @@ jQuery(document).ready(function($){
 
 
 		var inputs = $(this).children('.cd-item').children('input');
-		for(var i = 0; i < inputs.length; i++){
-			// Match your input with inputs[i].name, etc.
-		}
 
-		//COMPRAR: <button type="button" class="btn btn-success" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 0)" style="margin-left: 5%; margin-right: 5px;" >Buy</button> COMPRAR
-		//AFEGIR FAVORITOS:<button type="button" class="btn btn-danger s-auto" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 1)" >&#9825;</button>
-
-		//compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 1)
 		$("#ButtonComprarDetail").click(function(){
 			compra(inputs[0].value, titol.html(), inputs[1].value, inputs[2].value, inputs[3].value, selectedImage.attr('src'), 0);
 		});
@@ -31,6 +24,15 @@ jQuery(document).ready(function($){
 		$("#ButtonFavoritosDetail").click(function(){
 			compra(inputs[0].value, titol.html(), inputs[1].value, inputs[2].value, inputs[3].value, selectedImage.attr('src'), 2);
 		});
+
+		//filter: blur(5px);
+
+		$('#mainContentContainer').not("#quickPreview").css("filter","blur(6px)");
+		//$('#quickPreview').css("filter","blur(0px) !important");
+
+
+
+
 		animateQuickView(selectedImage, sliderFinalWidth, maxQuickWidth, 'open');
 	});
 
@@ -71,7 +73,7 @@ jQuery(document).ready(function($){
 		if(document.location.search.length){
 			window.setTimeout(function (){
 				window.location.replace('/user/wishlist');
-			}, 1500);
+			}, 1000);
 		}
 
 	}
@@ -114,6 +116,9 @@ jQuery(document).ready(function($){
 			    'left': finalLeft+'px',
 			    'width': finalWidth+'px',
 			}, 300, 'ease', function(){
+				$('#mainContentContainer').css({
+					"filter": ""
+				});
 				$('.cd-quick-view').removeClass('animate-width').velocity({
 					"top": topSelected,
 				    "left": leftSelected,
@@ -130,7 +135,9 @@ jQuery(document).ready(function($){
 			topSelected = image.offset().top - $(window).scrollTop(),
 			leftSelected = image.offset().left,
 			widthSelected = image.width();
-
+		$('#mainContentContainer').css({
+			"filter": ""
+		});
 		parentListItem.removeClass('empty-box');
 		$('.cd-quick-view').velocity("stop").removeClass('add-content animate-width is-visible').css({
 			"top": topSelected,

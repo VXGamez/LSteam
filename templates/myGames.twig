@@ -68,8 +68,10 @@
                     {% endif %}
                 </div>
         </div>
-        {% if not esMyGames %}
-        <div class="cd-quick-view">
+
+    </div>
+    {% if not esMyGames %}
+        <div id="quickPreview" class="cd-quick-view">
             <div class="cd-slider-wrapper">
                 <img id="quickViewImage" src="https://images.greenmangaming.com/de83e6c99ef148b0898d89d8a0fda891/a5ae44bb964b4b028145f590bcd5eab7.jpg" alt="">
             </div>
@@ -96,9 +98,6 @@
                     </svg>
             </a>
         </div>
-        {% endif %}
-    </div>
-    {% if not esMyGames %}
         <script src="{{ full_url_for('home') }}assets/js/wishlist.js"></script>
         <script src="{{ full_url_for('home') }}assets/js/velocity.min.js"></script>
         <script src="{{ full_url_for('home') }}assets/js/jquery-2.1.1.js"></script>

@@ -77,6 +77,12 @@
     opacity: 0;
     transition: opacity .3s, visibility 0s;
 }
+
+#mainContentContainer{
+    transition: filter .5s;
+}
+
+
 .cd-item-info h2 {
     font-size: 28px;
 }
@@ -91,6 +97,8 @@
 .cd-item-info{
     transform: translateY(-20%);
 }
+
+
 
 .cd-item-info .buyButton {
     appearance: none;
