@@ -18,7 +18,8 @@ final class GamesController{
     }
 
     
-    public function getStoresInformation(){
+    public function getStoresInformation(): array
+    {
         $client = new Client([
             'base_uri' => 'https://www.cheapshark.com/',
             'timeout'  => 5.0,
@@ -31,6 +32,8 @@ final class GamesController{
             $img = 'https://www.cheapshark.com'.$value['images']['banner'];
             array_push($stores, $img);
         }
+
+        return $stores;
     }
 
     public function showmyGames(Request $request,Response $response): Response

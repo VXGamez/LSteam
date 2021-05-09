@@ -42,6 +42,7 @@ CREATE TABLE `User-Game-Bought` (
 DROP TABLE IF EXISTS `User-Game-Wishlist`;
 CREATE TABLE `User-Game-Wishlist` (
     `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+    `sellPrice` FLOAT DEFAULT 0,
     `gameID` INT(11) unsigned NOT NULL,
     `userID` INT(11) unsigned NOT NULL,
     PRIMARY KEY(`id`),

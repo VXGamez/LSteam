@@ -16,7 +16,7 @@
 {% block content %}
 
 
-    <div class="container">
+    <div id="mainContentContainer" class="container">
         <div class="titol">
         {% if esMyGames %}
             <h1 class="display-4 font-weight-bold">My Games</h1>
@@ -32,6 +32,10 @@
                         {% for item in product %}
                             <div id="jocId{{ item.gameID }}" class="cd-items cd-container col-3 targetaJoc">
                                 <div class="cd-item card h-100">
+                                    <input id="#hiddenGameId" class="hiddenGameId" type="hidden" value="{{ item.gameID }}">
+                                    <input id="#hiddenSalePrice" class="hiddenSalePrice" type="hidden" value="{{ item.salePrice }}">
+                                    <input id="#hiddenStoreId" class="hiddenStoreId" type="hidden" value="{{ item.storeID }}">
+                                    <input id="#hiddenDealRating" class="hiddenDealRating" type="hidden" value="{{ item.dealRating }}">
                                     <div class="img-container">
                                         <img class="card-img-top" src="{{ item.thumb }}" alt="">
                                     </div>
@@ -48,26 +52,7 @@
                                 </div>
                             </div>
                         {% endfor %}
-                        <div class="cd-quick-view">
-                            <div class="cd-slider-wrapper">
-                                <div class="cd-slider">
-                                    <div class="selected"><img id="quickViewImage" class="card-img-top" src="https://images.greenmangaming.com/de83e6c99ef148b0898d89d8a0fda891/a5ae44bb964b4b028145f590bcd5eab7.jpg" alt="">
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="cd-item-info">
-                                <h2 id="quickViewTitle">Nombre del Juego</h2>
-                                <h4 id="quickViewPrice">Precio</h4>
-                                <h4 id="quickViewGameId">Nombre de la store que lo tiene o algo</h4>
-
-                                <ul class="cd-item-action">
-                                    <li><button class="add-to-cart">Comprar</button></li>
-                                    <li><a href="#0">Añadir a Favoritos</a></li>
-                                </ul>
-                            </div>
-                            <a class="cd-close">Cerrar</a>
-                        </div>
                     {% else %}
                         {% if esMyGames %}
                              <div class="alert alert-primary" role="alert" style="width: 40rem !important; margin-top: 5%;">
@@ -83,6 +68,35 @@
                     {% endif %}
                 </div>
         </div>
+        {% if not esMyGames %}
+        <div class="cd-quick-view">
+            <div class="cd-slider-wrapper">
+                <img id="quickViewImage" src="https://images.greenmangaming.com/de83e6c99ef148b0898d89d8a0fda891/a5ae44bb964b4b028145f590bcd5eab7.jpg" alt="">
+            </div>
+
+            <div class="cd-item-info">
+                <h2 id="quickViewTitle">Nombre del Juego</h2>
+                <h4 id="quickViewPrice">Precio</h4>
+
+                <div class="cd-item-action">
+                    <img id="storeViewImage" src="" alt="">
+                    <button id="ButtonComprarDetail" type="button" class="btn btn-success buyButton">Buy</button>
+                    <button id="ButtonFavoritosDetail" type="button" class="btn btn-danger s-auto" >&#9829;</button>
+                </div>
+            </div>
+            <a class="creu-sortir">
+                <svg id="svgCreueta" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 348.333 348.334" xml:space="preserve">
+                    <g>
+                        <path id="svgCreueta" d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85
+                            c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563
+                            c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85
+                            l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554
+                            L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"/>
+                    </g>
+                    </svg>
+            </a>
+        </div>
+        {% endif %}
     </div>
     {% if not esMyGames %}
         <script src="{{ full_url_for('home') }}assets/js/wishlist.js"></script>

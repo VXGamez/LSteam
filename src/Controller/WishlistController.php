@@ -5,6 +5,7 @@ namespace SallePW\SlimApp\Controller;
 
 use Psr\Container\ContainerInterface;
 use SallePW\SlimApp\Controller\RoutesController;
+use SallePW\SlimApp\Controller\GamesController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Client;
@@ -23,8 +24,9 @@ final class WishlistController
     public function saveMyWishlist(Request $request,Response $response): Response
     {
         $gameid = $request->getAttribute('gid');
+        $data = $request->getParsedBody();
 
-        $this->container->get('repository')->getWish($_SESSION['email'], $gameid);
+        $this->container->get('repository')->getWish($_SESSION['email'], $gameid, $data);
 
         return $response->withHeader('Location', '/store')->withStatus(302);
 
@@ -32,7 +34,8 @@ final class WishlistController
 
     public function showMyWishlist(Request $request,Response $response): Response
     {
-        $stores =  RoutesController::class . ":getStoresInformation";
+        $a = new GamesController($this->container);
+        $stores =  $a->getStoresInformation();
 
         $games = $this->container->get('repository')->getWishHistory($_SESSION['email']);
 

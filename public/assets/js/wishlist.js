@@ -6,18 +6,36 @@ jQuery(document).ready(function($){
 	$('.targetaJoc').on('click', function(event){
 		var selectedImage = $(this).children('.cd-item').children('.img-container').children('img'),
 		titol = $(this).children('.cd-item').children('.card-body').children('h4'),
-		preu = $(this).children('.cd-item').children('.card-body').children('h5');;
-				
+		preu = $(this).children('.cd-item').children('.card-body').children('h5'),
+		storeImage = $(this).children('.cd-item').children('.card-footer').children('img');
+
 		$("#quickViewImage").attr("src",selectedImage.attr('src'));
 		$('#quickViewTitle').text(titol.html());
 		$('#quickViewPrice').text(preu.html());
+		$("#storeViewImage").attr("src",storeImage.attr('src'));
 
-		$('body').addClass('overlay-layer');
+
+		var inputs = $(this).children('.cd-item').children('input');
+		for(var i = 0; i < inputs.length; i++){
+			// Match your input with inputs[i].name, etc.
+		}
+
+		//COMPRAR: <button type="button" class="btn btn-success" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 0)" style="margin-left: 5%; margin-right: 5px;" >Buy</button> COMPRAR
+		//AFEGIR FAVORITOS:<button type="button" class="btn btn-danger s-auto" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 1)" >&#9825;</button>
+
+		//compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 1)
+		$("#ButtonComprarDetail").click(function(){
+			compra(inputs[0].value, titol.html(), inputs[1].value, inputs[2].value, inputs[3].value, selectedImage.attr('src'), 0);
+		});
+
+		$("#ButtonFavoritosDetail").click(function(){
+			compra(inputs[0].value, titol.html(), inputs[1].value, inputs[2].value, inputs[3].value, selectedImage.attr('src'), 2);
+		});
 		animateQuickView(selectedImage, sliderFinalWidth, maxQuickWidth, 'open');
 	});
 
 	$('body').on('click', function(event){
-		if( $(event.target).is('.cd-close') || $(event.target).is('body.overlay-layer')) {
+		if( $(event.target).is('.creu-sortir')  || $(event.target).is('#svgCreueta')) {
 			closeQuickView( sliderFinalWidth, maxQuickWidth);
 		}
 	});
@@ -96,7 +114,6 @@ jQuery(document).ready(function($){
 			    'left': finalLeft+'px',
 			    'width': finalWidth+'px',
 			}, 300, 'ease', function(){
-				$('body').removeClass('overlay-layer');
 				$('.cd-quick-view').removeClass('animate-width').velocity({
 					"top": topSelected,
 				    "left": leftSelected,
@@ -114,7 +131,6 @@ jQuery(document).ready(function($){
 			leftSelected = image.offset().left,
 			widthSelected = image.width();
 
-		$('body').removeClass('overlay-layer');
 		parentListItem.removeClass('empty-box');
 		$('.cd-quick-view').velocity("stop").removeClass('add-content animate-width is-visible').css({
 			"top": topSelected,
@@ -131,3 +147,4 @@ jQuery(document).ready(function($){
 
 
 });
+

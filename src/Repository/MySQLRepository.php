@@ -249,7 +249,7 @@ QUERY;
         
         $id = $this->getUserId($usrEmail);
 
-        $stmt = $this->database->connection()->prepare('SELECT gb.gameID, g.title, g.storeID, g.thumb, g.dealRating FROM `User-Game-Wishlist` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ?');
+        $stmt = $this->database->connection()->prepare('SELECT gb.gameID, gb.sellPrice as salePrice, g.title, g.storeID, g.thumb, g.dealRating FROM `User-Game-Wishlist` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ?');
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -352,7 +352,7 @@ QUERY;
 
     }
 
-    public function getWish($email, $gameID){
+    public function getWish($email, $gameID, $data){
 
         $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Wishlist` WHERE id = ? ');
         $stmt->bindParam(1, $gameID, PDO::PARAM_INT);
@@ -362,15 +362,17 @@ QUERY;
         if($stmt->rowCount() == 0){
           
             $query = <<<'QUERY'
-            INSERT INTO `User-Game-Wishlist`(gameID, userID)
-            VALUES(:gameid,:userid)
+            INSERT INTO `User-Game-Wishlist`(gameID, userID, sellPrice)
+            VALUES(:gameid,:userid, :sell)
     QUERY;
             
             $userID = $this->getUserId($email);
+            $sellPrice = (String)$data['salePrice'];
             
             $statement = $this->database->connection()->prepare($query);
             $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
             $statement->bindParam('userid', $userID, PDO::PARAM_INT);
+            $statement->bindParam('sell', $sellPrice, PDO::PARAM_INT);
             $statement->execute();
         }
 
