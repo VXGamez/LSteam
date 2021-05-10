@@ -239,6 +239,9 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="addFriend">
+                        {% if errores.friendError %}
+                            <h3>{{ errores.friendError }}</h3>
+                        {% endif %}
                         <form action="/user/friendRequests/send" method="POST" class="userAdd">
                             <input type="text" name="name" class="question" id="nme" required autocomplete="off" />
                             <label for="nme"><span>Username</span></label>

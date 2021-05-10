@@ -90,6 +90,11 @@ $app->get(
 )->setName('home');
 
 $app->post(
+    '/user/friendRequests/send',
+    FriendsController::class . ":addFriend"
+)->setName('home');
+
+$app->post(
     '/store/buy/[{gid}]',
     StoreController::class . ":buyGame"
 )->setName('home');

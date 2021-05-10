@@ -20,7 +20,14 @@ final class FriendsController
 
     public function showMyFriends(Request $request, Response $response): Response
     {
-        return $this->container->get('view')->render($response,'friends.twig',[]);
+        $errors = [];
+        if(isset($_SESSION['friendError'])){
+            $errors = $_SESSION['friendError'];
+            unset($_SESSION['friendError']);
+        }
+        return $this->container->get('view')->render($response,'friends.twig',[
+            'errores' => $errors
+        ]);
     }
 
     public function showMyRequests(Request $request, Response $response): Response {
@@ -28,9 +35,14 @@ final class FriendsController
 
     }
 
-    public function showAddFriend(Request $request, Response $response): Response {
+    public function addFriend(Request $request, Response $response): Response {
+        $_SESSION['friendError'] = 'This user does not exists';
         return $response->withHeader('Location', '/user/friends#addFriend')->withStatus(302);
+    }
 
+    public function showAddFriend(Request $request, Response $response): Response {
+
+        return $response->withHeader('Location', '/user/friends#addFriend')->withStatus(302);
     }
 
 
