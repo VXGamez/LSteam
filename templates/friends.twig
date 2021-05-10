@@ -74,7 +74,7 @@
                                         <div class="card-info">
                                             <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
                                             <div class="friend-info">
-                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <h5><a class="profile-link">Usuari X</a></h5>
                                                 <p>Friend Since XX XX</p>
                                                 <p>Total Games Owned: X</p>
                                             </div>
@@ -87,7 +87,7 @@
                                         <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
                                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-lg">
                                             <div class="friend-info">
-                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <h5><a class="profile-link">Usuari X</a></h5>
                                                 <p>Friend Since XX XX</p>
                                                 <p>Total Games Owned: X</p>
                                             </div>
@@ -100,7 +100,7 @@
                                         <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
                                             <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="user" class="profile-photo-lg">
                                             <div class="friend-info">
-                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <h5><a class="profile-link">Usuari X</a></h5>
                                                 <p>Friend Since XX XX</p>
                                                 <p>Total Games Owned: X</p>
                                             </div>
@@ -113,7 +113,7 @@
                                         <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
                                             <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="user" class="profile-photo-lg">
                                             <div class="friend-info">
-                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <h5><a class="profile-link">Usuari X</a></h5>
                                                 <p>Friend Since XX XX</p>
                                                 <p>Total Games Owned: X</p>
                                             </div>
@@ -126,7 +126,7 @@
                                         <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
                                             <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="user" class="profile-photo-lg">
                                             <div class="friend-info">
-                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <h5><a class="profile-link">Usuari X</a></h5>
                                                 <p>Friend Since XX XX</p>
                                                 <p>Total Games Owned: X</p>
                                             </div>
@@ -139,7 +139,7 @@
                                         <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
                                             <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="user" class="profile-photo-lg">
                                             <div class="friend-info">
-                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <h5><a class="profile-link">Usuari X</a></h5>
                                                 <p>Friend Since XX XX</p>
                                                 <p>Total Games Owned: X</p>
                                             </div>
@@ -239,7 +239,11 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="addFriend">
-                        <h4>addFriend</h4>
+                        <form action="/user/friendRequests/send" method="POST" class="userAdd">
+                            <input type="text" name="name" class="question" id="nme" required autocomplete="off" />
+                            <label for="nme"><span>Username</span></label>
+                            <input type="submit" class="submitButton" value="Add Friend!" />
+                        </form>
                     </div>
                 </div>
             </div>
