@@ -150,6 +150,10 @@ jQuery(document).ready(function($){
 		const urlParams = new URLSearchParams(window.location.search);
 		const myParam = urlParams.get('gameId');
 		$('#jocId'+myParam).click();
+		if($("#jocId" + myParam).length == 0) {
+			alert('The game with id ' + myParam + ' is not added to your wishlist!');
+			window.location.replace('/user/wishlist');
+		}
 	}
 
 

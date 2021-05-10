@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use SallePW\SlimApp\Controller\FriendsController;
 use SallePW\SlimApp\Controller\GamesController;
 use SallePW\SlimApp\Controller\LogInController;
 use SallePW\SlimApp\Controller\ProfileController;
@@ -74,12 +75,19 @@ $app->get(
     WishlistController::class . ":ViewGameDetail"
 )->setName('home');
 
-
 $app->get(
     '/user/friends',
-    RoutesController::class . ":showBlank"
+    FriendsController::class . ":showMyFriends"
 )->setName('home');
 
+$app->get(
+    '/user/friendRequests',
+    FriendsController::class . ":showMyRequests"
+)->setName('home');
+$app->get(
+    '/user/friendRequests/send',
+    FriendsController::class . ":showAddFriend"
+)->setName('home');
 
 $app->post(
     '/store/buy/[{gid}]',

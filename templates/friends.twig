@@ -1,0 +1,248 @@
+{% extends "base.twig" %}
+
+{% block title %}My Friends{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/myFriends.css"/>
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/login.css"/>
+    <script src="{{ full_url_for('home') }}assets/js/friends.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+    {% set coloreh = {
+        '1': {
+            'color1': '#32a84c',
+            'color2': '#77a832',
+        },
+        '2': {
+            'color1': '#7132a8',
+            'color2': '#9832a8',
+        },
+        '3': {
+            'color1': '#a83232',
+            'color2': '#e05438',
+        },
+        '4': {
+            'color1': '#4ed4d2',
+            'color2': '#4e9ed4',
+        },
+        '5': {
+            'color1': '#b342a9',
+            'color2': '#9942b3',
+        },
+        '5': {
+            'color1': '#aab342',
+            'color2': '#d4c94e',
+        },
+        '6': {
+            'color1': '#5a03a6',
+            'color2': '#aa6ff7',
+        },
+        '7': {
+            'color1': '#339104',
+            'color2': '#a8f207',
+        },
+        '8': {
+            'color1': '#f76f6f',
+            'color2': '#ed0707',
+        },
+        '9': {
+            'color1': '#ed8607',
+            'color2': '#a3681f',
+        }
+
+    }
+    %}
+    {% set maxColors = 9 %}
+    <div class="container">
+        <div class="row">
+            <div class="tab" role="tabpanel">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item"><a class="nav-link active show" href="#myFriends" aria-controls="myFriends" role="tab" data-toggle="tab"><span><i class="fa fa-users"></i></span>My Friends</a></li>
+                    <li class="nav-item"><a  class="nav-link" href="#myRequests" aria-controls="myRequests" role="tab" data-toggle="tab"><span><i class="fa fa-user-plus"></i></span>Requests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#addFriend" aria-controls="addFriend" role="tab" data-toggle="tab"><span><i class="fa fa-search"></i></span>Add Friends</a></li>
+                </ul>
+                <div class="tab-content tabs">
+                    <div role="tabpanel" class="tab-pane fade active show" id="myFriends">
+                        <div class="friend-list">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="friend-card">
+                                        {% set index = random(1, maxColors) %}
+                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>
+                                        <div class="card-info">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                                            <div class="friend-info">
+                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <p>Friend Since XX XX</p>
+                                                <p>Total Games Owned: X</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="friend-card">
+                                        {% set index = random(1, maxColors) %}
+                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-lg">
+                                            <div class="friend-info">
+                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <p>Friend Since XX XX</p>
+                                                <p>Total Games Owned: X</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="friend-card">
+                                        {% set index = random(1, maxColors) %}
+                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="user" class="profile-photo-lg">
+                                            <div class="friend-info">
+                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <p>Friend Since XX XX</p>
+                                                <p>Total Games Owned: X</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="friend-card">
+                                        {% set index = random(1, maxColors) %}
+                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="user" class="profile-photo-lg">
+                                            <div class="friend-info">
+                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <p>Friend Since XX XX</p>
+                                                <p>Total Games Owned: X</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="friend-card">
+                                        {% set index = random(1, maxColors) %}
+                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="user" class="profile-photo-lg">
+                                            <div class="friend-info">
+                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <p>Friend Since XX XX</p>
+                                                <p>Total Games Owned: X</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="friend-card">
+                                        {% set index = random(1, maxColors) %}
+                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="user" class="profile-photo-lg">
+                                            <div class="friend-info">
+                                                <h5><a class="profile-link">Sophia Lee</a></h5>
+                                                <p>Friend Since XX XX</p>
+                                                <p>Total Games Owned: X</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="myRequests">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="nearby-user">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                                    </div>
+                                    <div class="col-md-7 col-sm-7">
+                                        <h5><a class="profile-link">Usuari X</a></h5>
+                                        <p>Request Sent on: XX XX XX XX</p>
+                                        <p class="text-muted">Total Games Owned: X</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
+                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
+                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="nearby-user">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                                    </div>
+                                    <div class="col-md-7 col-sm-7">
+                                        <h5><a class="profile-link">Usuari X</a></h5>
+                                        <p>Request Sent on: XX XX XX XX</p>
+                                        <p class="text-muted">Total Games Owned: X</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
+                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
+                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="nearby-user">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                                    </div>
+                                    <div class="col-md-7 col-sm-7">
+                                        <h5><a class="profile-link">Usuari X</a></h5>
+                                        <p>Request Sent on: XX XX XX XX</p>
+                                        <p class="text-muted">Total Games Owned: X</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
+                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
+                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="nearby-user">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                                    </div>
+                                    <div class="col-md-7 col-sm-7">
+                                        <h5><a class="profile-link">Usuari X</a></h5>
+                                        <p>Request Sent on: XX XX XX XX</p>
+                                        <p class="text-muted">Total Games Owned: X</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
+                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
+                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="nearby-user">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                                    </div>
+                                    <div class="col-md-7 col-sm-7">
+                                        <h5><a class="profile-link">Usuari X</a></h5>
+                                        <p>Request Sent on: XX XX XX XX</p>
+                                        <p class="text-muted">Total Games Owned: X</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
+                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
+                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="addFriend">
+                        <h4>addFriend</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
