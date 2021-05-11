@@ -19,13 +19,14 @@ final class StoreController
     {
         $this->twig = $twig;
         $this->mysqlRepository = $repository;
+
     }
 
 
 
     public function showStore(Request $request, Response $response): Response
     {
-        
+        set_time_limit(0);
         $client = new Client([
             'base_uri' => 'https://www.cheapshark.com/',
             'timeout'  => 5.0,
@@ -72,21 +73,18 @@ final class StoreController
 
     public function buyGame(Request $request, Response $response): Response{
 
-        if(isset($_SESSION['email'])){
-            $gameid = $request->getAttribute('gameID');
-            $data = $request->getParsedBody();
+        set_time_limit(0);
+        $gameid = $request->getAttribute('gameID');
+        $data = $request->getParsedBody();
 
-            if(floatval($_SESSION['wallet'])>= floatval($data['salePrice'])){
-                $this->mysqlRepository->buyGame($_SESSION['email'], $gameid, $data);
+        if(floatval($_SESSION['wallet'])>= floatval($data['salePrice'])){
+            $this->mysqlRepository->buyGame($_SESSION['email'], $gameid, $data);
 
-                $this->mysqlRepository->updateWallet($_SESSION['wallet']-$data['salePrice'], $_SESSION['email']);
-                return $response->withHeader('Location', '/store')->withStatus(302);
-            }else{
-                $_SESSION['ERR_STORE'] = 'Not enough funds';
-                return $response->withHeader('Location', '/store')->withStatus(302);
-            }
+            $this->mysqlRepository->updateWallet($_SESSION['wallet']-$data['salePrice'], $_SESSION['email']);
+            return $response->withHeader('Location', '/store')->withStatus(302);
         }else{
-            return $response->withHeader('Location', '/login')->withStatus(302);
+            $_SESSION['ERR_STORE'] = 'Not enough funds';
+            return $response->withHeader('Location', '/store')->withStatus(302);
         }
 
     }

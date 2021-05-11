@@ -4,13 +4,13 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/activationn.css"/>
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/activation.css"/>
 {% endblock %}
 
 {% block content %}
 
 <script type="text/javascript">
-    var count = 10;
+    var count = 100000000;
     var redirect = "/";
 
     function countDown() {
@@ -36,8 +36,7 @@
                 </table>
             </td>
         </tr>
-{% if mensaje %}
-    <!--Todo bien -->
+{% if mensaje.ok %}
     <tr>
         <td class="bien" align="center">
             <table class="t1" border="0" cellpadding="0" cellspacing="0">
@@ -51,7 +50,7 @@
         </td>
     </tr>
 {% else %}
-    <tr>
+    <tr style="background: none">
         <td class="mal"  align="center" >
             <table class="t2" border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -69,10 +68,10 @@
                 <table class="table2" border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td class="row3" align="center" width="100%">
-                            {% if mensaje %}
+                            {% if mensaje.ok %}
                                 <p><b>Congratulations on activating your account!</b></br><b>You have received 50€ as a reward.</b></p>
                             {%  else %}
-                                <p>ERROR</p>
+                                <p>Error: Token not valid</p>
                             {%  endif %}
                         </td>
                     </tr>

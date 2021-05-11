@@ -164,6 +164,8 @@ QUERY;
             if($row['activated'] == true){
                 $ok = false;
             }
+        }else{
+            $ok=false;
         }
 
         return $ok;

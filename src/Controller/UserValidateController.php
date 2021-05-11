@@ -72,25 +72,17 @@ final class UserValidateController{
         $params = $request->getQueryParams();
 
         if(!isset($params['token'])){
-            return $this->twig->render(
-                $response,
-                'landing.twig',
-                []);
+            return $this->twig->render($response,'landing.twig',[]);
         } else {
             $ok = $this->mysqlRepository->checkActivation($params['token']);
-            $mensaje="";
+            $mensaje=[];
             if($ok){
                 $this->mysqlRepository->updateActivation($params['token']);
-                $mensaje = "HA IDO BIEN";
+                $mensaje['ok'] = "totOk";
                 $user = $this->mysqlRepository->getUser($params['token']);
                 $this->enviarCorreu(0, $user->email(), $user->username, '');
             }
-            return $this->twig->render(
-                $response,
-                'activation.twig',
-                [
-                    'mensaje' => $mensaje
-                ]);
+            return $this->twig->render($response,'activation.twig', ['mensaje' => $mensaje]);
         }
     }
 
