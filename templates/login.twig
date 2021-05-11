@@ -6,9 +6,16 @@
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/login.css"/>
 {% endblock %}
 {% block content %}
+
+
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
+                {% if redirect.isRedirected %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ redirect.isRedirected }}
+                    </div>
+                {% endif %}
                 <form action="/login" method="POST" accept-charset="utf-8"  class="login100-form validate-form">
 					<span class="login100-form-title">
 						<h1 class="display-3">LSteam</h1>

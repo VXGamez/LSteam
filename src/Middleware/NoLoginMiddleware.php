@@ -14,6 +14,7 @@ final class NoLoginMiddleware
     {
 
         if (!isset($_SESSION['email'])) {
+            $_SESSION['isRedirected'] = 'Please login first before accessing this endpoint.';
             header("Location:/login");
             exit();
         }

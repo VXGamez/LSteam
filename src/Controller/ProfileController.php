@@ -143,6 +143,7 @@ final class ProfileController{
         $errors = [];
         $newPass = $data['newPass'];
         $repPass = $data['repPass'];
+        $ok = true;
 
         if($newPass != $repPass){
             $errors['password'] = 'Passwords must match';
@@ -154,13 +155,13 @@ final class ProfileController{
             if( !$uppercase || !$lowercase || !$number  || $newPass < 6) {
                 $ok = false;
                 if(!$uppercase){
-                    $errors['password'] = 'Password must contain at least one uppercase character';
+                    $errors['password'] = 'Not a valid password';
                 }else if(!$lowercase){
-                    $errors['password'] = 'Password must contain at least one lowercase character';
+                    $errors['password'] = 'Not a valid password';
                 }else if(!$number){
-                    $errors['password'] = 'Password must contain at least one numeric character';
+                    $errors['password'] = 'Not a valid password';
                 }else if(strlen($data['password']) < 6){
-                    $errors['password'] = 'Password must be at least 6 characters long';
+                    $errors['password'] = 'Not a valid password';
                 }
             }
         }

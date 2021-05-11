@@ -34,7 +34,7 @@ $errorMiddleware->setErrorHandler(HttpNotFoundException::class, function (
     ServerRequestInterface $request, Throwable $exception, bool $displayErrorDetails, bool $logErrors,bool $logErrorDetails) {
     $response = new \Slim\Psr7\Response();
     $response->getBody()->write('Portant-te a una adreça vàlida...');
-
+    $_SESSION['isRedirected'] = 'This endpoint does not exist';
     if (isset($_SESSION['email'])) {
         return $response->withHeader('Location', '/')->withStatus(302);
     }else{

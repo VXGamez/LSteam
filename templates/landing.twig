@@ -45,8 +45,16 @@
 
 
 {% block content %}
+
     <section class="banner">
       <div class="container">
+        {% if redirect.isRedirected %}
+          {% if redirect.isRedirected %}
+            <div class="alert alert-danger" role="alert">
+              {{ redirect.isRedirected }}
+            </div>
+          {% endif %}
+        {% endif %}
         <div class="row">
           <div class="col-md-6 ">
             <p class="promo-title animated lightSpeedIn">LSteam</p>

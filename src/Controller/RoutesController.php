@@ -37,7 +37,14 @@ final class RoutesController{
 
     public function showLanding(Request $request, Response $response): Response
     {
-        return $this->twig->render($response,'landing.twig',[]);
+        $redirect = [];
+        if(isset($_SESSION['isRedirected'])){
+            $redirect['isRedirected'] = $_SESSION['isRedirected'];
+            unset($_SESSION['isRedirected']);
+        }
+        return $this->twig->render($response,'landing.twig',[
+            'redirect' => $redirect
+        ]);
     }
 
 
@@ -48,8 +55,14 @@ final class RoutesController{
 
     public function showLogin(Request $request, Response $response): Response
     {
-
-        return $this->twig->render($response,'login.twig',[]);
+        $redirect = [];
+        if(isset($_SESSION['isRedirected'])){
+            $redirect['isRedirected'] = $_SESSION['isRedirected'];
+            unset($_SESSION['isRedirected']);
+        }
+        return $this->twig->render($response,'login.twig',[
+            'redirect' => $redirect
+        ]);
     }
 
     public function showBlank(Request $request, Response $response): Response

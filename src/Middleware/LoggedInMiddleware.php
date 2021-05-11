@@ -14,6 +14,7 @@ final class LoggedInMiddleware
     {
 
         if (isset($_SESSION['email'])) {
+            $_SESSION['isRedirected'] = 'You are already logged in!';
             header("Location:/");
             exit();
         }

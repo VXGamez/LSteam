@@ -168,11 +168,6 @@ final class UserRegisterController
 
                 UserValidateController::enviarCorreu(1, $data['email'], $data['username'], $token);
 
-                /*$_SESSION['email'] = $data['username'];
-                $_SESSION['wallet'] = $user->getWallet();
-                if($user->getUuid()!=null){
-                    $_SESSION['uuid'] = $user->getUuid();
-                }*/
                 $ok = $this->mysqlRepository->save($user);
             }
 

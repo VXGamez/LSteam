@@ -36,7 +36,7 @@ final class WishlistController
 
     public function showMyWishlist(Request $request,Response $response): Response
     {
-        $a = new GamesController($this->twig);
+        $a = new GamesController($this->twig, $this->mysqlRepository);
         $stores =  $a->getStoresInformation();
 
         $games = $this->mysqlRepository->getWishHistory($_SESSION['email']);
