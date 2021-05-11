@@ -9,16 +9,18 @@ use SallePW\SlimApp\Controller\GamesController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Client;
+use SallePW\SlimApp\Repository\MYSQLCallback;
+use Slim\Views\Twig;
 
 final class WishlistController
 {
-    private ContainerInterface $container;
-    
+    private Twig $twig;
+    private MYSQLCallback $mysqlRepository;
 
-    public function __construct(
-        ContainerInterface $container)
+    public function __construct(Twig $twig, MYSQLCallback $repository)
     {
-        $this->container = $container;
+        $this->twig = $twig;
+        $this->mysqlRepository = $repository;
     }
 
     public function saveMyWishlist(Request $request,Response $response): Response
@@ -26,7 +28,7 @@ final class WishlistController
         $gameid = $request->getAttribute('gameID');
         $data = $request->getParsedBody();
 
-        $this->container->get('repository')->getWish($_SESSION['email'], $gameid, $data);
+        $this->mysqlRepository->getWish($_SESSION['email'], $gameid, $data);
 
         return $response->withHeader('Location', '/store')->withStatus(302);
 
@@ -34,12 +36,12 @@ final class WishlistController
 
     public function showMyWishlist(Request $request,Response $response): Response
     {
-        $a = new GamesController($this->container);
+        $a = new GamesController($this->twig);
         $stores =  $a->getStoresInformation();
 
-        $games = $this->container->get('repository')->getWishHistory($_SESSION['email']);
+        $games = $this->mysqlRepository->getWishHistory($_SESSION['email']);
 
-        return $this->container->get('view')->render($response,'myGames.twig',[
+        return $this->twig->render($response,'myGames.twig',[
             'stores' => $stores,
             'product' => $games
         ]);

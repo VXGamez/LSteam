@@ -7,15 +7,18 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Client;
+use SallePW\SlimApp\Repository\MYSQLCallback;
+use Slim\Views\Twig;
 
 final class StoreController
 {
-    private ContainerInterface $container;
+    private Twig $twig;
+    private MYSQLCallback $mysqlRepository;
 
-    public function __construct(
-        ContainerInterface $container)
+    public function __construct(Twig $twig, MYSQLCallback $repository)
     {
-        $this->container = $container;
+        $this->twig = $twig;
+        $this->mysqlRepository = $repository;
     }
 
 
@@ -41,7 +44,7 @@ final class StoreController
         }
 
         if(isset($_SESSION['email'])){
-            $juegos = $this->container->get('repository')->getUserGames($_SESSION['email']);
+            $juegos = $this->mysqlRepository->getUserGames($_SESSION['email']);
         }else{
             $juegos = [];
             $juegos['fav'] = [];
@@ -57,7 +60,7 @@ final class StoreController
             $ww = $_SESSION['wallet'];
         }
 
-        return $this->container->get('view')->render($response,'store.twig',[
+        return $this->twig->render($response,'store.twig',[
             'product'=>$v,
             'favoritos' => $juegos['fav'],
             'comprados' => $juegos['comprados'],
@@ -74,9 +77,9 @@ final class StoreController
             $data = $request->getParsedBody();
 
             if(floatval($_SESSION['wallet'])>= floatval($data['salePrice'])){
-                $this->container->get('repository')->buyGame($_SESSION['email'], $gameid, $data);
+                $this->mysqlRepository->buyGame($_SESSION['email'], $gameid, $data);
 
-                $this->container->get('repository')->updateWallet($_SESSION['wallet']-$data['salePrice'], $_SESSION['email']);
+                $this->mysqlRepository->updateWallet($_SESSION['wallet']-$data['salePrice'], $_SESSION['email']);
                 return $response->withHeader('Location', '/store')->withStatus(302);
             }else{
                 $_SESSION['ERR_STORE'] = 'Not enough funds';

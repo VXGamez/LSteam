@@ -20,19 +20,22 @@ use Psr\Http\Message\ResponseInterface as Response;
 use SallePW\SlimApp\Model\Repository;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use SallePW\SlimApp\Repository\MYSQLCallback;
 use SallePW\SlimApp\Repository\MySQLRepository;
 use SallePW\SlimApp\Repository\PDOSingleton;
+use Slim\Views\Twig;
 use function DI\value;
 
 
 final class LogInController
 {
-    private ContainerInterface $container;
+    private Twig $twig;
+    private MYSQLCallback $mysqlRepository;
 
-    public function __construct(
-        ContainerInterface $container)
+    public function __construct(Twig $twig, MYSQLCallback $repository)
     {
-        $this->container = $container;
+        $this->twig = $twig;
+        $this->mysqlRepository = $repository;
     }
 
     public function loginUser(Request $request, Response $response): Response
@@ -41,7 +44,7 @@ final class LogInController
         $data = $request->getParsedBody();
         $ok=true;
         $errors=[];
-        $user = $this->container->get('repository')->getUser($data['username']);
+        $user = $this->mysqlRepository->getUser($data['username']);
         if($user->password() != "TODO MAL"){
             if(!password_verify($data['pass'], $user->password())) {
                 $errors['user'] = 'Not a valid username or password';
@@ -60,7 +63,7 @@ final class LogInController
             }
             return $response->withHeader('Location', '/')->withStatus(302);
         }else{
-            return $this->container->get('view')->render(
+            return $this->twig->render(
                 $response,
                 'login.twig',
                 [

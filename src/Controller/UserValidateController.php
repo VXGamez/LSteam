@@ -6,33 +6,29 @@ namespace SallePW\SlimApp\Controller;
 
 use DateTime;
 use Exception;
-use Google\Client;
-use Google_Client;
-use Google_Service_Gmail;
-use Google_Service_Gmail_Draft;
-use Google_Service_Gmail_Message;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 use SallePW\SlimApp\Model\CosEmail;
 use SallePW\SlimApp\Model\User;
-use SallePW\SlimApp\Model\Repository;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use SallePW\SlimApp\Repository\MYSQLCallback;
 use SallePW\SlimApp\Repository\MySQLRepository;
 use SallePW\SlimApp\Repository\PDOSingleton;
+use Slim\Views\Twig;
 use function DI\value;
-use SallePW\SlimApp\Controller\UserValidateController;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class UserValidateController{
-    private ContainerInterface $container;
+    private Twig $twig;
+    private MYSQLCallback $mysqlRepository;
 
-    public function __construct(
-        ContainerInterface $container)
+    public function __construct(Twig $twig, MYSQLCallback $repository)
     {
-        $this->container = $container;
+        $this->twig = $twig;
+        $this->mysqlRepository = $repository;
     }
 
     public static function enviarCorreu($flag, $email, $username, $token){
@@ -76,20 +72,20 @@ final class UserValidateController{
         $params = $request->getQueryParams();
 
         if(!isset($params['token'])){
-            return $this->container->get('view')->render(
+            return $this->twig->render(
                 $response,
                 'landing.twig',
                 []);
         } else {
-            $ok = $this->container->get('repository')->checkActivation($params['token']);
+            $ok = $this->mysqlRepository->checkActivation($params['token']);
             $mensaje="";
             if($ok){
-                $this->container->get('repository')->updateActivation($params['token']);
+                $this->mysqlRepository->updateActivation($params['token']);
                 $mensaje = "HA IDO BIEN";
-                $user = $this->container->get('repository')->getUser($params['token']);
+                $user = $this->mysqlRepository->getUser($params['token']);
                 $this->enviarCorreu(0, $user->email(), $user->username, '');
             }
-            return $this->container->get('view')->render(
+            return $this->twig->render(
                 $response,
                 'activation.twig',
                 [

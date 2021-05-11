@@ -20,8 +20,10 @@ use Psr\Http\Message\ResponseInterface as Response;
 use SallePW\SlimApp\Model\Repository;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use SallePW\SlimApp\Repository\MYSQLCallback;
 use SallePW\SlimApp\Repository\MySQLRepository;
 use SallePW\SlimApp\Repository\PDOSingleton;
+use Slim\Views\Twig;
 use function DI\value;
 use SallePW\SlimApp\Controller\UserValidateController;
 
@@ -29,12 +31,13 @@ use SallePW\SlimApp\Controller\UserValidateController;
 
 final class UserRegisterController
 {
-    private ContainerInterface $container;
+    private Twig $twig;
+    private MYSQLCallback $mysqlRepository;
 
-    public function __construct(
-        ContainerInterface $container)
+    public function __construct(Twig $twig, MYSQLCallback $repository)
     {
-        $this->container = $container;
+        $this->twig = $twig;
+        $this->mysqlRepository = $repository;
     }
 
     function generateRandomString($length = 10) : string {
@@ -45,7 +48,7 @@ final class UserRegisterController
             for ($i = 0; $i < $length; $i++) {
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }
-        }while($this->container->get('repository')->checkToken($randomString));
+        }while($this->mysqlRepository->checkToken($randomString));
 
         return $randomString;
     }
@@ -103,12 +106,12 @@ final class UserRegisterController
                 }
             }
 
-            if($this->container->get('repository')->checkIfEmailExists($data['email'])){
+            if($this->mysqlRepository->checkIfEmailExists($data['email'])){
                 $errors['email'] = 'Not a valid email';
                 $ok = false;
             }
 
-            if(!preg_match('/^[a-zA-Z0-9_]+$/',$data['username']) || $this->container->get('repository')->checkIfUsernameExists($data['username'])){
+            if(!preg_match('/^[a-zA-Z0-9_]+$/',$data['username']) || $this->mysqlRepository->checkIfUsernameExists($data['username'])){
                 $errors['username'] = 'Not a valid username';
                 $ok = false;
             }
@@ -170,7 +173,7 @@ final class UserRegisterController
                 if($user->getUuid()!=null){
                     $_SESSION['uuid'] = $user->getUuid();
                 }*/
-                $ok = $this->container->get('repository')->save($user);
+                $ok = $this->mysqlRepository->save($user);
             }
 
 
@@ -179,7 +182,7 @@ final class UserRegisterController
 
             }else{
 
-                return $this->container->get('view')->render(
+                return $this->twig->render(
                     $response,
                     'register.twig',
                     [

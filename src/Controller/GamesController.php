@@ -7,14 +7,17 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Client;
+use SallePW\SlimApp\Repository\MYSQLCallback;
+use Slim\Views\Twig;
 
 final class GamesController{
-    private ContainerInterface $container;
+    private Twig $twig;
+    private MYSQLCallback $mysqlRepository;
 
-    public function __construct(
-        ContainerInterface $container)
+    public function __construct(Twig $twig, MYSQLCallback $repository)
     {
-        $this->container = $container;
+        $this->twig = $twig;
+        $this->mysqlRepository = $repository;
     }
 
     
@@ -41,10 +44,10 @@ final class GamesController{
       
         $stores = $this->getStoresInformation();
 
-        $games = $this->container->get('repository')->getPurchaseHistory($_SESSION['email']);
+        $games = $this->mysqlRepository->getPurchaseHistory($_SESSION['email']);
         $es = "lo es";
 
-        return $this->container->get('view')->render($response,'myGames.twig',[
+        return $this->twig->render($response,'myGames.twig',[
             'stores' => $stores,
             'product' => $games,
             'esMyGames' => $es

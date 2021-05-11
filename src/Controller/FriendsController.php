@@ -7,15 +7,18 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Client;
+use SallePW\SlimApp\Repository\MYSQLCallback;
+use Slim\Views\Twig;
 
 final class FriendsController
 {
-    private ContainerInterface $container;
+    private Twig $twig;
+    private MYSQLCallback $mysqlRepository;
 
-    public function __construct(
-        ContainerInterface $container)
+    public function __construct(Twig $twig, MYSQLCallback $repository)
     {
-        $this->container = $container;
+        $this->twig = $twig;
+        $this->mysqlRepository = $repository;
     }
 
     public function showMyFriends(Request $request, Response $response): Response
@@ -25,7 +28,7 @@ final class FriendsController
             $errors = $_SESSION['friendError'];
             unset($_SESSION['friendError']);
         }
-        return $this->container->get('view')->render($response,'friends.twig',[
+        return $this->twig->render($response,'friends.twig',[
             'errores' => $errors
         ]);
     }

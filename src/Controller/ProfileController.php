@@ -10,14 +10,17 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use SallePW\SlimApp\Model\User;
+use SallePW\SlimApp\Repository\MYSQLCallback;
+use Slim\Views\Twig;
 
 final class ProfileController{
-    private ContainerInterface $container;
+    private Twig $twig;
+    private MYSQLCallback $mysqlRepository;
 
-    public function __construct(
-        ContainerInterface $container)
+    public function __construct(Twig $twig, MYSQLCallback $repository)
     {
-        $this->container = $container;
+        $this->twig = $twig;
+        $this->mysqlRepository = $repository;
     }
 
     public function showProfile(Request $request, Response $response): Response
@@ -27,10 +30,10 @@ final class ProfileController{
             $errors = $_SESSION['passErrors'];
             unset($_SESSION['passErrors']);
         }
-        $user = $this->container->get('repository')->getUser($_SESSION['email']);
+        $user = $this->mysqlRepository->getUser($_SESSION['email']);
         if($user->password() != "TODO MAL"){
-            $history = $this->container->get('repository')->getPurchaseHistory($_SESSION['email']);
-            return $this->container->get('view')->render($response,'profile.twig',[
+            $history = $this->mysqlRepository->getPurchaseHistory($_SESSION['email']);
+            return $this->twig->render($response,'profile.twig',[
                 'user' => $user, 
                 'wallet' => $user->getWallet(),
                 'errors' => $errors,
@@ -38,7 +41,7 @@ final class ProfileController{
                 'history' => $history
             ]);
         }else{
-            return $this->container->get('view')->render($response,'blank.twig',[]);
+            return $this->twig->render($response,'blank.twig',[]);
         }
     }
 
@@ -84,7 +87,7 @@ final class ProfileController{
                 $uuid = $uuid_tmp .'.'. $file_extension;
                 $target = __DIR__ . '/../../public/uploads/' . basename($uuid) ;
                 if(move_uploaded_file($tmpName, $target)){
-                    $this->container->get('repository')->updateUuid($_SESSION['email'], $uuid);
+                    $this->mysqlRepository->updateUuid($_SESSION['email'], $uuid);
                     if(isset($_SESSION['uuid']) && strlen($_SESSION['uuid'])>0){
                         unlink($_SESSION['uuid']);
                     }
@@ -119,12 +122,12 @@ final class ProfileController{
         }
 
        if($ok){
-           $this->container->get('repository')->updatePhone($_SESSION['email'], $data['phone']);
+           $this->mysqlRepository->updatePhone($_SESSION['email'], $data['phone']);
        }
 
-       $user = $this->container->get('repository')->getUser($_SESSION['email']);
+       $user = $this->mysqlRepository->getUser($_SESSION['email']);
 
-       return $this->container->get('view')->render($response,'profile.twig',[
+       return $this->twig->render($response,'profile.twig',[
            'user' => $user,
            'errors' => $errors,
            'wallet' => $user->getWallet(),
@@ -162,7 +165,7 @@ final class ProfileController{
             }
         }
 
-        $user = $this->container->get('repository')->getUser($_SESSION['email']);
+        $user = $this->mysqlRepository->getUser($_SESSION['email']);
         if($user->password() != "TODO MAL") {
             if (!password_verify($currPass, $user->password())) {
                 $errors['user'] = 'Current password is not correct';
@@ -171,7 +174,7 @@ final class ProfileController{
         }
 
         if($ok){
-            $this->container->get('repository')->updatePass($_SESSION['email'], password_hash($newPass, PASSWORD_DEFAULT));
+            $this->mysqlRepository->updatePass($_SESSION['email'], password_hash($newPass, PASSWORD_DEFAULT));
             return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
         }else{
             $_SESSION['passErrors'] = $errors;

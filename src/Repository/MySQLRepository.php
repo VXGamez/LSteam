@@ -7,10 +7,9 @@ use DateTime;
 use PDO;
 use SallePW\SlimApp\Model\Search;
 use SallePW\SlimApp\Model\User;
-use SallePW\SlimApp\Model\Repository;
 use SallePW\SlimApp\Repository\PDOSingleton;
 
-final class MySQLRepository
+final class MySQLRepository implements MYSQLCallback
 {
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 
@@ -20,7 +19,6 @@ final class MySQLRepository
     {
         $this->database = $database;
     }
-
 
 
     public function save(User $user): bool
@@ -57,9 +55,9 @@ QUERY;
     public function validateUser($email, $password): bool{
         $ok = true;
 
-        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE email=? AND password=?');
-        $stmt->bindParam(1, $email, PDO::PARAM_STR);
-        $stmt->bindParam(2, $password, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE email=:email AND password=:password');
+        $stmt->bindParam('email', $email, PDO::PARAM_STR);
+        $stmt->bindParam('password', $password, PDO::PARAM_STR);
         $stmt->execute();
 
         if($stmt->rowCount() == 0){
@@ -72,10 +70,10 @@ QUERY;
     public function getUser($usrEmail): User{
 
 
-        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE (email=? OR username=? OR token=?) AND activated = 1 ');
-        $stmt->bindParam(1, $usrEmail, PDO::PARAM_STR);
-        $stmt->bindParam(2, $usrEmail, PDO::PARAM_STR);
-        $stmt->bindParam(3, $usrEmail, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE (email=:email OR username=:usr OR token=:token) AND activated = 1 ');
+        $stmt->bindParam('email', $usrEmail, PDO::PARAM_STR);
+        $stmt->bindParam('usr', $usrEmail, PDO::PARAM_STR);
+        $stmt->bindParam('token', $usrEmail, PDO::PARAM_STR);
         $stmt->execute();
 
         if($stmt->rowCount() == 1){
@@ -114,8 +112,8 @@ QUERY;
     public function checkIfEmailExists($email): bool{
         $ok = true;
 
-        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE email=?');
-        $stmt->bindParam(1, $email, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE email= :email');
+        $stmt->bindParam('email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
         if($stmt->rowCount() == 0){
@@ -128,8 +126,8 @@ QUERY;
     public function checkIfUsernameExists($usr): bool{
         $ok = true;
 
-        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE username=?');
-        $stmt->bindParam(1, $usr, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE username= :usr');
+        $stmt->bindParam('usr', $usr, PDO::PARAM_STR);
         $stmt->execute();
 
         if($stmt->rowCount() == 0){
@@ -142,8 +140,8 @@ QUERY;
     public function checkToken($token): bool{
         $ok = true;
 
-        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE token=?');
-        $stmt->bindParam(1, $token, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('SELECT * FROM User WHERE token= :tkn');
+        $stmt->bindParam('tkn', $token, PDO::PARAM_STR);
         $stmt->execute();
 
         if($stmt->rowCount() == 0){
@@ -157,8 +155,8 @@ QUERY;
         $ok = true;
         $validation = 0;
 
-        $stmt = $this->database->connection()->prepare('SELECT activated FROM User WHERE token=?');
-        $stmt->bindParam(1, $token, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('SELECT activated FROM User WHERE token= :tkn');
+        $stmt->bindParam('tkn', $token, PDO::PARAM_STR);
         $stmt->execute();
 
         if($stmt->rowCount() == 1){
@@ -172,45 +170,45 @@ QUERY;
     }
 
     public function updateActivation($token) {
-        $stmt = $this->database->connection()->prepare('UPDATE User SET activated = true, wallet = 50 WHERE token=?');
-        $stmt->bindParam(1, $token, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('UPDATE User SET activated = true, wallet = 50 WHERE token= :tkn');
+        $stmt->bindParam('tkn', $token, PDO::PARAM_STR);
         $stmt->execute();
     }
 
     public function updatePass($user, $newPass) {
-        $stmt = $this->database->connection()->prepare('UPDATE User SET password = ? WHERE username=?');
-        $stmt->bindParam(1, $newPass, PDO::PARAM_STR);
-        $stmt->bindParam(2, $user, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('UPDATE User SET password = :pass WHERE username= :usrname');
+        $stmt->bindParam('pass', $newPass, PDO::PARAM_STR);
+        $stmt->bindParam('usrname', $user, PDO::PARAM_STR);
         $stmt->execute();
     }
 
     public function updatePhone($user, $phone) {
-        $stmt = $this->database->connection()->prepare('UPDATE User SET phone = ? WHERE username=?');
-        $stmt->bindParam(1, $phone, PDO::PARAM_STR);
-        $stmt->bindParam(2, $user, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('UPDATE User SET phone = :phone WHERE username= :usrname');
+        $stmt->bindParam('phone', $phone, PDO::PARAM_STR);
+        $stmt->bindParam('usrname', $user, PDO::PARAM_STR);
         $stmt->execute();
     }
 
     public function updateUuid($email, $uuid){
-        $stmt = $this->database->connection()->prepare('UPDATE User SET uuid = ? WHERE username=?');
-        $stmt->bindParam(1, $uuid, PDO::PARAM_STR);
-        $stmt->bindParam(2, $email, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('UPDATE User SET uuid = :uid WHERE username= :usrname');
+        $stmt->bindParam('uid', $uuid, PDO::PARAM_STR);
+        $stmt->bindParam('usrname', $email, PDO::PARAM_STR);
         $stmt->execute();
     }
 
     public function updateWallet($wallet, $email){
-        $stmt = $this->database->connection()->prepare('UPDATE User SET wallet = ? WHERE username=?');
-        $stmt->bindParam(1, $wallet, PDO::PARAM_STR);
-        $stmt->bindParam(2, $email, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('UPDATE User SET wallet = :wallet WHERE username= :usrname');
+        $stmt->bindParam('wallet', $wallet, PDO::PARAM_STR);
+        $stmt->bindParam('usrname', $email, PDO::PARAM_STR);
         $stmt->execute();
         $_SESSION['wallet'] = $wallet;
     }
 
 
     public function getUserId($usrEmail): int{
-        $stmt = $this->database->connection()->prepare('SELECT id FROM User WHERE email=? OR username=?');
-        $stmt->bindParam(1, $usrEmail, PDO::PARAM_STR);
-        $stmt->bindParam(2, $usrEmail, PDO::PARAM_STR);
+        $stmt = $this->database->connection()->prepare('SELECT id FROM User WHERE email= :email OR username= :usrname');
+        $stmt->bindParam('email', $usrEmail, PDO::PARAM_STR);
+        $stmt->bindParam('usrname', $usrEmail, PDO::PARAM_STR);
         $stmt->execute();
         $rowID = $stmt->fetch();
         $id = $rowID['id'];
@@ -233,8 +231,8 @@ QUERY;
 
         $id = $this->getUserId($usrEmail);
 
-        $stmt = $this->database->connection()->prepare('SELECT title, sellPrice, dateBought, g.storeID, g.thumb, g.dealRating FROM `User-Game-Bought` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ? ORDER BY dateBought DESC');
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt = $this->database->connection()->prepare('SELECT title, sellPrice, dateBought, g.storeID, g.thumb, g.dealRating FROM `User-Game-Bought` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = :uid ORDER BY dateBought DESC');
+        $stmt->bindParam('uid', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         $u = [];
@@ -249,8 +247,8 @@ QUERY;
         
         $id = $this->getUserId($usrEmail);
 
-        $stmt = $this->database->connection()->prepare('SELECT gb.gameID, gb.sellPrice as salePrice, g.title, g.storeID, g.thumb, g.dealRating FROM `User-Game-Wishlist` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ?');
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt = $this->database->connection()->prepare('SELECT gb.gameID, gb.sellPrice as salePrice, g.title, g.storeID, g.thumb, g.dealRating FROM `User-Game-Wishlist` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = :uid');
+        $stmt->bindParam('uid', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         $u = [];
@@ -265,8 +263,8 @@ QUERY;
 
         $id = $this->getUserId($usrEmail);
 
-        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Bought` WHERE userID = ?');
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Bought` WHERE userID = :uid');
+        $stmt->bindParam('uid', $id, PDO::PARAM_INT);
         $stmt->execute();
         $u = [];
         $u['comprados'] = [];
@@ -278,8 +276,8 @@ QUERY;
             }
         }
 
-        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Wishlist` WHERE userID = ?');
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Wishlist` WHERE userID = :uid');
+        $stmt->bindParam('uid', $id, PDO::PARAM_INT);
         $stmt->execute();
         $u['fav'] = [];
         $tmp=$stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -294,8 +292,8 @@ QUERY;
 
     public function buyGame($email, $gameID, $data){
 
-        $stmt = $this->database->connection()->prepare('SELECT id FROM `Game` WHERE id = ? ');
-        $stmt->bindParam(1, $gameID, PDO::PARAM_INT);
+        $stmt = $this->database->connection()->prepare('SELECT id FROM `Game` WHERE id = :gid ');
+        $stmt->bindParam('gid', $gameID, PDO::PARAM_INT);
         $stmt->execute();
 
         $userid = $this->getUserId($email);
@@ -323,21 +321,21 @@ QUERY;
             $statement->execute();
         }
 
-        $stmt2 = $this->database->connection()->prepare('SELECT id FROM `User-Game-Wishlist` WHERE gameID = ? AND userID = ?');
-        $stmt2->bindParam(1, $gameID, PDO::PARAM_INT);
-        $stmt2->bindParam(2, $userID, PDO::PARAM_INT);
+        $stmt2 = $this->database->connection()->prepare('SELECT id FROM `User-Game-Wishlist` WHERE gameID = :gid AND userID = :uid');
+        $stmt2->bindParam('gid', $gameID, PDO::PARAM_INT);
+        $stmt2->bindParam('uid', $userID, PDO::PARAM_INT);
         $stmt2->execute();
 
         if($stmt2->rowCount() != 0){
-            $stmt3 = $this->database->connection()->prepare('DELETE FROM `User-Game-Wishlist` WHERE gameID = ? AND userID = ?');
-            $stmt3->bindParam(1, $gameID, PDO::PARAM_INT);
-            $stmt3->bindParam(2, $userID, PDO::PARAM_INT);
+            $stmt3 = $this->database->connection()->prepare('DELETE FROM `User-Game-Wishlist` WHERE gameID = :gid AND userID = :uid');
+            $stmt3->bindParam('gid', $gameID, PDO::PARAM_INT);
+            $stmt3->bindParam('uid', $userID, PDO::PARAM_INT);
             $stmt3->execute();
         }
 
         $query = <<<'QUERY'
         INSERT INTO `User-Game-Bought`(gameID, userID,sellPrice,  dateBought)
-        VALUES(:gameid,:userid, :sellPrice, :date)
+        VALUES(:gameid,:userid, :sellPrice, :dataa)
 QUERY;
         $statement = $this->database->connection()->prepare($query);
     
@@ -345,7 +343,7 @@ QUERY;
         $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
         $statement->bindParam('userid', $userid, PDO::PARAM_INT);
         $statement->bindParam('sellPrice', $sellPrice, PDO::PARAM_STR);
-        $statement->bindParam('date', $comprahte, PDO::PARAM_STR);
+        $statement->bindParam('dataa', $comprahte, PDO::PARAM_STR);
     
         $statement->execute();
 
@@ -354,8 +352,8 @@ QUERY;
 
     public function getWish($email, $gameID, $data){
 
-        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Wishlist` WHERE id = ? ');
-        $stmt->bindParam(1, $gameID, PDO::PARAM_INT);
+        $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Wishlist` WHERE id = :gid ');
+        $stmt->bindParam('gid', $gameID, PDO::PARAM_INT);
         $stmt->execute();
 
 
