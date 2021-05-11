@@ -13,7 +13,7 @@ final class LoggedInMiddleware
     public function __invoke(Request $request, RequestHandler $next): ?Response
     {
 
-        if (!isset($_SESSION['email'])) {
+        if (isset($_SESSION['email'])) {
             header("Location:/");
             exit();
         }

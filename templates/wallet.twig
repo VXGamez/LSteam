@@ -5,6 +5,12 @@
 {% block head %}
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/wallet.css"/>
     <script>
+        jQuery(document).ready(function($){
+            $('#code').keydown(function(e){
+                e.preventDefault();
+            });
+        });
+
 
         function updateWallet(){
             let def = 0;
