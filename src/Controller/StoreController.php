@@ -70,7 +70,7 @@ final class StoreController
     public function buyGame(Request $request, Response $response): Response{
 
         if(isset($_SESSION['email'])){
-            $gameid = $request->getAttribute('gid');
+            $gameid = $request->getAttribute('gameID');
             $data = $request->getParsedBody();
 
             if(floatval($_SESSION['wallet'])>= floatval($data['salePrice'])){

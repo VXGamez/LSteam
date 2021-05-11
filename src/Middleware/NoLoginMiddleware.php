@@ -12,12 +12,12 @@ final class NoLoginMiddleware
 {
     public function __invoke(Request $request, RequestHandler $next): ?Response
     {
-        $response = $next->handle($request);
 
         if (!isset($_SESSION['email'])) {
-            return $response->withHeader('Location', '/login')->withStatus(302);
+            header("Location:/login");
+            exit();
         }
-
+        $response = $next->handle($request);
         return $response;
 
 

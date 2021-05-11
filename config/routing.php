@@ -7,7 +7,6 @@ use SallePW\SlimApp\Controller\LogInController;
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RoutesController;
 use SallePW\SlimApp\Controller\StoreController;
-use SallePW\SlimApp\Controller\UserController;
 use SallePW\SlimApp\Controller\UserRegisterController;
 use SallePW\SlimApp\Controller\UserValidateController;
 use SallePW\SlimApp\Controller\WalletController;
@@ -58,35 +57,38 @@ $app->get(
 $app->get(
     '/user/wishlist',
     WishlistController::class . ":showMyWishlist"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
 
 $app->get(
     '/user/myGames',
     GamesController::class . ":showmyGames"
-)->setName('home');
-
-$app->post(
-    '/user/wishlist/[{gid}]',
-    WishlistController::class . ":saveMyWishlist"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
 
 $app->get(
-    '/user/wishlist/[{gid}]',
+    '/user/wishlist/{gameID}',
     WishlistController::class . ":ViewGameDetail"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
 
 $app->get(
     '/user/friends',
     FriendsController::class . ":showMyFriends"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
 
 $app->get(
     '/user/friendRequests',
     FriendsController::class . ":showMyRequests"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
+
+//--------------------------------- POST ---------------------------------
+
 $app->get(
     '/user/friendRequests/send',
     FriendsController::class . ":showAddFriend"
+)->setName('home');
+
+$app->post(
+    '/user/wishlist/{gameID}',
+    WishlistController::class . ":saveMyWishlist"
 )->setName('home');
 
 $app->post(
@@ -95,7 +97,7 @@ $app->post(
 )->setName('home');
 
 $app->post(
-    '/store/buy/[{gid}]',
+    '/store/buy/{gameID}',
     StoreController::class . ":buyGame"
 )->setName('home');
 

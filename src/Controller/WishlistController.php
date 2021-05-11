@@ -23,7 +23,7 @@ final class WishlistController
 
     public function saveMyWishlist(Request $request,Response $response): Response
     {
-        $gameid = $request->getAttribute('gid');
+        $gameid = $request->getAttribute('gameID');
         $data = $request->getParsedBody();
 
         $this->container->get('repository')->getWish($_SESSION['email'], $gameid, $data);
@@ -47,7 +47,7 @@ final class WishlistController
 
 
     public function ViewGameDetail(Request $request,Response $response): Response{
-        $gameid = $request->getAttribute('gid');
+        $gameid = $request->getAttribute('gameID');
         $url = '/user/wishlist?gameId='. $gameid;
         return $response->withHeader('Location', $url)->withStatus(302);
     }

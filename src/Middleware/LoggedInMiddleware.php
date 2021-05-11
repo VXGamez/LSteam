@@ -12,13 +12,15 @@ final class LoggedInMiddleware
 {
     public function __invoke(Request $request, RequestHandler $next): ?Response
     {
-        $response = $next->handle($request);
 
-        if (isset($_SESSION['email'])) {
-            return $response->withHeader('Location', '/')->withStatus(302);
+        if (!isset($_SESSION['email'])) {
+            header("Location:/");
+            exit();
         }
 
+        $response = $next->handle($request);
         return $response;
+
 
     }
 }
