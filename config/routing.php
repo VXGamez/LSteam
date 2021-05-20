@@ -130,3 +130,10 @@ $app->post(
     '/register',
     UserRegisterController::class . ":registerUser"
 )->setName('create_user');
+
+//--------------------------------- DELETE ---------------------------------
+
+$app->delete(
+    '/user/wishlist/{gameID}',
+    WishlistController::class . ":deleteWish"
+)->setName('delete');

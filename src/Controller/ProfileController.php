@@ -55,48 +55,51 @@ final class ProfileController{
         //isset($_POST["upload"]) &&
 
         if(isset($_FILES["profilepic"])){
-            $tmpName = $_FILES['profilepic']['tmp_name'];;
-            $fileinfo = @getimagesize($tmpName);
-            $width = $fileinfo[0];
-            $heigth = $fileinfo[1];
-            
-            //profilepic type file -- file-input
-            //btnRegister para submit -- btn-submit
-            $allowed_extensions = array (
-                "png",
-                "jpg"
-            );
+            $tmpName = $_FILES['profilepic']['tmp_name'];
+            if ( $tmpName != NULL)  {
+                $fileinfo = @getimagesize($tmpName);
+                $width = $fileinfo[0];
+                $heigth = $fileinfo[1];
 
-            $file_extension = pathinfo($_FILES["profilepic"]["name"], PATHINFO_EXTENSION);
+                //profilepic type file -- file-input
+                //btnRegister para submit -- btn-submit
+                $allowed_extensions = array (
+                    "png",
+                    "jpg"
+                );
 
-            if(!in_array($file_extension, $allowed_extensions)){
-                $errors['image'] = 'Only PNG or JPG images are accepted';
-                $ok = false;
-            } else if($_FILES["profilepic"]["size"] > 1000000){
-                $errors['image'] = 'Image cannot weigh more than 1MB';
-                $ok = false;
-            } else if($width != "500" || $heigth != "500"){
-                $errors['image'] = 'Size image is not 500x500';
-                $ok = false;
-            } else {
-                //:)
-                $date = new DateTime();
-                $result = $date->format('Y-m-d H:i:s');
-                $nombreImagen = $_FILES["profilepic"]["name"] . $result; 
-                $uuid_tmp = hash ("sha256" , $nombreImagen ,false );
-                $uuid = $uuid_tmp .'.'. $file_extension;
-                $target = __DIR__ . '/../../public/uploads/' . basename($uuid) ;
-                if(move_uploaded_file($tmpName, $target)){
-                    $this->mysqlRepository->updateUuid($_SESSION['email'], $uuid);
-                    if(isset($_SESSION['uuid']) && strlen($_SESSION['uuid'])>0){
-                        unlink($_SESSION['uuid']);
-                    }
-                    $_SESSION['uuid'] = $uuid;
-               } else {
-                    $errors['image'] = 'Error uploading image';
+                $file_extension = pathinfo($_FILES["profilepic"]["name"], PATHINFO_EXTENSION);
+
+                if(!in_array($file_extension, $allowed_extensions)){
+                    $errors['image'] = 'Only PNG or JPG images are accepted';
                     $ok = false;
+                } else if($_FILES["profilepic"]["size"] > 1000000){
+                    $errors['image'] = 'Image cannot weigh more than 1MB';
+                    $ok = false;
+                } else if($width != "500" || $heigth != "500"){
+                    $errors['image'] = 'Size image is not 500x500';
+                    $ok = false;
+                } else {
+                    //:)
+                    $date = new DateTime();
+                    $result = $date->format('Y-m-d H:i:s');
+                    $nombreImagen = $_FILES["profilepic"]["name"] . $result;
+                    $uuid_tmp = hash ("sha256" , $nombreImagen ,false );
+                    $uuid = $uuid_tmp .'.'. $file_extension;
+                    $target = __DIR__ . '/../../public/uploads/' . basename($uuid) ;
+                    if(move_uploaded_file($tmpName, $target)){
+                        $this->mysqlRepository->updateUuid($_SESSION['email'], $uuid);
+                        if(isset($_SESSION['uuid']) && strlen($_SESSION['uuid'])>0){
+                            unlink($_SESSION['uuid']);
+                        }
+                        $_SESSION['uuid'] = $uuid;
+                    } else {
+                        $errors['image'] = 'Error uploading image';
+                        $ok = false;
+                    }
                 }
             }
+
         } else {
             $errors['image'] = 'ERROL ';
         }
@@ -123,15 +126,19 @@ final class ProfileController{
 
        if($ok){
            $this->mysqlRepository->updatePhone($_SESSION['email'], $data['phone']);
+           echo'<script type="text/javascript">
+            alert("Changes saved successfully");
+            </script>';
        }
 
        $user = $this->mysqlRepository->getUser($_SESSION['email']);
-
+        $history = $this->mysqlRepository->getPurchaseHistory($_SESSION['email']);
        return $this->twig->render($response,'profile.twig',[
            'user' => $user,
            'errors' => $errors,
            'wallet' => $user->getWallet(),
-           'uuid' => $user->getUuid()
+           'uuid' => $user->getUuid(),
+           'history' => $history
        ]);
 
     }

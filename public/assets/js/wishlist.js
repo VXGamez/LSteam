@@ -22,7 +22,7 @@ jQuery(document).ready(function($){
 		});
 
 		$("#ButtonFavoritosDetail").click(function(){
-			compra(inputs[0].value, titol.html(), inputs[1].value, inputs[2].value, inputs[3].value, selectedImage.attr('src'), 2);
+			deleteWish(inputs[0].value);
 		});
 
 		//filter: blur(5px);
