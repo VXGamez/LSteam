@@ -23,6 +23,19 @@ final class ProfileController{
         $this->mysqlRepository = $repository;
     }
 
+    function validate($value): bool {
+
+        $str = strval($value);
+
+
+        str_replace(' ','',$str);
+        if(str_starts_with($value, '+34')){
+            $str = substr($str, 4);
+        }
+
+        return strlen($str) == 9 && preg_match('/^[679]{1}[0-9]{8}$/', $str);
+    }
+
     public function showProfile(Request $request, Response $response): Response
     {
         $errors = [];
@@ -98,14 +111,30 @@ final class ProfileController{
                         $ok = false;
                     }
                 }
+                if ($ok) {
+                    $errors['image'] = 'Image saved successfully';
+                }
             }
 
         } else {
             $errors['image'] = 'ERROL ';
         }
 
+        $ok2 = true;
+
         if(strlen($data['phone'])>0){
-            $phoneUtil = PhoneNumberUtil::getInstance();
+
+            if (!$this->validate($data['phone'])) {
+                $errors['phone'] = 'This is not a valid Spanish number';
+                $ok2 = false;
+            }
+            $phone = $data['phone'];
+            if($ok2 && !str_starts_with($data['phone'], '+34')){
+                $phone = "+34 ".$phone;
+            }
+            $data['phone'] = $phone;
+
+          /*  $phoneUtil = PhoneNumberUtil::getInstance();
             try {
                 $phoneNumberObject = $phoneUtil->parse($data['phone'], 'ES');
                 $possible = $phoneUtil->isValidNumberForRegion($phoneNumberObject, 'ES');
@@ -121,15 +150,15 @@ final class ProfileController{
             if($ok && !str_starts_with($data['phone'], '+34')){
                 $phone = "+34 ".$phone;
             }
-            $data['phone'] = $phone;
+            $data['phone'] = $phone;*/
         }
 
-       if($ok){
+       if ($ok2) {
            $this->mysqlRepository->updatePhone($_SESSION['email'], $data['phone']);
-           echo'<script type="text/javascript">
-            alert("Changes saved successfully");
-            </script>';
+           $errors['phone'] = 'Phone number saved successfully';
        }
+
+
 
        $user = $this->mysqlRepository->getUser($_SESSION['email']);
         $history = $this->mysqlRepository->getPurchaseHistory($_SESSION['email']);

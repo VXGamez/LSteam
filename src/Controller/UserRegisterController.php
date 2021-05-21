@@ -53,6 +53,19 @@ final class UserRegisterController
         return $randomString;
     }
 
+    function validate($value): bool {
+
+        $str = strval($value);
+
+
+        str_replace(' ','',$str);
+        if(str_starts_with($value, '+34')){
+            $str = substr($str, 4);
+        }
+
+        return strlen($str) == 9 && preg_match('/^[679]{1}[0-9]{8}$/', $str);
+    }
+
     
 
     public function registerUser(Request $request, Response $response): Response
@@ -132,7 +145,18 @@ final class UserRegisterController
             }
 
             if(strlen($data['phone'])>0){
-                $phoneUtil = PhoneNumberUtil::getInstance();
+
+                if (!$this->validate($data['phone'])) {
+                    $errors['phone'] = 'This is not a valid Spanish number';
+                    $ok = false;
+                }
+                $phone = $data['phone'];
+                if($ok && !str_starts_with($data['phone'], '+34')){
+                    $phone = "+34 ".$phone;
+                }
+                $data['phone'] = $phone;
+
+                /*$phoneUtil = PhoneNumberUtil::getInstance();
                 try {
                     $phoneNumberObject = $phoneUtil->parse($data['phone'], 'ES');
                     $possible = $phoneUtil->isValidNumberForRegion($phoneNumberObject, 'ES');
@@ -148,7 +172,8 @@ final class UserRegisterController
                 if($ok && !str_starts_with($data['phone'], '+34')){
                     $phone = "+34 ".$phone;
                 }
-                $data['phone'] = $phone;
+                $data['phone'] = $phone;*/
+
             }
 
             if($ok == true) {

@@ -74,7 +74,8 @@
                                 </a>
                                 <a class="dropdown-item " href="/profile">Your Profile</a>
                                 <form action="/logout" method="POST">
-                                    <input style="color: red; cursor: pointer;" class="dropdown-item" type="submit" value="Logout" />
+                                    <button id="logout" type="submit" class="dropdown-item">Logout</button>
+                                    <!-- <input id="logout" class="dropdown-item" type="submit" value="Logout" /> -->
                                 </form>
                             {% else %}
                                 <a class="dropdown-item" href="/login">Log In</a>

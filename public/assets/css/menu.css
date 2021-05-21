@@ -44,6 +44,11 @@
     border: none !important;
 }
 
+#logout {
+    color: red !important;
+    cursor: pointer !important;
+}
+
 .imatgeMiniatura{
     border-style: solid;
   border-color: #00c6ff;
