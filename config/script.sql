@@ -53,7 +53,7 @@ CREATE TABLE `User-Game-Wishlist` (
 
 DROP TABLE IF EXISTS `Friend-User`;
 CREATE TABLE `Friend-User` (
-    `id` INT(11) unsigned NOT NULL AUTO INCREMENT,
+    `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
     `user1_id` INT(11) unsigned NOT NULL,
     `user2_id` INT(11) unsigned NOT NULL,
     `date_accepted` DATETIME NOT NULL,
@@ -64,9 +64,10 @@ CREATE TABLE `Friend-User` (
 
 DROP TABLE IF EXISTS `Request`;
 CREATE TABLE `Request` (
-    `request_id` INT(11) unsigned NOT NULL AUTO INCREMENT,
+    `request_id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
     `user1_id` INT(11) unsigned NOT NULL,
-    `user2_id` INT(11) unsigned NOT NULL, 
+    `user2_id` INT(11) unsigned NOT NULL,
+    `pending` BOOLEAN,
     PRIMARY KEY(`request_id`),
     FOREIGN KEY(`user1_id`) REFERENCES User(`id`),
     FOREIGN KEY(`user2_id`) REFERENCES User(`id`)

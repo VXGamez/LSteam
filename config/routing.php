@@ -1,4 +1,4 @@
-<?php
+  <?php
 declare(strict_types=1);
 
 use SallePW\SlimApp\Controller\FriendsController;
@@ -130,6 +130,11 @@ $app->post(
     '/register',
     UserRegisterController::class . ":registerUser"
 )->setName('create_user');
+
+$app->post(
+    '/user/friendRequests/accept/{requestId}',
+    FriendsController::class . ":acceptRequest"
+)->setName('accept');
 
 //--------------------------------- DELETE ---------------------------------
 
