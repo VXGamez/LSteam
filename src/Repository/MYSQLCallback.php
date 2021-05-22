@@ -26,5 +26,6 @@ interface MYSQLCallback
     public function buyGame($email, $gameID, $data);
     public function getWish($email, $gameID, $data);
     public function deleteWish($email, $gameID);
+    public function requestIsValid($myUserId, $friendUserId): int;
 
 }

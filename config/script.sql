@@ -52,11 +52,11 @@ CREATE TABLE `User-Game-Wishlist` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `Friend-User`;
-CREATE TABLE `Friend-User` (
+CREATE TABLE `c` (
     `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
     `user1_id` INT(11) unsigned NOT NULL,
     `user2_id` INT(11) unsigned NOT NULL,
-    `date_accepted` DATETIME NOT NULL,
+    `fecha` DATETIME NOT NULL,
     PRIMARY KEY(`id`),
     FOREIGN KEY(`user1_id`) REFERENCES User(`id`),
     FOREIGN KEY(`user2_id`) REFERENCES User(`id`)
@@ -65,12 +65,13 @@ CREATE TABLE `Friend-User` (
 DROP TABLE IF EXISTS `Request`;
 CREATE TABLE `Request` (
     `request_id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
-    `user1_id` INT(11) unsigned NOT NULL,
-    `user2_id` INT(11) unsigned NOT NULL,
+    `user_origen` INT(11) unsigned NOT NULL,
+    `user_desti` INT(11) unsigned NOT NULL,
+    `fecha` DATETIME NOT NULL,
     `pending` BOOLEAN,
     PRIMARY KEY(`request_id`),
-    FOREIGN KEY(`user1_id`) REFERENCES User(`id`),
-    FOREIGN KEY(`user2_id`) REFERENCES User(`id`)
+    FOREIGN KEY(`user_origen`) REFERENCES User(`id`),
+    FOREIGN KEY(`user_desti`) REFERENCES User(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

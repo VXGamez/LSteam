@@ -36,45 +36,9 @@
                 </table>
             </td>
         </tr>
-{% if mensaje.ok %}
-    <tr>
-        <td class="bien" align="center">
-            <table class="t1" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td align="center" valign="top">
-                        <h1 >Email confirmed!</h1>
-                        <img src="{{ full_url_for('home') }}assets/images/emailbien.png" alt=""/>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-{% else %}
-    <tr style="background: none">
-        <td class="mal"  align="center" >
-            <table class="t2" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td align="center" valign="top">
-                        <h1>This activation link is not valid</h1>
-                        <img src="{{ full_url_for('home') }}assets/images/emailmal.png" alt=""/>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-{% endif %}
         <tr>
             <td class="row2" align="center" width="100%">
                 <table class="table2" border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td class="row3" align="center" width="100%">
-                            {% if mensaje.ok %}
-                                <p><b>Congratulations on activating your account!</b></br><b>You have received 50€ as a reward.</b></p>
-                            {%  else %}
-                                <p>Error: Token not valid</p>
-                            {%  endif %}
-                        </td>
-                    </tr>
                     <tr>
                         <td class="row4"align="left" width="100%">
                             <table class="table4" border="0" cellspacing="0" cellpadding="0">
@@ -95,6 +59,7 @@
 
                                             </tr>
                                             <tr>
+                                                <p> Bad Request! This Friend Request is not yours! </p>
                                                 <p> Click <a href="/">here</a> to be redirected</p>
                                             </tr>
                                         </table>

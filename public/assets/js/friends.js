@@ -11,3 +11,19 @@ jQuery(document).ready(function($){
 
 });
 
+function accept (requestID) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/user/friendRequests/accept/'+requestID;
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function deny (requestID) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/user/friendRequests/deny/'+requestID;
+    document.body.appendChild(form);
+    form.submit();
+}
+

@@ -60,193 +60,86 @@
             <div class="tab" role="tabpanel">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item"><a class="nav-link active show" href="#myFriends" aria-controls="myFriends" role="tab" data-toggle="tab"><span><i class="fa fa-users"></i></span>My Friends</a></li>
-                    <li class="nav-item"><a  class="nav-link" href="#myRequests" aria-controls="myRequests" role="tab" data-toggle="tab"><span><i class="fa fa-user-plus"></i></span>Requests</a></li>
+                    <li class="nav-item"><a  class="nav-link" href="#myRequests" aria-controls="myRequests" role="tab" data-toggle="tab"><span><i class="fa fa-user-plus"></i></span>Requests ({{ numRequests }})</a></li>
                     <li class="nav-item"><a class="nav-link" href="#addFriend" aria-controls="addFriend" role="tab" data-toggle="tab"><span><i class="fa fa-search"></i></span>Add Friends</a></li>
                 </ul>
                 <div class="tab-content tabs">
                     <div role="tabpanel" class="tab-pane fade active show" id="myFriends">
                         <div class="friend-list">
-                            <div class="row">
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="friend-card">
-                                        {% set index = random(1, maxColors) %}
-                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>
-                                        <div class="card-info">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
-                                            <div class="friend-info">
-                                                <h5><a class="profile-link">Usuari X</a></h5>
-                                                <p>Friend Since XX XX</p>
-                                                <p>Total Games Owned: X</p>
+                            {% if numFriends == 0 %}
+                                <div class="alert alert-info" role="alert">You have no friends, feel free to add some &#128521;</div>
+                            {% else %}
+                                <div class="row">
+                                    {% for friend in friends %}
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="friend-card">
+                                                {% set index = random(1, maxColors) %}
+                                                <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>
+                                                <div class="card-info">
+                                                    {% if friend.uuid %}
+                                                    {% set imgUrl = full_url_for('home')~"uploads/"~friend.uuid %}
+                                                    <img src="{{imgUrl}}" alt="user" class="profile-photo-lg"/>
+                                                    {% else %}
+                                                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="user" class="profile-photo-lg"/>
+                                                    {% endif %}
+                                                    <div class="friend-info">
+                                                        <h5><a class="profile-link">{{ friend.username }}</a></h5>
+                                                        <p><strong>Friend Since:</strong> {{ friend.fecha }} (GTM)</p>
+                                                        <p><strong>Total Games Owned:</strong> {{ friend.totalJuegos }}</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="friend-card">
-                                        {% set index = random(1, maxColors) %}
-                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-lg">
-                                            <div class="friend-info">
-                                                <h5><a class="profile-link">Usuari X</a></h5>
-                                                <p>Friend Since XX XX</p>
-                                                <p>Total Games Owned: X</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="friend-card">
-                                        {% set index = random(1, maxColors) %}
-                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="user" class="profile-photo-lg">
-                                            <div class="friend-info">
-                                                <h5><a class="profile-link">Usuari X</a></h5>
-                                                <p>Friend Since XX XX</p>
-                                                <p>Total Games Owned: X</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="friend-card">
-                                        {% set index = random(1, maxColors) %}
-                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="user" class="profile-photo-lg">
-                                            <div class="friend-info">
-                                                <h5><a class="profile-link">Usuari X</a></h5>
-                                                <p>Friend Since XX XX</p>
-                                                <p>Total Games Owned: X</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="friend-card">
-                                        {% set index = random(1, maxColors) %}
-                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="user" class="profile-photo-lg">
-                                            <div class="friend-info">
-                                                <h5><a class="profile-link">Usuari X</a></h5>
-                                                <p>Friend Since XX XX</p>
-                                                <p>Total Games Owned: X</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="friend-card">
-                                        {% set index = random(1, maxColors) %}
-                                        <div class="friendCoverFoto" style="background: linear-gradient(to right, {{ coloreh[index].color1 }}, {{ coloreh[index].color2 }})"></div>                                        <div class="card-info">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="user" class="profile-photo-lg">
-                                            <div class="friend-info">
-                                                <h5><a class="profile-link">Usuari X</a></h5>
-                                                <p>Friend Since XX XX</p>
-                                                <p>Total Games Owned: X</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="myRequests">
                         <div class="d-flex flex-column justify-content-center">
-                            <div class="nearby-user">
-                                <div class="row">
-                                    <div class="col-md-2 col-sm-2">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                            {% if numRequests == 0 %}
+                                <div class="alert alert-info" role="alert">You have no pending requests!</div>
+                            {% else %}
+                                {% for request in requests %}
+                                    <div class="nearby-user">
+                                        <div class="row">
+                                            <div class="col-md-2 col-sm-2">
+                                                {% if request.uuid %}
+                                                    {% set imgUrl = full_url_for('home')~"uploads/"~request.uuid %}
+                                                    <img src="{{imgUrl}}" alt="user" class="profile-photo-lg"/>
+                                                {% else %}
+                                                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="user" class="profile-photo-lg"/>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-7 col-sm-7">
+                                                <h5><a class="profile-link">{{ request.username }}</a></h5>
+                                                <p><strong>Request Sent on:</strong> {{ request.fecha }} (GTM)</p>
+                                                <p class="text-muted"><strong>Total Games Owned:</strong> {{ request.totalJuegos }}</p>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 d-flex flex-row">
+                                                <button class="btn btn-primary pull-right reqButton" onclick="accept({{ request.request_id }})">Accept</button>
+                                                <button class="btn btn-primary pull-right reqButton denyButton" onclick="deny({{ request.request_id }})">Deny</button>
+                                            </div>
+                                        </div>
+                                        <hr>
                                     </div>
-                                    <div class="col-md-7 col-sm-7">
-                                        <h5><a class="profile-link">Usuari X</a></h5>
-                                        <p>Request Sent on: XX XX XX XX</p>
-                                        <p class="text-muted">Total Games Owned: X</p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
-                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
-                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
-                                    </div>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="nearby-user">
-                                <div class="row">
-                                    <div class="col-md-2 col-sm-2">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
-                                    </div>
-                                    <div class="col-md-7 col-sm-7">
-                                        <h5><a class="profile-link">Usuari X</a></h5>
-                                        <p>Request Sent on: XX XX XX XX</p>
-                                        <p class="text-muted">Total Games Owned: X</p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
-                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
-                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
-                                    </div>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="nearby-user">
-                                <div class="row">
-                                    <div class="col-md-2 col-sm-2">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
-                                    </div>
-                                    <div class="col-md-7 col-sm-7">
-                                        <h5><a class="profile-link">Usuari X</a></h5>
-                                        <p>Request Sent on: XX XX XX XX</p>
-                                        <p class="text-muted">Total Games Owned: X</p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
-                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
-                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
-                                    </div>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="nearby-user">
-                                <div class="row">
-                                    <div class="col-md-2 col-sm-2">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
-                                    </div>
-                                    <div class="col-md-7 col-sm-7">
-                                        <h5><a class="profile-link">Usuari X</a></h5>
-                                        <p>Request Sent on: XX XX XX XX</p>
-                                        <p class="text-muted">Total Games Owned: X</p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
-                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
-                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
-                                    </div>
-                                </div>
-                                <hr>
-                            </div>
-                            <div class="nearby-user">
-                                <div class="row">
-                                    <div class="col-md-2 col-sm-2">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
-                                    </div>
-                                    <div class="col-md-7 col-sm-7">
-                                        <h5><a class="profile-link">Usuari X</a></h5>
-                                        <p>Request Sent on: XX XX XX XX</p>
-                                        <p class="text-muted">Total Games Owned: X</p>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 d-flex flex-row">
-                                        <button class="btn btn-primary pull-right reqButton">Accept</button>
-                                        <button class="btn btn-primary pull-right reqButton denyButton">Deny</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
+                                {% endfor %}
+                            {% endif %}
+                            
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="addFriend">
-                        {% if errores.friendError %}
-                            <h3>{{ errores.friendError }}</h3>
-                        {% endif %}
                         <form action="/user/friendRequests/send" method="POST" class="userAdd">
-                            <input type="text" name="name" class="question" id="nme" required autocomplete="off" />
+                            <input type="text" name="username" class="question" id="username" required autocomplete="off" />
                             <label for="nme"><span>Username</span></label>
                             <input type="submit" class="submitButton" value="Add Friend!" />
                         </form>
+                        {% if  errores.requestResult %}
+                            <br>
+                            <div class="{{ alertClass }}" role="alert">
+                                {{  errores.requestResult }}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

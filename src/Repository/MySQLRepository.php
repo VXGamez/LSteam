@@ -21,13 +21,8 @@ final class MySQLRepository implements MYSQLCallback
     }
 
 
-    public function save(User $user): bool
-    {
-        $query = <<<'QUERY'
-        INSERT INTO User(username, email, password, birthday, phone, activated, token, created_at)
-        VALUES(:username,:email, :password, :birthday,:phone,:activated, :token, :created_at)
-QUERY;
-        $statement = $this->database->connection()->prepare($query);
+    public function save(User $user): bool{
+        $statement = $this->database->connection()->prepare('INSERT INTO User(username, email, password, birthday, phone, activated, token, created_at) VALUES(:username,:email, :password, :birthday,:phone,:activated, :token, :created_at)');
         $username = $user->username();
         $email = $user->email();
         $password = $user->password();
@@ -64,6 +59,53 @@ QUERY;
             $ok = false;
         }
 
+        return $ok;
+    }
+
+    public function requestIsValid($myUserId, $friendUserId): int{
+        $ok = 0;
+
+        $stmt = $this->database->connection()->prepare('SELECT pending, request_id FROM Request WHERE user_origen= :userid2 AND user_desti= :userid1');
+        $stmt->bindParam('userid1', $myUserId, PDO::PARAM_INT);
+        $stmt->bindParam('userid2', $friendUserId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($stmt->rowCount() != 0){
+            if ($row['pending'] == 1) {
+                $this->solicitudAceptada($row['request_id']);
+                $this->addNewFriendship($row['request_id']);
+                $ok = 3;
+            }
+        }
+        
+        if ($ok == 0){
+            
+            $stmt = $this->database->connection()->prepare('SELECT id FROM `Friend-User` WHERE (user1_id= :userid1 OR user1_id= :userid2) AND (user2_id= :userid1 OR user2_id= :userid2)');
+            $stmt->bindParam('userid1', $myUserId, PDO::PARAM_INT);
+            $stmt->bindParam('userid2', $friendUserId, PDO::PARAM_INT);
+            $stmt->execute();
+        
+            if($stmt->rowCount() != 0){
+                $ok = 1; 
+            } 
+
+        }
+
+        if ($ok == 0){
+            
+            $stmt = $this->database->connection()->prepare('SELECT pending FROM Request WHERE user_origen= :userid1 AND user_desti= :userid2');
+            $stmt->bindParam('userid1', $myUserId, PDO::PARAM_INT);
+            $stmt->bindParam('userid2', $friendUserId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            if($stmt->rowCount() != 0){
+                $ok = 2;
+            }
+
+        }
+               
         return $ok;
     }
 
@@ -212,24 +254,16 @@ QUERY;
         $stmt->bindParam('email', $usrEmail, PDO::PARAM_STR);
         $stmt->bindParam('usrname', $usrEmail, PDO::PARAM_STR);
         $stmt->execute();
-        $rowID = $stmt->fetch();
-        $id = $rowID['id'];
-        return (int)$id;
+        if($stmt->rowCount() == 1){
+            $rowID = $stmt->fetch();
+            $id = $rowID['id'];
+            return (int)$id;
+        }else{
+            return -1;
+        }
     }
 
     public function getPurchaseHistory($usrEmail){
-        /*$id = $this->getUserId($usrEmail);
-
-        $stmt = $this->database->connection()->prepare('SELECT title, sellPrice, dateBought FROM `User-Game-Bought` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = ? ORDER BY dateBought DESC');
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        $u = [];
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            array_push($u, $row);
-        }
-        return $u;*/
 
         $id = $this->getUserId($usrEmail);
 
@@ -308,13 +342,7 @@ QUERY;
         $dealRating = (String)$data['dealRating'];
 
         if($stmt->rowCount() == 0){
-          
-            $query = <<<'QUERY'
-            INSERT INTO Game(id, storeID,title,thumb,dealRating)
-            VALUES(:gameid,:storeID, :title, :thumb, :dealRating)
-    QUERY;
-            
-            $statement = $this->database->connection()->prepare($query);
+            $statement = $this->database->connection()->prepare('INSERT INTO Game(id, storeID,title,thumb,dealRating) VALUES(:gameid,:storeID, :title, :thumb, :dealRating)');
             $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
             $statement->bindParam('storeID', $storeid, PDO::PARAM_INT);
             $statement->bindParam('title', $title, PDO::PARAM_STR);
@@ -335,13 +363,7 @@ QUERY;
             $stmt3->execute();
         }
 
-        $query = <<<'QUERY'
-        INSERT INTO `User-Game-Bought`(gameID, userID,sellPrice,  dateBought)
-        VALUES(:gameid,:userid, :sellPrice, :dataa)
-QUERY;
-        $statement = $this->database->connection()->prepare($query);
-    
-
+        $statement = $this->database->connection()->prepare('INSERT INTO `User-Game-Bought`(gameID, userID,sellPrice,  dateBought) VALUES(:gameid,:userid, :sellPrice, :dataa)');
         $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
         $statement->bindParam('userid', $userid, PDO::PARAM_INT);
         $statement->bindParam('sellPrice', $sellPrice, PDO::PARAM_STR);
@@ -372,12 +394,7 @@ QUERY;
             $thumb = $data['thumb'];
             $dealRating = (String)$data['dealRating'];
 
-            $query = <<<'QUERY'
-            INSERT INTO Game(id, storeID,title,thumb,dealRating)
-            VALUES(:gameid,:storeID, :title, :thumb, :dealRating)
-    QUERY;
-
-            $statement = $this->database->connection()->prepare($query);
+            $statement = $this->database->connection()->prepare('INSERT INTO Game(id, storeID,title,thumb,dealRating) VALUES(:gameid,:storeID, :title, :thumb, :dealRating)');
             $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
             $statement->bindParam('storeID', $storeid, PDO::PARAM_INT);
             $statement->bindParam('title', $title, PDO::PARAM_STR);
@@ -385,13 +402,7 @@ QUERY;
             $statement->bindParam('dealRating', $dealRating, PDO::PARAM_STR);
             $statement->execute();
 
-            $query = <<<'QUERY'
-            INSERT INTO `User-Game-Wishlist`(gameID, userID, sellPrice)
-            VALUES(:gameid,:userid, :sell)
-    QUERY;
-
-            
-            $statement = $this->database->connection()->prepare($query);
+            $statement = $this->database->connection()->prepare('INSERT INTO `User-Game-Wishlist`(gameID, userID, sellPrice) VALUES(:gameid,:userid, :sell)');
             $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
             $statement->bindParam('userid', $userID, PDO::PARAM_INT);
             $statement->bindParam('sell', $sellPrice, PDO::PARAM_INT);
@@ -427,181 +438,64 @@ QUERY;
     }
 
 
-    public function getFriends($usrEmail){
-
+    public function getFriends($usrEmail, $flag){
         $id = $this->getUserId($usrEmail);
 
-        //Falta coger uuid de ese user
-        $stmt = $this->database->connection()->prepare('SELECT user1_id FROM `Friend-User` WHERE user2_id = :id
-                                                               UNION
-                                                               SELECT user2_id FROM `Friend-User` WHERE user1_id = :id');
 
+        if($flag == 0){
+            $stmt = $this->database->connection()->prepare('SELECT user1_id AS id, fecha FROM `Friend-User` WHERE user2_id = :id UNION SELECT user2_id AS id, fecha FROM `Friend-User` WHERE user1_id = :id');
+        }else if($flag == 1){
+            $stmt = $this->database->connection()->prepare('SELECT request_id, user_origen AS id, fecha FROM `Request` WHERE user_desti = :id AND pending = TRUE');
+        }
         $stmt->bindParam('id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         $u = [];
 
-        $i = 0;
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            array_push($u[$i]['id'], $row);
-            $i++;
-        }
-
-        $stmt = $this->database->connection()->prepare('SELECT date_accepted FROM `Friend-User` WHERE user2_id = :id
-                                                              UNION  date_accepted FROM `Friend-User` WHERE user1_id = :id'); //Para tener resultados ordenados
-
-        $stmt->bindParam('id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $i = 0;
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            array_push($u[$i]['date_accepted'], $row);
-            $i++;
+            array_push($u, $row);
         }
 
         for($i = 0; $i < count($u); $i++){
             $stmt = $this->database->connection()->prepare('SELECT COUNT(gameID) AS totalJuegos FROM `User-Game-Bought` WHERE userID = :id');
+            $identificador = (int)$u[$i]["id"];
+            $stmt->bindParam('id', $identificador, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $u[$i]['totalJuegos'] = $row['totalJuegos'];
 
-            $stmt->bindParam('id', $id[$i]['id'], PDO::PARAM_INT);
+            $stmt = $this->database->connection()->prepare('SELECT username, uuid FROM `User` WHERE id = :id');
+            $identificador = (int)$u[$i]["id"];
+            $stmt->bindParam('id', $identificador, PDO::PARAM_INT);
             $stmt->execute();
 
-            $u[$i]['totalJuegos'] = $stmt->fetch(PDO::FETCH_ASSOC);
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $u[$i]['username'] = $row['username'];
+                $u[$i]['uuid'] = $row['uuid'];
+            }
         }
+        
         return $u;
     }
 
-
-    public function checkAreFriends($idUsr, $idFriend){
-        $bool = true;
-
-        $stmt = $this->database->connection()->prepare('SELECT id FROM `Friend-User` WHERE (user1_id = :id1 OR user1_id = :id2) AND (user2_id = :id1 OR user2_id = :id2)');
-        $stmt->bindParam('id1', $idUsr, PDO::PARAM_INT);
-        $stmt->bindParam('id2', $idFriend, PDO::PARAM_INT);
-
-        $stmt->execute();
-
-        if($stmt->rowCount() != 0){ //Ya son amigos
-            $bool = false;
-        }
-
-        return $bool;
-    }
-
-    public function checkRequest($idUsr, $idFriend) {
-        $bool = true;
-
-        $stmt = $this->database->connection()->prepare('SELECT id_request FROM `Request` WHERE (user1_id = :id1 OR user1_id = :id2) AND (user2_id = :id1 OR user2_id = :id2)');
-        $stmt->bindParam('id1', $idUsr, PDO::PARAM_INT);
-        $stmt->bindParam('id2', $idFriend, PDO::PARAM_INT);
-
-        $stmt->execute();
-
-        if($stmt->rowCount() != 0){ //Ya existia o ha existido y ha sido denegada esta solicitud
-            $bool = false;
-        }
-
-        return $bool;
-    }
 
     public function addRequest($idUsr, $idFriend){
-        $query = <<<'QUERY'
-            INSERT INTO `Request`(user1_id, user2_id, pending)
-            VALUES(:id1,:id2,:pending)
-    QUERY;
-
-        $pending = true;
-
-        $statement = $this->database->connection()->prepare($query);
+        $pending = 1;
+        $statement = $this->database->connection()->prepare('INSERT INTO `Request`(user_origen, user_desti,fecha, pending) VALUES(:id1, :id2, :fecha, :pending)');
         $statement->bindParam('id1', $idUsr, PDO::PARAM_INT);
         $statement->bindParam('id2', $idFriend, PDO::PARAM_INT);
+        $fecha = new DateTime();
+        $datamen = $fecha->format(self::DATE_FORMAT);
+        $statement->bindParam('fecha', $datamen, PDO::PARAM_STR);
         $statement->bindParam('pending', $pending, PDO::PARAM_INT);
         $statement->execute();
-
-    }
-
-    public function getRequests($email){
-        $id = $this->getUserId($email);
-
-        //Falta coger uuid de los usuarios que me han enviado peticion
-        $stmt = $this->database->connection()->prepare('SELECT user1_id FROM `Request` WHERE user2_id = :id AND pending = true
-                                                               UNION
-                                                               SELECT user2_id FROM `Request` WHERE user1_id = :id AND pending = true');
-
-        $stmt->bindParam('id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $u = [];
-
-        $i = 0;
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            array_push($u[$i]['id'], $row);
-            $i++;
-        }
-
-        //No se que queremos mostrar en la lista de solicitudes recibidas
-        for($i = 0; $i < count($u); $i++){
-            $stmt = $this->database->connection()->prepare('SELECT COUNT(gameID) AS totalJuegos FROM `User-Game-Bought` WHERE userID = :id');
-
-            $stmt->bindParam('id', $id[$i]['id'], PDO::PARAM_INT);
-            $stmt->execute();
-
-            $u[$i]['totalJuegos'] = $stmt->fetch(PDO::FETCH_ASSOC);
-        }
-        return $u;
-    }
-
-    public function checkRequestExists($idUser, $idFriend) {
-        $anado = false;
-
-        $stmt = $this->database->connection()->prepare('SELECT id_request FROM `Request` WHERE (user1_id = :id1 OR user1_id = :id2) AND (user2_id = :id1 OR user2_id = :id2) AND pending = false'); //pending = false significa que en algun momento la han rechazado
-        $stmt->bindParam('id1', $idUsr, PDO::PARAM_INT);
-        $stmt->bindParam('id2', $idFriend, PDO::PARAM_INT);
-
-        $stmt->execute();
-
-        if($stmt->rowCount() != 0){ //Quiere decir que esta solicitud ya existia
-            //Queremos aceptar directamente el amigo
-
-            /*Eliminamos solicitud (pending = false)*/
-            $query = <<<'QUERY' 
-            INSERT INTO `Request`(user1_id, user2_id, pending)
-            VALUES(:id1,:id2,:pending) WHERE id_request = $stmt->request_id //Mirar sintaxis
-    QUERY;
-
-            $pending = false;
-
-            $statement = $this->database->connection()->prepare($query);
-            $statement->bindParam('id1', $idUsr, PDO::PARAM_INT);
-            $statement->bindParam('id2', $idFriend, PDO::PARAM_INT);
-            $statement->bindParam('pending', $pending, PDO::PARAM_INT);
-            $statement->execute();
-
-            /*Aceptamos la solicitud*/
-            $date = new DateTime();
-            $dateAccepted = $date->format(self::DATE_FORMAT);
-            //$dateAccepted = time(); //Obtenemos hora a la que se acepta la solicitud
-
-            $query = <<<'QUERY' 
-            INSERT INTO `Friend-User`(user1_id, user2_id, dateAccepted)
-            VALUES(:id1,:id2,:date)
-    QUERY;
-
-            $statement = $this->database->connection()->prepare($query);
-            $statement->bindParam('id1', $idUser, PDO::PARAM_INT);
-            $statement->bindParam('id2', $idFriend, PDO::PARAM_INT);
-            $statement->bindParam('date', $dateAccepted, PDO::PARAM_INT);
-            $statement->execute();
-
-            $anado = true;
-        }
-        return $anado;
     }
 
     public function userInRequest($id, $requestID) {
         $exists = false;
 
-        $stmt = $this->database->connection()->prepare('SELECT id_request FROM `Request` WHERE id = :rid AND (user1_id = :user OR user2_id = :user)');
+        $stmt = $this->database->connection()->prepare('SELECT * FROM `Request` WHERE request_id = :rid AND user_desti = :user');
         $stmt->bindParam('rid', $requestID, PDO::PARAM_INT);
         $stmt->bindParam('user', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -614,45 +508,32 @@ QUERY;
     }
 
     public function solicitudAceptada($requestID) {
-        $query = <<<'QUERY'
-            INSERT INTO `Request`(pending)
-            VALUES(:pending) WHERE request_id = :id
-    QUERY;
-
-        $pending = false;
-
-        $statement = $this->database->connection()->prepare($query);
+        $pending = 0;
+        $statement = $this->database->connection()->prepare('UPDATE Request SET pending = :pending WHERE request_id = :id');
         $statement->bindParam('id', $requestID, PDO::PARAM_INT);
         $statement->bindParam('pending', $pending, PDO::PARAM_INT);
         $statement->execute();
     }
 
     public function addNewFriendship($requestID) {
-        $stmt = $this->database->connection()->prepare('SELECT user1_id FROM `Request` WHERE id = :id');
+        
+        $stmt = $this->database->connection()->prepare('SELECT user_origen, user_desti FROM `Request` WHERE request_id = :id');
         $stmt->bindParam('id', $requestID, PDO::PARAM_INT);
         $stmt->execute();
 
-        $id1 = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $stmt = $this->database->connection()->prepare('SELECT user2_id FROM `Request` WHERE id = :id');
-        $stmt->bindParam('id', $requestID, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $id2 = $stmt->fetch(PDO::FETCH_ASSOC);
+        $users = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        
+        $origen = (int)$users['user_origen'];
+        $desti = (int)$users['user_desti'];
 
         $date = new DateTime();
         $dateAccepted = $date->format(self::DATE_FORMAT);
-        //$dateAccepted = time(); //Obtenemos hora a la que se acepta la solicitud
 
-        $query = <<<'QUERY'
-            INSERT INTO `Friend-User`(user1_id, user2_id, date_accepted)
-            VALUES(:id1, :id2, :date_accepted)
-    QUERY;
-
-        $statement = $this->database->connection()->prepare($query);
-        $statement->bindParam('id1', $id1, PDO::PARAM_INT);
-        $statement->bindParam('id2', $id2, PDO::PARAM_INT);
-        $statement->bindParam('date_accepted', $dateAccepted, PDO::PARAM_INT);
+        $statement = $this->database->connection()->prepare('INSERT INTO `Friend-User`(user1_id, user2_id, fecha) VALUES (:id1, :id2, :fecha)');
+        $statement->bindParam('id1', $origen , PDO::PARAM_INT);
+        $statement->bindParam('id2', $desti , PDO::PARAM_INT);
+        $statement->bindParam('fecha', $dateAccepted, PDO::PARAM_STR);
         $statement->execute();
     }
 

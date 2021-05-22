@@ -1,4 +1,4 @@
-  <?php
+<?php
 declare(strict_types=1);
 
 use SallePW\SlimApp\Controller\FriendsController;
@@ -79,12 +79,14 @@ $app->get(
     FriendsController::class . ":showMyRequests"
 )->setName('home')->add(NoLoginMiddleware::class);
 
-//--------------------------------- POST ---------------------------------
-
 $app->get(
     '/user/friendRequests/send',
     FriendsController::class . ":showAddFriend"
 )->setName('home');
+
+
+//--------------------------------- POST ---------------------------------
+
 
 $app->post(
     '/user/wishlist/{gameID}',
@@ -135,6 +137,12 @@ $app->post(
     '/user/friendRequests/accept/{requestId}',
     FriendsController::class . ":acceptRequest"
 )->setName('accept');
+
+$app->post(
+    '/user/friendRequests/deny/{requestId}',
+    FriendsController::class . ":denyRequest"
+)->setName('deny');
+
 
 //--------------------------------- DELETE ---------------------------------
 
