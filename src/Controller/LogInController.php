@@ -21,6 +21,10 @@ final class LogInController
         $this->mysqlRepository = $repository;
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet comprovar que el login es realitza correctament
+    * En cas dee ser així, ens redirigeix a la store, i si no es dona un error genèric
+    ************************************************/
     public function loginUser(Request $request, Response $response): Response
     {
 

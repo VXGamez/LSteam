@@ -7,18 +7,25 @@ use DateTime;
 use PDO;
 use SallePW\SlimApp\Model\User;
 
+/************************************************
+* Classe encarregada de fer les peticions a la base de dades. Implementa el MySQLCallback
+************************************************/
 final class MySQLRepository implements MYSQLCallback
 {
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 
     private PDOSingleton $database;
 
+    //Reb el PDOSingleton de les dependencies
     public function __construct(PDOSingleton $database)
     {
         $this->database = $database;
     }
 
 
+    /************************************************
+    * Aquesta funció té com a finalitat desar un usuari a la base de dades
+    ************************************************/
     public function save(User $user): bool{
         $statement = $this->database->connection()->prepare('INSERT INTO User(username, email, password, birthday, phone, activated, token, created_at) VALUES(:username,:email, :password, :birthday,:phone,:activated, :token, :created_at)');
         $username = $user->username();
@@ -45,6 +52,9 @@ final class MySQLRepository implements MYSQLCallback
         return $ok;
     }
 
+    /************************************************
+    * Aquesta funció té com a finalitat comprovar si el correu i la contrasenya rebuts pertanyen a un usuari
+    ************************************************/
     public function validateUser($email, $password): bool{
         $ok = true;
 
@@ -60,6 +70,9 @@ final class MySQLRepository implements MYSQLCallback
         return $ok;
     }
 
+    /************************************************
+    * Aquesta funció té com a finalitat saber si es pot enviar una request a aquest usuari, i sinó, perquè.
+    ************************************************/
     public function requestIsValid($myUserId, $friendUserId): int{
         $ok = 0;
 
@@ -107,6 +120,10 @@ final class MySQLRepository implements MYSQLCallback
         return $ok;
     }
 
+
+    /************************************************
+    * Retorna el usuari amb el correu rebut, a vegades es fa servir rebent el nom de usuari o el token donat que qualsevol d'aquests 3 elements és únic.
+    ************************************************/
     public function getUser($usrEmail): User{
 
 
@@ -149,6 +166,9 @@ final class MySQLRepository implements MYSQLCallback
         return $u;
     }
 
+    /************************************************
+    * Comprova si el correu ja s'ha fet servir per algun usuari a la base de dades
+    ************************************************/
     public function checkIfEmailExists($email): bool{
         $ok = true;
 
@@ -163,6 +183,9 @@ final class MySQLRepository implements MYSQLCallback
         return $ok;
     }
 
+    /************************************************
+    * Comprova si el nom d'usuari ja s'ha fet servir per algun usuari a la base de dades
+    ************************************************/
     public function checkIfUsernameExists($usr): bool{
         $ok = true;
 
@@ -177,6 +200,9 @@ final class MySQLRepository implements MYSQLCallback
         return $ok;
     }
 
+    /************************************************
+    * Comprova si el token ja s'ha fet servir per algun usuari a la base de dades
+    ************************************************/
     public function checkToken($token): bool{
         $ok = true;
 
@@ -191,6 +217,9 @@ final class MySQLRepository implements MYSQLCallback
         return $ok;
     }
 
+    /************************************************
+    * Comprova si el parametre activated de la taula User esta a TRUE, i per tant, aquest token ja esta activat
+    ************************************************/
     public function checkActivation($token): bool{
         $ok = true;
 
@@ -210,12 +239,18 @@ final class MySQLRepository implements MYSQLCallback
         return $ok;
     }
 
+    /************************************************
+    * Actualitza el parametre activated a true i posa 50€ a la wallet
+    ************************************************/
     public function updateActivation($token) {
         $stmt = $this->database->connection()->prepare('UPDATE User SET activated = true, wallet = 50 WHERE token= :tkn');
         $stmt->bindParam('tkn', $token, PDO::PARAM_STR);
         $stmt->execute();
     }
 
+    /************************************************
+    * Actualitza la contrasenya amb la nova contrasenya
+    ************************************************/
     public function updatePass($user, $newPass) {
         $id = $this->getUserId($user);
         $stmt = $this->database->connection()->prepare('UPDATE User SET password = :pass WHERE id = :ide');
@@ -225,6 +260,9 @@ final class MySQLRepository implements MYSQLCallback
 
     }
 
+    /************************************************
+    * Actualitza el número de telèfon amb el nou rebut
+    ************************************************/
     public function updatePhone($user, $phone) {
         $stmt = $this->database->connection()->prepare('UPDATE User SET phone = :phone WHERE username= :usrname');
         $stmt->bindParam('phone', $phone, PDO::PARAM_STR);
@@ -232,6 +270,9 @@ final class MySQLRepository implements MYSQLCallback
         $stmt->execute();
     }
 
+    /************************************************
+    * Actualitza el camp uuid, per quan es canvii la foto de perfil
+    ************************************************/
     public function updateUuid($email, $uuid){
         $stmt = $this->database->connection()->prepare('UPDATE User SET uuid = :uid WHERE username= :usrname');
         $stmt->bindParam('uid', $uuid, PDO::PARAM_STR);
@@ -239,6 +280,10 @@ final class MySQLRepository implements MYSQLCallback
         $stmt->execute();
     }
 
+
+    /************************************************
+    * Actualitza el valor de la columna wallet quan el usuari insereix més diners o en consumeix.
+    ************************************************/
     public function updateWallet($wallet, $email){
         $stmt = $this->database->connection()->prepare('UPDATE User SET wallet = :wallet WHERE username= :usrname');
         $stmt->bindParam('wallet', $wallet, PDO::PARAM_STR);
@@ -247,7 +292,9 @@ final class MySQLRepository implements MYSQLCallback
         $_SESSION['wallet'] = $wallet;
     }
 
-
+    /************************************************
+    * Retorna el id del usuari que reb la funció. Novament comprova que sigui el correu o el nom d'usuari ja que els dos son únics i aixi podem fer servir la funció 
+    ************************************************/
     public function getUserId($usrEmail): int{
         $stmt = $this->database->connection()->prepare('SELECT id FROM User WHERE email= :email OR username= :usrname');
         $stmt->bindParam('email', $usrEmail, PDO::PARAM_STR);
@@ -262,6 +309,9 @@ final class MySQLRepository implements MYSQLCallback
         }
     }
 
+    /************************************************
+    * Retorna el històric de compras del usuari rebut
+    ************************************************/
     public function getPurchaseHistory($usrEmail){
 
         $id = $this->getUserId($usrEmail);
@@ -278,6 +328,9 @@ final class MySQLRepository implements MYSQLCallback
         return $u;
     }
 
+    /************************************************
+    * Retorna tots els jocs de la wishlist
+    ************************************************/
     public function getWishHistory($usrEmail){
         
         $id = $this->getUserId($usrEmail);
@@ -294,6 +347,9 @@ final class MySQLRepository implements MYSQLCallback
         return $u;
     }
 
+    /************************************************
+    * Ens retorna un array associatiu dels jocs que té tant a la wishlist com comprats.
+    ************************************************/
     public function getUserGames($usrEmail) {
 
         $id = $this->getUserId($usrEmail);
@@ -325,6 +381,9 @@ final class MySQLRepository implements MYSQLCallback
         return $u;
     }
 
+    /************************************************
+    * Compra el joc rebut amb el id rebut, i a nom del usuari amb el email rebut. Si esta a la wishlist el treu de la wishlist
+    ************************************************/
     public function buyGame($email, $gameID, $data){
 
         $stmt = $this->database->connection()->prepare('SELECT id FROM `Game` WHERE id = :gid ');
@@ -373,6 +432,9 @@ final class MySQLRepository implements MYSQLCallback
 
     }
 
+    /************************************************
+    * Afegeix un element a la wishlist si no ha estat afegit ja. 
+    ************************************************/
     public function getWish($email, $gameID, $data){
 
         $stmt = $this->database->connection()->prepare('SELECT gameID FROM `User-Game-Wishlist` WHERE gameID = :gid ');
@@ -421,6 +483,9 @@ final class MySQLRepository implements MYSQLCallback
 
     }
 
+    /************************************************
+    * Elimina de la wishlist
+    ************************************************/
     public function deleteWish($email, $gameID){
 
 
@@ -445,7 +510,9 @@ final class MySQLRepository implements MYSQLCallback
 
     }
 
-
+    /************************************************
+    * Ens retorna els amics del usuari amb lo necessari per la vista com la data de afegit o el total de jocs que té cada un.
+    ************************************************/
     public function getFriends($usrEmail, $flag){
         $id = $this->getUserId($usrEmail);
 
@@ -465,8 +532,9 @@ final class MySQLRepository implements MYSQLCallback
         }
 
         for($i = 0; $i < count($u); $i++){
-            $stmt = $this->database->connection()->prepare('SELECT COUNT(gameID) AS totalJuegos FROM `User-Game-Bought` WHERE userID = :id');
             $identificador = (int)$u[$i]["id"];
+            $stmt = $this->database->connection()->prepare('SELECT COUNT(gameID) AS totalJuegos FROM `User-Game-Bought` WHERE userID = :id');
+            
             $stmt->bindParam('id', $identificador, PDO::PARAM_INT);
             $stmt->execute();
             
@@ -474,7 +542,6 @@ final class MySQLRepository implements MYSQLCallback
             $u[$i]['totalJuegos'] = $row['totalJuegos'];
 
             $stmt = $this->database->connection()->prepare('SELECT username, uuid FROM `User` WHERE id = :id');
-            $identificador = (int)$u[$i]["id"];
             $stmt->bindParam('id', $identificador, PDO::PARAM_INT);
             $stmt->execute();
 
@@ -487,7 +554,9 @@ final class MySQLRepository implements MYSQLCallback
         return $u;
     }
 
-
+    /************************************************
+    * Afegeix la request a la taula de requests
+    ************************************************/
     public function addRequest($idUsr, $idFriend){
         $pending = 1;
         $statement = $this->database->connection()->prepare('INSERT INTO `Request`(user_origen, user_desti,fecha, pending) VALUES(:id1, :id2, :fecha, :pending)');
@@ -500,6 +569,9 @@ final class MySQLRepository implements MYSQLCallback
         $statement->execute();
     }
 
+    /************************************************
+    * Comprova si el usuari esta a la request
+    ************************************************/
     public function userInRequest($id, $requestID) {
         $exists = false;
 
@@ -515,6 +587,9 @@ final class MySQLRepository implements MYSQLCallback
         return $exists;
     }
 
+    /************************************************
+    * Accepta una solicitud
+    ************************************************/
     public function solicitudAceptada($requestID) {
         $pending = 0;
         $statement = $this->database->connection()->prepare('UPDATE Request SET pending = :pending WHERE request_id = :id');
@@ -523,6 +598,9 @@ final class MySQLRepository implements MYSQLCallback
         $statement->execute();
     }
 
+    /************************************************
+    * Afegeix una persona a amics
+    ************************************************/
     public function addNewFriendship($requestID) {
         
         $stmt = $this->database->connection()->prepare('SELECT user_origen, user_desti FROM `Request` WHERE request_id = :id');

@@ -5,6 +5,9 @@ namespace SallePW\SlimApp\Repository;
 
 use SallePW\SlimApp\Model\User;
 
+/************************************************
+* Interfície amb totes les funcions de la base de dades
+************************************************/
 interface MYSQLCallback
 {
     public function save(User $user): bool;

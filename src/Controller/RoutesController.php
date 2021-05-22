@@ -18,6 +18,9 @@ final class RoutesController{
         $this->mysqlRepository = $repository;
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet realitzar Logout, fent unset de la Session iniciada
+    ************************************************/
     public function doLogout(Request $request, Response $response): Response
     {
 
@@ -27,12 +30,18 @@ final class RoutesController{
         return $response->withHeader('Location', '/')->withStatus(302);
     }
 
+    /************************************************
+    * @Finalitat: Funció que mostra el formulari de registre
+    ************************************************/
     public function showRegisterForm(Request $request, Response $response): Response
     {
 
         return $this->twig->render($response,'register.twig',[]);
     }
 
+    /************************************************
+    * @Finalitat: Funció que mostra la pàgina d'inici (Landing)
+    ************************************************/
     public function showLanding(Request $request, Response $response): Response
     {
         $redirect = [];
@@ -45,12 +54,17 @@ final class RoutesController{
         ]);
     }
 
-
+    /************************************************
+    * @Finalitat: Funció que mostra la pàgina per poder canviar de contrasenya
+    ************************************************/
     public function showChangePass(Request $request, Response $response): Response
     {
         return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
     }
 
+    /************************************************
+    * @Finalitat: Funció que mostra la pàgina de Login
+    ************************************************/
     public function showLogin(Request $request, Response $response): Response
     {
         $redirect = [];
@@ -63,6 +77,9 @@ final class RoutesController{
         ]);
     }
 
+    /************************************************
+    * @Finalitat: Funció que mostra la pàgina de Wallet
+    ************************************************/
     public function showWallet(Request $request,Response $response): Response
     {
         return $this->twig->render($response,'wallet.twig',[

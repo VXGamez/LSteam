@@ -30,6 +30,9 @@ if(!isset($_SESSION['started'])){
     $_SESSION['started'] = "ha empesado";
 }
 
+/************************************************
+* Hem afegit un errorHandler que ens permetrà redirigir el usuari a una adreça vàlida sempre que vagi a un endpoint no controlat per nosaltres.
+************************************************/
 $errorMiddleware->setErrorHandler(HttpNotFoundException::class, function (
     ServerRequestInterface $request, Throwable $exception, bool $displayErrorDetails, bool $logErrors,bool $logErrorDetails) {
     $response = new \Slim\Psr7\Response();

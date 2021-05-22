@@ -12,7 +12,6 @@
 }
 
 .cd-quick-view {
-    /* quick view non available on small devices */
     display: none;
 }
 
@@ -109,7 +108,6 @@
     cursor: pointer;
 }
 .add-content .cd-item-info {
-    /* class added at the end of the width animation, used to show the content */
     position: relative;
     visibility: visible;
     opacity: 1;
@@ -171,9 +169,6 @@
     width: 20px;
     height: 20px;
     text-decoration: none;
-    /*overflow: hidden;
-    text-indent: 100%;
-    white-space: nowrap;*/
     transform: scale(0);
     visibility: hidden;
     transition: transform .3s 0s, visibility 0s .3s;

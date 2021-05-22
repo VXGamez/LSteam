@@ -20,6 +20,9 @@ final class WishlistController
         $this->mysqlRepository = $repository;
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció s'encarrega de guardar a la WishList el joc seleccionat
+    ************************************************/
     public function saveMyWishlist(Request $request,Response $response): Response
     {
         $gameid = $request->getAttribute('gameID');
@@ -31,6 +34,9 @@ final class WishlistController
 
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció s'encarrega de mostrar els jocs selecionats com a preferits
+    ************************************************/
     public function showMyWishlist(Request $request,Response $response): Response
     {
         $a = new GamesController($this->twig, $this->mysqlRepository);
@@ -44,6 +50,10 @@ final class WishlistController
         ]);
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció s'encarrega d'eliminar el joc de la wishlist, 
+    * si aquest ha estat comprat
+    ************************************************/
     public function deleteWish(Request $request,Response $response): Response
     {
 

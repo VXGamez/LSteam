@@ -19,6 +19,9 @@ final class UserValidateController{
         $this->mysqlRepository = $repository;
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció envia correu de d'activació, usant SMTP
+    ************************************************/
     public static function enviarCorreu($flag, $email, $username, $token){
         $mail = new PHPMailer();
         $mail->isSMTP();
@@ -55,6 +58,10 @@ final class UserValidateController{
     }
 
     
+    /************************************************
+    * @Finalitat: Aquesta funció s'encarrega d'enviar un correu de vadilació a l'usuari, 
+    * un cop ha activat el comptee
+    ************************************************/
     public function validateUser(Request $request, Response $response): Response
     {
         $params = $request->getQueryParams();

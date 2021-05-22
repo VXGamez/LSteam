@@ -19,7 +19,10 @@ final class GamesController{
         $this->mysqlRepository = $repository;
     }
 
-    
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet recuuperar el 
+    * nom de les stores de cada joc present a la Store
+    ************************************************/
     public function getStoresInformation(): array
     {
         $client = new Client([
@@ -38,6 +41,10 @@ final class GamesController{
         return $stores;
     }
 
+     /************************************************
+    * @Finalitat: Aquesta funció ens permet mostrar tots els jocs 
+    * comprats per l'usuari
+    ************************************************/
     public function showmyGames(Request $request,Response $response): Response
     {
       

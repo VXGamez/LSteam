@@ -5,6 +5,9 @@ namespace SallePW\SlimApp\Model;
 
 use DateTime;
 
+/************************************************
+* Classe User
+************************************************/
 final class User
 {
     private int $id;

@@ -19,6 +19,11 @@ final class ProfileController{
         $this->mysqlRepository = $repository;
     }
 
+
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet validar que el número de telèfon 
+    * cumpleix amb les característiques dels teelèfons Espanyols
+    ************************************************/
     function validate($value): bool {
 
         $str = strval($value);
@@ -32,6 +37,10 @@ final class ProfileController{
         return strlen($str) == 9 && preg_match('/^[679]{1}[0-9]{8}$/', $str);
     }
 
+
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet mostrar el perfil de l'usuari
+    ************************************************/
     public function showProfile(Request $request, Response $response): Response
     {
         $errors = [];
@@ -55,6 +64,12 @@ final class ProfileController{
         }
     }
 
+
+    /************************************************
+    * @Finalitat: Aquesta funció controla tot el que tingui a veure amb la 
+    * modificació d'informació del perfil. Es controla que tant la fotografia com el telèfon es puguin canviar 
+    * tant individualment com col·lectivament 
+    ************************************************/
     public function changeProfile(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
@@ -145,6 +160,11 @@ final class ProfileController{
 
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet realitzar el canvid e conrasneya,
+    * comprovant que tot el procés (posar contra actual, posar contra nova i repetir-la) es
+    * faci correctament
+    ************************************************/
     public function changePassword(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();

@@ -16,10 +16,21 @@
             <h1 class="display-4 font-weight-bold">Store</h1>
         </div>
         {% if error %}
-            <div class="alert alert-danger" role="alert">
+            <!--<div class="alert alert-danger" role="alert">
                Insuficient funds. Please go to <a href="/user/wallet" class="alert-link">Wallet</a> to add more.
-            </div>
+            </div>-->
+            
         {% endif %}
+        {% for name, messages in flash.getMessages() %}
+                <div class="ui {{ name }} message">
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+
         <div class="row">
                 <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel" style="border-radius: 5%;">
                     <ol class="carousel-indicators">

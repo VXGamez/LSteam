@@ -23,6 +23,9 @@ final class UserRegisterController
         $this->mysqlRepository = $repository;
     }
 
+    /************************************************
+    * @Finalitat: Funció d'utilitat que ens permet generar un token aleatori per a la validació del registre
+    ************************************************/
     function generateRandomString($length = 10) : string {
         do{
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -36,6 +39,11 @@ final class UserRegisterController
         return $randomString;
     }
 
+
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet validar que el número de telèfon 
+    * cumpleix amb les característiques dels telèfons Espanyols
+    ************************************************/
     function validate($value): bool {
 
         $str = strval($value);
@@ -50,7 +58,10 @@ final class UserRegisterController
     }
 
     
-
+    /************************************************
+    * @Finalitat: Aquesta funció permet controlar que el registre es pot efectuar correctament,
+    * controlant cada camp que s'omple en el formulari
+    ************************************************/
     public function registerUser(Request $request, Response $response): Response
     {
 

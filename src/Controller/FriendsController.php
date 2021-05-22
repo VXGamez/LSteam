@@ -2,8 +2,6 @@
 
 namespace SallePW\SlimApp\Controller;
 
-
-
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use SallePW\SlimApp\Repository\MYSQLCallback;
@@ -20,6 +18,10 @@ final class FriendsController
         $this->mysqlRepository = $repository;
     }
 
+
+    /************************************************
+    * @Finalitat: Aquesta funció mostra el llistat d'amics, renderitzant el friends.twig
+    ************************************************/
     public function showMyFriends(Request $request, Response $response): Response
     {
         $errors = [];
@@ -44,12 +46,19 @@ final class FriendsController
         ]);
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció mostra el llistat de requests pendets
+    ************************************************/
     public function showMyRequests(Request $request, Response $response): Response {
 
         return $response->withHeader('Location', '/user/friends#myRequests')->withStatus(302);
 
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció mostra ens permet afegir un usuari 
+    * com amic, tot controlant que la request rebuda sigui vàlida
+    ************************************************/
     public function addFriend(Request $request, Response $response): Response {
         $data = $request->getParsedBody();
         $myUserId = $this->mysqlRepository->getUserId($_SESSION['email']);
@@ -58,7 +67,7 @@ final class FriendsController
             $_SESSION['alertClass'] = 'alert alert-danger';
             $_SESSION['requestResult'] = 'There is no user with the username ' . $data['username'] . '.';
         }else{
-            $_SESSION['alertClass'] = 'alert-danger';
+            $_SESSION['alertClass'] = 'alert alert-danger';
             switch($this->mysqlRepository->requestIsValid($myUserId, $friendUserId)){
                 case 0:
                     $this->mysqlRepository->addRequest($myUserId, $friendUserId);
@@ -84,22 +93,29 @@ final class FriendsController
         return $response->withHeader('Location', '/user/friends#addFriend')->withStatus(302);
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció ens mostra el form 
+    * per enviar una Friend request a un altre usuari
+    ************************************************/
     public function showAddFriend(Request $request, Response $response): Response {
-
         return $response->withHeader('Location', '/user/friends#addFriend')->withStatus(302);
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet comprovar que
+    * podem acceptar una request, i en cas de que sí, afegir com a nou amic
+    ************************************************/
     public function acceptRequest(Request $request, Response $response): Response {
         
         $id = $this->mysqlRepository->getUserId($_SESSION['email']);
 
         $requestId = $request->getAttribute('requestId');
 
-        $existe = $this->mysqlRepository->userInRequest($id, $requestId); //Queremos comprobar que el usuario que va a aceptar esta request sea el usuario que la ha recibido
+        $existe = $this->mysqlRepository->userInRequest($id, $requestId);
 
         if($existe){
-            $this->mysqlRepository->solicitudAceptada($requestId); //Ponemos bool de esta request a true
-            $this->mysqlRepository->addNewFriendship($requestId); //Añadimos esta relacion de amistad
+            $this->mysqlRepository->solicitudAceptada($requestId); 
+            $this->mysqlRepository->addNewFriendship($requestId); 
         } else {
             return $this->twig->render($response, 'badRequest.twig');
         }
@@ -107,6 +123,9 @@ final class FriendsController
         return $response->withHeader('Location', '/user/friends#myFriends')->withStatus(302);
     }
 
+    /************************************************
+    * @Finalitat: Aquesta funció ens permet comprovar que podem no acceptar una request
+    ************************************************/
     public function denyRequest(Request $request, Response $response): Response {
         
         $id = $this->mysqlRepository->getUserId($_SESSION['email']);
@@ -116,7 +135,6 @@ final class FriendsController
         $existe = $this->mysqlRepository->userInRequest($id, $requestId);
 
         if($existe){
-
             $this->mysqlRepository->solicitudAceptada($requestId);
         } else {
             return $this->twig->render($response, 'badRequest.twig');

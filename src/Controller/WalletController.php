@@ -18,7 +18,10 @@ final class WalletController{
         $this->mysqlRepository = $repository;
     }
        
-
+    /************************************************
+    * @Finalitat: Aquesta funció s'encarrega d'actualitzar la Wallet,
+    * en el cas de que s'ha fet un Add. També comprova que es pugui fer correctament
+    ************************************************/
     public function updateWallet(Request $request,Response $response): Response
     {
         $data = $request->getParsedBody();

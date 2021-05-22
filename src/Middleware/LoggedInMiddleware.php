@@ -8,7 +8,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class LoggedInMiddleware
-{
+{   
+
+    /************************************************
+    * Essencialment, si estem loguejats, no ens deixarà entrar ni a /login ni a /register, portant-nos a la home novament
+    ************************************************/
     public function __invoke(Request $request, RequestHandler $next): ?Response
     {
 

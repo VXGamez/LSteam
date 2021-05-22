@@ -3,7 +3,9 @@
 
 namespace SallePW\SlimApp\Model;
 
-
+/************************************************
+* Aquesta classe s'ha fet servir per obtenir el cos html dels correus de verificació.
+************************************************/
 class CosEmail{
 
     private string $body;

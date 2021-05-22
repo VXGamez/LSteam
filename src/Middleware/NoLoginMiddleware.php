@@ -9,6 +9,10 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 final class NoLoginMiddleware
 {
+
+    /************************************************
+    * Si no estem loguejats, no ens deixarà accedir a cap dels endpoints que ho requereixen i ens redirigeix a la /login
+    ************************************************/
     public function __invoke(Request $request, RequestHandler $next): ?Response
     {
 

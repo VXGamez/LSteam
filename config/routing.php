@@ -14,6 +14,8 @@ use SallePW\SlimApp\Controller\WishlistController;
 use SallePW\SlimApp\Middleware\NoLoginMiddleware;
 use SallePW\SlimApp\Middleware\LoggedInMiddleware;
 
+/* --------------------------------- GET --------------------------------- */
+
 $app->get(
     '/',
     RoutesController::class . ":showLanding"
@@ -85,7 +87,7 @@ $app->get(
 )->setName('home')->add(NoLoginMiddleware::class);
 
 
-//--------------------------------- POST ---------------------------------
+/* --------------------------------- POST --------------------------------- */
 
 
 $app->post(
@@ -144,7 +146,7 @@ $app->post(
 )->setName('deny');
 
 
-//--------------------------------- DELETE ---------------------------------
+/* --------------------------------- DELETE --------------------------------- */
 
 $app->delete(
     '/user/wishlist/{gameID}',

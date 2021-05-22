@@ -1,3 +1,8 @@
+/************************************************
+* Per la previsualització de un element, hem decidit fer una animació amb una targeta. Essencialment hi ha un div estàtic ocult, que animem en posició quan es prem un joc.#ButtonComprarDetail
+Per carregar els elements, agafem els elements del div premut, el del joc, i els posem en el div estatic que animarem. Aixi dona la sensació que obrim els divs individuals del joc.
+************************************************/
+
 jQuery(document).ready(function($){
 	var sliderFinalWidth = 400,
 		maxQuickWidth = 900;
@@ -25,13 +30,8 @@ jQuery(document).ready(function($){
 			deleteWish(inputs[0].value);
 		});
 
-		//filter: blur(5px);
 
 		$('#mainContentContainer').not("#quickPreview").css("filter","blur(6px)");
-		//$('#quickPreview').css("filter","blur(0px) !important");
-
-
-
 
 		animateQuickView(selectedImage, sliderFinalWidth, maxQuickWidth, 'open');
 	});
