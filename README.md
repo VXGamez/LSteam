@@ -1,4 +1,4 @@
-# PW II - F2
+# PW II - F3
 > Hem fet servir Docker pel nostre Local environment
 
 ## Instalació
@@ -58,7 +58,7 @@ CREATE TABLE `User` (
     `phone` VARCHAR(255) NOT NULL DEFAULT '',
     `activated` BOOLEAN,
     `token` VARCHAR(255) NOT NULL DEFAULT '',
-    `wallet` INTEGER NOT NULL DEFAULT 0,
+    `wallet` DOUBLE NOT NULL DEFAULT 0,
     `created_at` DATETIME NOT NULL,
     `uuid` VARCHAR(255) NOT NULL DEFAULT '',
     PRIMARY KEY (`id`)
@@ -90,6 +90,7 @@ DROP TABLE IF EXISTS `User-Game-Wishlist`;
 CREATE TABLE `User-Game-Wishlist` (
     `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
     `sellPrice` FLOAT DEFAULT 0,
+    `normalPrice` FLOAT DEFAULT 0,
     `gameID` INT(11) unsigned NOT NULL,
     `userID` INT(11) unsigned NOT NULL,
     PRIMARY KEY(`id`),
