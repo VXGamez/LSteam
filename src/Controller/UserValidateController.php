@@ -2,22 +2,10 @@
 
 namespace SallePW\SlimApp\Controller;
 
-
-
-use DateTime;
-use Exception;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberUtil;
 use SallePW\SlimApp\Model\CosEmail;
-use SallePW\SlimApp\Model\User;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use SallePW\SlimApp\Repository\MYSQLCallback;
-use SallePW\SlimApp\Repository\MySQLRepository;
-use SallePW\SlimApp\Repository\PDOSingleton;
 use Slim\Views\Twig;
-use function DI\value;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

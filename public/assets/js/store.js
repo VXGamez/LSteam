@@ -1,7 +1,8 @@
-function compra(gameID, title, salePrice, storeID, dealRating, thumb, flag){
+function compra(gameID, title, normalPrice, salePrice, storeID, dealRating, thumb, flag){
     let params = {
         title: title,
         salePrice: salePrice,
+        normalPrice: normalPrice,
         storeID: storeID,
         dealRating: dealRating,
         thumb: thumb

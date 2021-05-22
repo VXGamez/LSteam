@@ -42,6 +42,7 @@ Es podrà fer servir la comanda:
 ```sql
 DROP DATABASE IF EXISTS LSteam;
 CREATE DATABASE LSteam;
+USE LSteam;
 ```
 
 Un cop creada la base de dades, executar-hi la següent comanda sql:
@@ -88,12 +89,37 @@ CREATE TABLE `User-Game-Bought` (
 DROP TABLE IF EXISTS `User-Game-Wishlist`;
 CREATE TABLE `User-Game-Wishlist` (
     `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+    `sellPrice` FLOAT DEFAULT 0,
     `gameID` INT(11) unsigned NOT NULL,
     `userID` INT(11) unsigned NOT NULL,
     PRIMARY KEY(`id`),
     FOREIGN KEY(`gameID`) REFERENCES Game(`id`),
     FOREIGN KEY(`userID`) REFERENCES User(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `Friend-User`;
+CREATE TABLE `Friend-User` (
+    `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+    `user1_id` INT(11) unsigned NOT NULL,
+    `user2_id` INT(11) unsigned NOT NULL,
+    `fecha` DATETIME NOT NULL,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`user1_id`) REFERENCES User(`id`),
+    FOREIGN KEY(`user2_id`) REFERENCES User(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `Request`;
+CREATE TABLE `Request` (
+    `request_id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+    `user_origen` INT(11) unsigned NOT NULL,
+    `user_desti` INT(11) unsigned NOT NULL,
+    `fecha` DATETIME NOT NULL,
+    `pending` BOOLEAN,
+    PRIMARY KEY(`request_id`),
+    FOREIGN KEY(`user_origen`) REFERENCES User(`id`),
+    FOREIGN KEY(`user_desti`) REFERENCES User(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 ```
 
-Amb les taules **User**, **Game**, **User-Game-Bought** i **User-Game-Wishlist**  creades ja es pot emprar la pàgina amb normalitat.
+Amb les taules **User**, **Game**, **User-Game-Bought**, **Friend-User**, **Request** i **User-Game-Wishlist**  creades ja es pot emprar la pàgina amb normalitat.

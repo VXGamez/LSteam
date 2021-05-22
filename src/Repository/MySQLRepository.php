@@ -5,9 +5,7 @@ namespace SallePW\SlimApp\Repository;
 
 use DateTime;
 use PDO;
-use SallePW\SlimApp\Model\Search;
 use SallePW\SlimApp\Model\User;
-use SallePW\SlimApp\Repository\PDOSingleton;
 
 final class MySQLRepository implements MYSQLCallback
 {
@@ -195,7 +193,6 @@ final class MySQLRepository implements MYSQLCallback
 
     public function checkActivation($token): bool{
         $ok = true;
-        $validation = 0;
 
         $stmt = $this->database->connection()->prepare('SELECT activated FROM User WHERE token= :tkn');
         $stmt->bindParam('tkn', $token, PDO::PARAM_STR);
@@ -220,10 +217,12 @@ final class MySQLRepository implements MYSQLCallback
     }
 
     public function updatePass($user, $newPass) {
-        $stmt = $this->database->connection()->prepare('UPDATE User SET password = :pass WHERE username= :usrname');
+        $id = $this->getUserId($user);
+        $stmt = $this->database->connection()->prepare('UPDATE User SET password = :pass WHERE id = :ide');
         $stmt->bindParam('pass', $newPass, PDO::PARAM_STR);
-        $stmt->bindParam('usrname', $user, PDO::PARAM_STR);
+        $stmt->bindParam('ide', $id, PDO::PARAM_INT);
         $stmt->execute();
+
     }
 
     public function updatePhone($user, $phone) {
@@ -283,7 +282,7 @@ final class MySQLRepository implements MYSQLCallback
         
         $id = $this->getUserId($usrEmail);
 
-        $stmt = $this->database->connection()->prepare('SELECT gb.gameID, gb.sellPrice as salePrice, g.title, g.storeID, g.thumb, g.dealRating FROM `User-Game-Wishlist` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = :uid');
+        $stmt = $this->database->connection()->prepare('SELECT gb.gameID, gb.sellPrice as salePrice, gb.normalPrice as normalPrice, g.title, g.storeID, g.thumb, g.dealRating FROM `User-Game-Wishlist` AS gb INNER JOIN Game AS g ON gb.gameID = g.id WHERE userID = :uid');
         $stmt->bindParam('uid', $id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -336,7 +335,7 @@ final class MySQLRepository implements MYSQLCallback
         $date = new DateTime();
         $comprahte = $date->format(self::DATE_FORMAT);
         $storeid = $data['storeID'];
-        $sellPrice = (String)$data['salePrice'];
+        $sellPrice = $data['salePrice'];
         $title = $data['title'];
         $thumb = $data['thumb'];
         $dealRating = (String)$data['dealRating'];
@@ -389,23 +388,32 @@ final class MySQLRepository implements MYSQLCallback
 
             $userID = $this->getUserId($email);
             $storeid = $data['storeID'];
-            $sellPrice = (String)$data['salePrice'];
+            $sellPrice = $data['salePrice'];
+            $normal = $data['normalPrice'];
             $title = $data['title'];
             $thumb = $data['thumb'];
             $dealRating = (String)$data['dealRating'];
 
-            $statement = $this->database->connection()->prepare('INSERT INTO Game(id, storeID,title,thumb,dealRating) VALUES(:gameid,:storeID, :title, :thumb, :dealRating)');
-            $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
-            $statement->bindParam('storeID', $storeid, PDO::PARAM_INT);
-            $statement->bindParam('title', $title, PDO::PARAM_STR);
-            $statement->bindParam('thumb', $thumb, PDO::PARAM_STR);
-            $statement->bindParam('dealRating', $dealRating, PDO::PARAM_STR);
-            $statement->execute();
+            $stmt2 = $this->database->connection()->prepare('SELECT id FROM Game WHERE id = :gid ');
+            $stmt2->bindParam('gid', $gameID, PDO::PARAM_INT);
+            $stmt2->execute();
 
-            $statement = $this->database->connection()->prepare('INSERT INTO `User-Game-Wishlist`(gameID, userID, sellPrice) VALUES(:gameid,:userid, :sell)');
+            if($stmt2->rowCount() == 0){
+                $statement = $this->database->connection()->prepare('INSERT INTO Game(id, storeID,title,thumb,dealRating) VALUES(:gameid,:storeID, :title, :thumb, :dealRating)');
+                $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
+                $statement->bindParam('storeID', $storeid, PDO::PARAM_INT);
+                $statement->bindParam('title', $title, PDO::PARAM_STR);
+                $statement->bindParam('thumb', $thumb, PDO::PARAM_STR);
+                $statement->bindParam('dealRating', $dealRating, PDO::PARAM_STR);
+                $statement->execute();
+            }
+
+           
+            $statement = $this->database->connection()->prepare('INSERT INTO `User-Game-Wishlist`(gameID, userID, sellPrice, normalPrice) VALUES(:gameid,:userid, :sell, :normal)');
             $statement->bindParam('gameid', $gameID, PDO::PARAM_INT);
             $statement->bindParam('userid', $userID, PDO::PARAM_INT);
-            $statement->bindParam('sell', $sellPrice, PDO::PARAM_INT);
+            $statement->bindParam('sell', $sellPrice, PDO::PARAM_STR);
+            $statement->bindParam('normal', $normal, PDO::PARAM_STR);
             $statement->execute();
         }
 

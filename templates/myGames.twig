@@ -1,7 +1,13 @@
 {% extends "base.twig" %}
 
- 
-    {% block title %}My Games{% endblock %}
+
+{% block title %}
+    {% if esMyGames %}
+        My Games
+    {% else %}
+        My Wishlist
+    {% endif %}
+{% endblock %}
 
 
 {% block head %}
@@ -39,16 +45,42 @@
                                     <div class="img-container">
                                         <img class="card-img-top" src="{{ item.thumb }}" alt="">
                                     </div>
-                                    <div class="card-body">
-                                        <h4 class="card-title">{{ item.title }}</h4>
-                                        <h5>Bought for XX.XX €</h5>
-                                    </div>
-                                    <div class="card-footer">
-                                        {% set k = (item.dealRating//2)-1 %}
-                                        <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
-                                        {% set index = item.storeID-1 %}
-                                        <img class="store-foto" src="{{ stores[index] }}">
-                                    </div>
+                                        {% if esMyGames %}
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{ item.title }}</h4>
+                                                <h5>Bought for {{ item.sellPrice }} €</h5>
+                                            </div>
+                                             <div class="card-footer">
+                                                {% set k = (item.dealRating//2)-1 %}
+                                                <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
+                                                {% set index = item.storeID-1 %}
+                                                <img class="store-foto" src="{{ stores[index] }}">
+                                            </div>
+                                        {% else %}
+                                           <div class="card-body">
+                                                <p style="opacity: 0.5">Game ID: {{ item.gameID }}<p>
+                                                <h4 class="card-title">
+                                                    {{ item.title|title }}
+                                                </h4>
+                                                <h5>New: {{ item.salePrice }} €</h5>
+                                                <h5>Old: <strike>{{ item.normalPrice }} €</strike></h5>
+                                            </div>
+                                            <div class="d-flex align-items-stretch" style="margin-bottom: 5px;" >
+                                                <button type="button" class="btn btn-success" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.normalPrice}}, {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 0)" style="margin-left: 5%; margin-right: 5px;" >Buy</button>
+                                                <button id="add" type="button" class="btn btn-danger s-auto" onclick="deleteWish({{item.gameID}})" >&#9829;</button>
+                                            </div>
+                                        
+                                            <div class="card-footer">
+                                                {% set k = (item.dealRating//2)-1 %}
+                                                    <small class="text-muted">{% for i in range(1, k)%}&#9733;{% endfor %}{% for i in range(k, 4)%}&#9734;{% endfor %}</small>
+                                                {% set index = item.storeID-1 %}
+                                                <img class="store-foto" src="{{ stores[index] }}">
+                                            </div>
+                                                    
+                                        {% endif %}
+
+                                    
+                                   
                                 </div>
                             </div>
                         {% endfor %}

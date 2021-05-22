@@ -4,12 +4,8 @@ namespace SallePW\SlimApp\Controller;
 
 
 use DateTime;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberUtil;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use SallePW\SlimApp\Model\User;
 use SallePW\SlimApp\Repository\MYSQLCallback;
 use Slim\Views\Twig;
 
@@ -47,14 +43,15 @@ final class ProfileController{
         if($user->password() != "TODO MAL"){
             $history = $this->mysqlRepository->getPurchaseHistory($_SESSION['email']);
             return $this->twig->render($response,'profile.twig',[
-                'user' => $user, 
+                'user' => $user,
                 'wallet' => $user->getWallet(),
                 'errors' => $errors,
                 'uuid' => $user->getUuid(),
                 'history' => $history
             ]);
         }else{
-            return $this->twig->render($response,'blank.twig',[]);
+            $_SESSION['isRedirected'] = "An error occured with your Profile!";
+            return $response->withHeader('Location', '/')->withStatus(302);
         }
     }
 
@@ -65,7 +62,6 @@ final class ProfileController{
         $ok = true;
         $errors = [];
 
-        //isset($_POST["upload"]) &&
 
         if(isset($_FILES["profilepic"])){
             $tmpName = $_FILES['profilepic']['tmp_name'];
@@ -74,8 +70,6 @@ final class ProfileController{
                 $width = $fileinfo[0];
                 $heigth = $fileinfo[1];
 
-                //profilepic type file -- file-input
-                //btnRegister para submit -- btn-submit
                 $allowed_extensions = array (
                     "png",
                     "jpg"
@@ -93,7 +87,6 @@ final class ProfileController{
                     $errors['image'] = 'Size image is not 500x500';
                     $ok = false;
                 } else {
-                    //:)
                     $date = new DateTime();
                     $result = $date->format('Y-m-d H:i:s');
                     $nombreImagen = $_FILES["profilepic"]["name"] . $result;
@@ -102,9 +95,6 @@ final class ProfileController{
                     $target = __DIR__ . '/../../public/uploads/' . basename($uuid) ;
                     if(move_uploaded_file($tmpName, $target)){
                         $this->mysqlRepository->updateUuid($_SESSION['email'], $uuid);
-                        if(isset($_SESSION['uuid']) && strlen($_SESSION['uuid'])>0){
-                            unlink($_SESSION['uuid']);
-                        }
                         $_SESSION['uuid'] = $uuid;
                     } else {
                         $errors['image'] = 'Error uploading image';
@@ -134,23 +124,6 @@ final class ProfileController{
             }
             $data['phone'] = $phone;
 
-          /*  $phoneUtil = PhoneNumberUtil::getInstance();
-            try {
-                $phoneNumberObject = $phoneUtil->parse($data['phone'], 'ES');
-                $possible = $phoneUtil->isValidNumberForRegion($phoneNumberObject, 'ES');
-                if(!$possible){
-                    $errors['phone'] = 'This is not a valid Spanish number';
-                    $ok = false;
-                }
-            } catch (NumberParseException $e) {
-                $errors['phone'] = 'This is not a valid Spanish number';
-                $ok = false;
-            }
-            $phone = $data['phone'];
-            if($ok && !str_starts_with($data['phone'], '+34')){
-                $phone = "+34 ".$phone;
-            }
-            $data['phone'] = $phone;*/
         }
 
        if ($ok2) {
@@ -188,7 +161,7 @@ final class ProfileController{
             $uppercase = preg_match('@[A-Z]@', $newPass);
             $lowercase = preg_match('@[a-z]@', $newPass);
             $number    = preg_match('@[0-9]@', $newPass);
-            if( !$uppercase || !$lowercase || !$number  || $newPass < 6) {
+            if( !$uppercase || !$lowercase || !$number  || strlen($newPass)< 6) {
                 $ok = false;
                 if(!$uppercase){
                     $errors['password'] = 'Not a valid password';
@@ -196,26 +169,35 @@ final class ProfileController{
                     $errors['password'] = 'Not a valid password';
                 }else if(!$number){
                     $errors['password'] = 'Not a valid password';
-                }else if(strlen($data['password']) < 6){
+                }else if(strlen($newPass) < 6){
                     $errors['password'] = 'Not a valid password';
+                }else{
+                    $errors['password'] = 'There is an error with the password';
                 }
             }
         }
 
-        $user = $this->mysqlRepository->getUser($_SESSION['email']);
-        if($user->password() != "TODO MAL") {
-            if (!password_verify($currPass, $user->password())) {
-                $errors['user'] = 'Current password is not correct';
-                $ok = false;
+        if($ok){
+            $user = $this->mysqlRepository->getUser($_SESSION['email']);
+            if($user->password() != "TODO MAL") {
+                if (!password_verify($currPass, $user->password())) {
+                    $errors['password'] = 'Current password is not correct';
+                    $ok = false;
+                }else{
+                    if ($newPass == $currPass) {
+                        $errors['password'] = 'New password must not match your old password';
+                        $ok = false;
+                    }else{
+                        $contraFinal = password_hash($newPass, PASSWORD_DEFAULT);
+                        $this->mysqlRepository->updatePass($_SESSION['email'], $contraFinal);
+                        $errors['password'] = 'Password changed succesfully!'; 
+                    }
+                }
             }
         }
 
-        if($ok){
-            $this->mysqlRepository->updatePass($_SESSION['email'], password_hash($newPass, PASSWORD_DEFAULT));
-            return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
-        }else{
-            $_SESSION['passErrors'] = $errors;
-            return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
-        }
+        $_SESSION['passErrors'] = $errors;
+        return $response->withHeader('Location', '/profile#changePassword')->withStatus(302);
+       
     }
 }

@@ -3,7 +3,10 @@
 {% block title %}Wallet{% endblock %}
 
 {% block head %}
+    <!-- Volem aquesta versió de bootstrap en concret per la graella de divs de la wallet. Si s'eliminen aquests headers es perd l'alineament -->
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/wallet.css"/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>
         jQuery(document).ready(function($){
             $('#code').keydown(function(e){

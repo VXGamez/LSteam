@@ -2,9 +2,6 @@
 
 {% block title %}Register{% endblock %}
 {% block head %}
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/registre.css"/>
 {% endblock %}
 
@@ -29,18 +26,24 @@
                                 <input type="text" class="form-control" name="username" placeholder="Username *" value="{% if data.username %}{{ data.username }}{% endif %}" required/>
                                 {% if errors.username %}
                                     <p style="color: red;">{{ errors.username }}</p>
+                                {% else %}
+                                    <p style="color: transparent;">hidden</p>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <input name="password" type="password" class="form-control" placeholder="Password *" value="" required/>
                                 {% if errors.password %}
                                     <p style="color: red;">{{ errors.password }}</p>
+                                {% else %}
+                                    <p style="color: transparent;">hidden</p>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <input class="form-control" type="date" id="birthday" name="birthday" value="{% if data.birthday %}{{ data.birthday }}{% endif %}" required>
                                 {% if errors.date %}
                                     <p style="color: red;">{{ errors.date }}</p>
+                                {% else %}
+                                    <p style="color: transparent;">hidden</p>
                                 {% endif %}
                             </div>
 
@@ -50,15 +53,24 @@
                                 <input type="email" class="form-control" name="email" placeholder="Email *" value="{% if errors.emailOk %}{{ errors.emailOk }}{% endif %}" required/>
                                 {% if errors.email %}
                                     <p style="color: red;">{{ errors.email }}</p>
+                                {% else %}
+                                    <p style="color: transparent;">hidden</p>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <input name="cpassword" type="password" class="form-control"  placeholder="Confirm Password *" value="" required/>
+                                {% if errors.password %}
+                                    <p style="color: transparent;">{{ errors.password }}</p>
+                                {% else %}
+                                    <p style="color: transparent;">hidden</p>
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <input type="tel" class="form-control" id="phone" placeholder="Your Phone" value="{% if data.phone %}{{ data.phone }}{% endif %}" name="phone">
                                 {% if errors.phone %}
                                     <p style="color: red;">{{ errors.phone }}</p>
+                                {% else %}
+                                    <p style="color: transparent;">hidden</p>
                                 {% endif %}
                             </div>
                             <div class="container-register-button">

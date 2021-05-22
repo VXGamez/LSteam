@@ -3,10 +3,9 @@
 namespace SallePW\SlimApp\Controller;
 
 
-use Psr\Container\ContainerInterface;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use GuzzleHttp\Client;
 use SallePW\SlimApp\Repository\MYSQLCallback;
 use Slim\Views\Twig;
 
@@ -114,11 +113,11 @@ final class FriendsController
 
         $requestId = $request->getAttribute('requestId');
 
-        $existe = $this->mysqlRepository->userInRequest($id, $requestId); //Queremos comprobar que el usuario que va a aceptar esta request sea el usuario que la ha recibido
+        $existe = $this->mysqlRepository->userInRequest($id, $requestId);
 
         if($existe){
-            //Tod bien
-            $this->mysqlRepository->solicitudAceptada($requestId); //Ponemos bool de esta request a true
+
+            $this->mysqlRepository->solicitudAceptada($requestId);
         } else {
             return $this->twig->render($response, 'badRequest.twig');
            

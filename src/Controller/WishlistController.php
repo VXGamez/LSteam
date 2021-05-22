@@ -3,12 +3,9 @@ declare(strict_types=1);
 
 namespace SallePW\SlimApp\Controller;
 
-use Psr\Container\ContainerInterface;
-use SallePW\SlimApp\Controller\GamesController;
-use SallePW\SlimApp\Controller\RoutesController;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use GuzzleHttp\Client;
 use SallePW\SlimApp\Repository\MYSQLCallback;
 use Slim\Views\Twig;
 
@@ -49,14 +46,10 @@ final class WishlistController
 
     public function deleteWish(Request $request,Response $response): Response
     {
-        $a = new GamesController($this->twig, $this->mysqlRepository);
-        $stores =  $a->getStoresInformation();
 
         $this->mysqlRepository->deleteWish($_SESSION['email'], $request->getAttribute('gameID') );
-        $url = '/store';
-        echo 'console.log("hola")';
 
-        return $response->withHeader('Location', $url)->withStatus(302);
+        return $response->withHeader('Location', '/store')->withStatus(302);
     }
 
 

@@ -82,7 +82,7 @@ $app->get(
 $app->get(
     '/user/friendRequests/send',
     FriendsController::class . ":showAddFriend"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
 
 
 //--------------------------------- POST ---------------------------------
@@ -91,7 +91,7 @@ $app->get(
 $app->post(
     '/user/wishlist/{gameID}',
     WishlistController::class . ":saveMyWishlist"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
 
 $app->post(
     '/user/friendRequests/send',
@@ -101,7 +101,7 @@ $app->post(
 $app->post(
     '/store/buy/{gameID}',
     StoreController::class . ":buyGame"
-)->setName('home');
+)->setName('home')->add(NoLoginMiddleware::class);
 
 $app->post(
     '/user/wallet',

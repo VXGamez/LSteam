@@ -8,7 +8,6 @@
     <script>
 
       $(document).ready(function() {
-        // Check if element is scrolled into view
         function isScrolledIntoView(elem) {
           var docViewTop = $(window).scrollTop();
           var docViewBottom = docViewTop + $(window).height();
@@ -18,7 +17,6 @@
 
           return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
         }
-        // If element is scrolled into view, fade it in
         $(window).scroll(function() {
           $('.scroll-animations .animated').each(function() {
             if (isScrolledIntoView(this) === true) {
@@ -266,5 +264,4 @@
           <br>
         </div>
     </section>
-  <script src="{{ full_url_for('home') }}assets/js/particles.min.js"></script>
 {% endblock %}

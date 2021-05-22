@@ -55,6 +55,7 @@
                                   <a href="#"><img class="card-img-top" src="{{ item.thumb }}" alt=""></a>
                                 </div>
                                 <div class="card-body">
+                                    <p style="opacity: 0.5">Game ID: {{ item.gameID }}<p>
                                     <h4 class="card-title">
                                         {{ item.title|title }}
                                     </h4>
@@ -64,14 +65,16 @@
                                 <div class="d-flex align-items-stretch" style="margin-bottom: 5px;" >
                                     {% if item.gameID in comprados %}
                                         <button type="button" class="btn btn-success" style="margin-left: 5%; margin-right: 5px;" disabled >Owned</button>
+                                        <button type="button" class="btn btn-danger s-auto" disabled >&#9825;</button>
                                     {% else %}
-                                        <button type="button" class="btn btn-success" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 0)" style="margin-left: 5%; margin-right: 5px;" >Buy</button>
+                                        <button type="button" class="btn btn-success" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.normalPrice}}, {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 0)" style="margin-left: 5%; margin-right: 5px;" >Buy</button>
+                                        {% if item.gameID in favoritos %}
+                                            <button id="add" type="button" class="btn btn-danger s-auto" onclick="deleteWish({{item.gameID}})" >&#9829;</button>
+                                        {% else %}
+                                            <button type="button" class="btn btn-danger s-auto" onclick="compra({{item.gameID}}, '{{item.title}}',{{item.normalPrice}}, {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 1)" >&#9825;</button>
+                                        {% endif %}
                                     {% endif %}
-                                    {% if item.gameID in favoritos %}
-                                        <button id="add" type="button" class="btn btn-danger s-auto" onclick="deleteWish({{item.gameID}})" >&#9829;</button>
-                                    {% else %}
-                                        <button type="button" class="btn btn-danger s-auto" onclick="compra({{item.gameID}}, '{{item.title}}', {{item.salePrice}}, {{item.storeID}}, {{item.dealRating}}, '{{item.thumb}}', 1)" >&#9825;</button>
-                                    {% endif %}
+                                    
                                 </div>
                               
                                 <div class="card-footer">
@@ -83,7 +86,7 @@
                             </div>
                         </div>
                     {% endfor %}
-                    <div class="fab" id="masterfab"><span>PILOTES</span></div>
+                    <div class="fab" id="masterfab"><span></span></div>
                 </div>
         </div>
     </div>

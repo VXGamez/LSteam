@@ -6,7 +6,6 @@ namespace SallePW\SlimApp\Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Psr7\Response as SlimResponse;
 
 final class LoggedInMiddleware
 {

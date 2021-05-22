@@ -3,10 +3,8 @@
 namespace SallePW\SlimApp\Controller;
 
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use GuzzleHttp\Client;
 use SallePW\SlimApp\Repository\MYSQLCallback;
 use Slim\Views\Twig;
 
@@ -63,11 +61,6 @@ final class RoutesController{
         return $this->twig->render($response,'login.twig',[
             'redirect' => $redirect
         ]);
-    }
-
-    public function showBlank(Request $request, Response $response): Response
-    {
-        return $this->twig->render($response,'blank.twig',[]);
     }
 
     public function showWallet(Request $request,Response $response): Response

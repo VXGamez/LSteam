@@ -12,7 +12,7 @@ CREATE TABLE `User` (
     `phone` VARCHAR(255) NOT NULL DEFAULT '',
     `activated` BOOLEAN,
     `token` VARCHAR(255) NOT NULL DEFAULT '',
-    `wallet` INTEGER NOT NULL DEFAULT 0,
+    `wallet` DOUBLE NOT NULL DEFAULT 0,
     `created_at` DATETIME NOT NULL,
     `uuid` VARCHAR(255) NOT NULL DEFAULT '',
     PRIMARY KEY (`id`)
@@ -44,6 +44,7 @@ DROP TABLE IF EXISTS `User-Game-Wishlist`;
 CREATE TABLE `User-Game-Wishlist` (
     `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
     `sellPrice` FLOAT DEFAULT 0,
+    `normalPrice` FLOAT DEFAULT 0,
     `gameID` INT(11) unsigned NOT NULL,
     `userID` INT(11) unsigned NOT NULL,
     PRIMARY KEY(`id`),
@@ -52,7 +53,7 @@ CREATE TABLE `User-Game-Wishlist` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `Friend-User`;
-CREATE TABLE `c` (
+CREATE TABLE `Friend-User` (
     `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
     `user1_id` INT(11) unsigned NOT NULL,
     `user2_id` INT(11) unsigned NOT NULL,

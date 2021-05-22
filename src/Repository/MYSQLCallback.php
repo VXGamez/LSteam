@@ -27,5 +27,10 @@ interface MYSQLCallback
     public function getWish($email, $gameID, $data);
     public function deleteWish($email, $gameID);
     public function requestIsValid($myUserId, $friendUserId): int;
+    public function getFriends($usrEmail, $flag);
+    public function addRequest($idUsr, $idFriend);
+    public function userInRequest($id, $requestID);
+    public function solicitudAceptada($requestID);
+    public function addNewFriendship($requestID);
 
-}
+    }
